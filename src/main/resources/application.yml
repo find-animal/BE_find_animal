@@ -2,7 +2,7 @@ spring:
   application:
     name: animal
   datasource:
-    driver-class-name: ${driverClassName}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${url}
     username: ${username}
     password: ${password}
