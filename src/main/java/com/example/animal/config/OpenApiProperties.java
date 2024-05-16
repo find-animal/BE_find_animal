@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("public")
 public class OpenApiProperties {
-
     private String serviceKey;
+    private String baseUrl;
 }

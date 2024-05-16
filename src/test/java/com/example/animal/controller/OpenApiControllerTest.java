@@ -47,7 +47,7 @@ class OpenApiControllerTest {
     public void loadSaveBreeds() throws Exception {
         //given
         String upKindCd = "429900"; //기타축종 무조건 하나밖에 없음
-        String url = "/open-api/animals/{upkindCd}";
+        String url = "/open-api/breed/{upkindCd}";
 
         //when
         final ResultActions resultActions = mockMvc.perform(get(url, upKindCd));

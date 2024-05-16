@@ -7,16 +7,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenApiService {
 
-    public BreedsListResponse parsingJsonObject(String json) {
-        BreedsListResponse animals = null;
+    public <T> T parsingJsonObject(String json, Class<T> responseType) {
+        T result = null;
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            animals = objectMapper.readValue(json, BreedsListResponse.class);
+            result = objectMapper.readValue(json, responseType);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return animals;
+        return result;
     }
 }
