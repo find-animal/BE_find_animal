@@ -1,9 +1,11 @@
 package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
-import com.example.animal.dto.response.BreedsListResponse;
-import com.example.animal.dto.response.ShelterListResponse;
+import com.example.animal.dto.response.breed.BreedsListResponse;
+import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
+import com.example.animal.dto.response.shelter.ShelterListResponse;
 import com.example.animal.service.BreedService;
+import com.example.animal.service.CityProvinceService;
 import com.example.animal.service.OpenApiService;
 import com.example.animal.service.ShelterService;
 import com.example.animal.util.HttpUtil;
@@ -28,6 +30,31 @@ public class OpenApiController {
     private final OpenApiService openApiService;
     private final BreedService breedService;
     private final ShelterService shelterService;
+    private final CityProvinceService cityProvinceService;
+
+    @Operation(summary = "시도 정보 조회 및 저장", description = "시도 정보를 조회하고 저장합니다.")
+    @GetMapping("/open-api/city-province")
+    public ResponseEntity<CityProvinceListResponse> loadSaveCityProvince() {
+        String result = null;
+
+        String urlStr = openApiProperties.getBaseUrl() + "sido?numOfRows=17&pageNo=1&serviceKey="
+                + openApiProperties.getServiceKey()
+                + "&_type=json";
+
+        try {
+            result = HttpUtil.getRequest(urlStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CityProvinceListResponse citiesProvinces = openApiService.parsingJsonObject(result, CityProvinceListResponse.class);
+
+        cityProvinceService.saveAll(citiesProvinces);
+
+        return ResponseEntity.ok()
+                .body(citiesProvinces);
+    }
+
 
     @Operation(summary = "보호소 조회 및 저장", description = "파라미터로 받은 시도, 시군구코드를 통해 보호소를 조회하고 저장합니다.")
     @Parameter(name = "uprCd", description = "시도코드 미입력시 데이터 x")

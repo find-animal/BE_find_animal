@@ -2,6 +2,7 @@ package com.example.animal.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,10 @@ public class CityProvince {
     private String orgCd;
     //시도명
     private String orgdownNm;
+
+    @Builder
+    public CityProvince(String orgCd, String orgdownNm) {
+        this.orgCd = orgCd;
+        this.orgdownNm = orgdownNm;
+    }
 }

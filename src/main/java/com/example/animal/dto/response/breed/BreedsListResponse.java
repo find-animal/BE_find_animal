@@ -1,4 +1,4 @@
-package com.example.animal.dto.response;
+package com.example.animal.dto.response.breed;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

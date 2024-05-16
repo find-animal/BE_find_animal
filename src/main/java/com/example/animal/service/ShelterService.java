@@ -1,8 +1,8 @@
 package com.example.animal.service;
 
 import com.example.animal.domain.Shelter;
-import com.example.animal.dto.response.ShelterListResponse;
-import com.example.animal.dto.response.ShelterResponse;
+import com.example.animal.dto.response.shelter.ShelterListResponse;
+import com.example.animal.dto.response.shelter.ShelterResponse;
 import com.example.animal.repository.ShelterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

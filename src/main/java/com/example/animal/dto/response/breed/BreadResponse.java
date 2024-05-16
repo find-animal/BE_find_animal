@@ -1,4 +1,4 @@
-package com.example.animal.dto.response;
+package com.example.animal.dto.response.breed;
 
 import com.example.animal.domain.Breed;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

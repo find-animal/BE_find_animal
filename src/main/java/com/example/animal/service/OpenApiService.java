@@ -1,6 +1,5 @@
 package com.example.animal.service;
 
-import com.example.animal.dto.response.BreedsListResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 

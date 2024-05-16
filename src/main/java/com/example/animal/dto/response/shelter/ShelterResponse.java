@@ -1,4 +1,4 @@
-package com.example.animal.dto.response;
+package com.example.animal.dto.response.shelter;
 
 import com.example.animal.domain.Shelter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
