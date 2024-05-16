@@ -19,6 +19,10 @@ public class Shelter {
     private String careRegNo;
     //보호소명
     private String careNm;
+    //시도명
+    @OneToOne
+    @JoinColumn(name = "CITYPROVINCE_ID")
+    private CityProvince cityProvince;
 
     @Builder
     public Shelter(String careRegNo, String careNm) {
