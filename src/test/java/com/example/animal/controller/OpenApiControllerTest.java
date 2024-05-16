@@ -27,9 +27,9 @@ class OpenApiControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @DisplayName("loadAnimals: 공공데이터의 유기동물 정보를 가져온다.")
+    @DisplayName("loadBreeds: 공공데이터의 품종 정보를 가져온다.")
     @Test
-    public void loadAnimals() throws Exception {
+    public void loadBreeds() throws Exception {
         //given
         String upKindCd = "417000";
         String urlStr = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/kind?up_kind_cd="

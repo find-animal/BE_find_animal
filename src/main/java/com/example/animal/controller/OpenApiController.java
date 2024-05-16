@@ -1,7 +1,8 @@
 package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
-import com.example.animal.dto.response.AnimalsListResponse;
+import com.example.animal.dto.response.BreedsListResponse;
+import com.example.animal.service.BreedService;
 import com.example.animal.service.OpenApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,9 +23,10 @@ public class OpenApiController {
 
     private final OpenApiProperties openApiProperties;
     private final OpenApiService openApiService;
+    private final BreedService breedService;
 
     @GetMapping("/open-api/animals/{upKindCd}")
-    public ResponseEntity<AnimalsListResponse> loadAnimals(@PathVariable(name = "upKindCd") String upKindCd) {
+    public ResponseEntity<BreedsListResponse> loadSaveBreads(@PathVariable(name = "upKindCd") String upKindCd) {
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         String result = null;
@@ -55,7 +56,9 @@ public class OpenApiController {
             if (urlConnection != null) urlConnection.disconnect();
         }
 
-        AnimalsListResponse animals = openApiService.parsingJsonObject(result);
+        BreedsListResponse animals = openApiService.parsingJsonObject(result);
+
+        breedService.saveAll(animals);
 
         return ResponseEntity.ok()
                 .body(animals);

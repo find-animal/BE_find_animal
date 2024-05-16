@@ -13,16 +13,16 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class AnimalsListResponse {
+public class BreedsListResponse {
     @JsonProperty("item")
-    private List<AnimalResponse> animals;
+    private List<BreadResponse> animals;
 
     @JsonCreator
-    public AnimalsListResponse(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
+    public BreedsListResponse(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
-        this.animals = Arrays.stream(objectMapper.treeToValue(itemNode, AnimalResponse[].class)).toList();
+        this.animals = Arrays.stream(objectMapper.treeToValue(itemNode, BreadResponse[].class)).toList();
     }
 
 }
