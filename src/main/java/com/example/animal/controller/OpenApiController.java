@@ -3,11 +3,9 @@ package com.example.animal.controller;
 import com.example.animal.config.OpenApiProperties;
 import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
+import com.example.animal.dto.response.district.DistrictListResponse;
 import com.example.animal.dto.response.shelter.ShelterListResponse;
-import com.example.animal.service.BreedService;
-import com.example.animal.service.CityProvinceService;
-import com.example.animal.service.OpenApiService;
-import com.example.animal.service.ShelterService;
+import com.example.animal.service.*;
 import com.example.animal.util.HttpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +29,33 @@ public class OpenApiController {
     private final BreedService breedService;
     private final ShelterService shelterService;
     private final CityProvinceService cityProvinceService;
+    private final DistrictService districtService;
+
+    @Operation(summary = "시군구 정보 조회 및 저장", description = "시군구 정보를 조회하고 저장합니다.")
+    @Parameter(name = "uprCd", description = "시군구 상위코드(시도코드) 미입력시 데이터 x")
+    @GetMapping("/open-api/district")
+    public ResponseEntity<DistrictListResponse> loadSaveDistrict(@RequestParam(value = "uprCd") String uprCd) {
+        String result = null;
+
+        String urlStr = openApiProperties.getBaseUrl() + "sigungu?upr_cd="
+                + uprCd
+                + "&serviceKey="
+                + openApiProperties.getServiceKey()
+                + "&_type=json";
+
+        try {
+            result = HttpUtil.getRequest(urlStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DistrictListResponse districts = openApiService.parsingJsonObject(result, DistrictListResponse.class);
+
+        districtService.saveAll(districts, uprCd);
+
+        return ResponseEntity.ok()
+                .body(districts);
+    }
 
     @Operation(summary = "시도 정보 조회 및 저장", description = "시도 정보를 조회하고 저장합니다.")
     @GetMapping("/open-api/city-province")

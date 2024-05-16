@@ -13,8 +13,7 @@ import java.util.List;
 @Getter
 @Entity
 public class CityProvince {
-    //team
-
+//team
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CITYPROVINCE_ID")
@@ -26,6 +25,9 @@ public class CityProvince {
 
     @OneToMany(mappedBy = "cityProvince")
     private List<Shelter> shelters = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cityProvince")
+    private List<District> districts = new ArrayList<>();
 
     @Builder
     public CityProvince(String orgCd, String orgdownNm) {

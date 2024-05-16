@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Shelter {
-
+public class District {
+    //member
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "DISTRICT_ID")
     private Long id;
-    //보호소 번호
-    private String careRegNo;
-    //보호소명
-    private String careNm;
-    //시도명
+    //시군구코드
+    private String orgCd;
+    //시군구명
+    private String orgdownNm;
+
     @ManyToOne
     @JoinColumn(name = "CITYPROVINCE_ID")
     private CityProvince cityProvince;
@@ -27,16 +27,15 @@ public class Shelter {
     public void setCityProvince(CityProvince cityProvince) {
         this.cityProvince = cityProvince;
 
-        if (!cityProvince.getShelters().contains(this)) {
-            cityProvince.getShelters().add(this);
+        if (!cityProvince.getDistricts().contains(this)) {
+            cityProvince.getDistricts().add(this);
         }
     }
 
     @Builder
-    public Shelter(String careRegNo, String careNm, CityProvince cityProvince) {
-        this.careRegNo = careRegNo;
-        this.careNm = careNm;
+    public District(String orgCd, String orgdownNm, CityProvince cityProvince) {
         this.cityProvince = cityProvince;
+        this.orgCd = orgCd;
+        this.orgdownNm = orgdownNm;
     }
-
 }
