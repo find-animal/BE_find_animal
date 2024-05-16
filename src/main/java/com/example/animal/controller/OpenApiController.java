@@ -21,7 +21,7 @@ public class OpenApiController {
     private final OpenApiProperties openApiProperties;
 
     @GetMapping("/open-api/animals/{upKindCd}")
-    public ResponseEntity<String> loadSaveAnimals(@PathVariable(name = "upKindCd") String upKindCd) {
+    public ResponseEntity<String> loadAnimals(@PathVariable(name = "upKindCd") String upKindCd) {
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         String result = null;
