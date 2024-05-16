@@ -6,6 +6,7 @@ import com.example.animal.dto.response.ShelterListResponse;
 import com.example.animal.service.BreedService;
 import com.example.animal.service.OpenApiService;
 import com.example.animal.service.ShelterService;
+import com.example.animal.util.HttpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,12 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 @Tag(name = "공공데이터 api", description = "공공데이터를 활용한 데이터 저장용 API")
 @RequiredArgsConstructor
@@ -38,8 +34,6 @@ public class OpenApiController {
     @Parameter(name = "orgCd", description = "시군구코드 미입력시 데이터 x")
     @GetMapping("/open-api/shelter")
     public ResponseEntity<ShelterListResponse> loadSaveShelter(@RequestParam(value = "uprCd") String uprCd, @RequestParam(value = "orgCd") String orgCd) {
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
         String result = null;
 
         String urlStr = openApiProperties.getBaseUrl() + "shelter?upr_cd="
@@ -51,22 +45,9 @@ public class OpenApiController {
                 + "&_type=json";
 
         try {
-            URL url = new URL(urlStr);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-            inputStream = getNetworkConnection(urlConnection);
-            result = readStreamToString(inputStream);
+            result = HttpUtil.getRequest(urlStr);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (urlConnection != null) urlConnection.disconnect();
         }
 
         ShelterListResponse shelters = openApiService.parsingJsonObject(result, ShelterListResponse.class);
@@ -82,8 +63,6 @@ public class OpenApiController {
     @Parameter(name = "upKindCd", description = "개: 417000, 고양이: 422400, 기타: 429900")
     @GetMapping("/open-api/breed/{upKindCd}")
     public ResponseEntity<BreedsListResponse> loadSaveBreads(@PathVariable(name = "upKindCd") String upKindCd) {
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
         String result = null;
 
         String urlStr = openApiProperties.getBaseUrl() + "kind?up_kind_cd="
@@ -93,22 +72,9 @@ public class OpenApiController {
                 + "&_type=json";
 
         try {
-            URL url = new URL(urlStr);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-            inputStream = getNetworkConnection(urlConnection);
-            result = readStreamToString(inputStream);
+            result = HttpUtil.getRequest(urlStr);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (urlConnection != null) urlConnection.disconnect();
         }
 
         BreedsListResponse animals = openApiService.parsingJsonObject(result, BreedsListResponse.class);
@@ -118,39 +84,4 @@ public class OpenApiController {
         return ResponseEntity.ok()
                 .body(animals);
     }
-
-    /*
-        URLConnection을 전달받아 연결정보를 설정한 후 연결, 연결후 수신한 inputStream을 반환
-     */
-    private InputStream getNetworkConnection(HttpURLConnection httpURLConnection) throws IOException {
-        httpURLConnection.setConnectTimeout(3000);
-        httpURLConnection.setReadTimeout(3000);
-        httpURLConnection.setRequestMethod("GET");
-
-        if (httpURLConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new IOException("HTTP error code: " + httpURLConnection.getResponseCode());
-        }
-
-        return httpURLConnection.getInputStream();
-    }
-
-    /*
-        inputStream을 전달받아 문자열로 변환 후 반환
-     */
-    private String readStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder result = new StringBuilder();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-
-        String readLine;
-        while ((readLine = br.readLine()) != null) {
-            result.append(readLine + "\n\r");
-        }
-
-        br.close();
-
-        return result.toString();
-    }
-
-
 }
