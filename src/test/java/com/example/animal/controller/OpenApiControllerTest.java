@@ -1,6 +1,9 @@
 package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
+import com.example.animal.domain.Breed;
+import com.example.animal.repository.BreedRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +11,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -27,25 +32,34 @@ class OpenApiControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @DisplayName("loadBreeds: 공공데이터의 품종 정보를 가져온다.")
+    @Autowired
+    private BreedRepository breedRepository;
+
+    @BeforeEach
+    public void mockMvcSetUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .build();
+        breedRepository.deleteAll();
+    }
+
+    @DisplayName("loadBreeds: 공공데이터의 품종 정보를 가져온뒤 저장한다.")
     @Test
-    public void loadBreeds() throws Exception {
+    public void loadSaveBreeds() throws Exception {
         //given
-        String upKindCd = "417000";
-        String urlStr = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/kind?up_kind_cd="
-                + upKindCd
-                + "&serviceKey="
-                + openApiProperties.getServiceKey()
-                + "&_type=json";
+        String upKindCd = "429900"; //기타축종 무조건 하나밖에 없음
         String url = "/open-api/animals/{upkindCd}";
 
         //when
-        final ResultActions resultActions = mockMvc.perform(get(url,upKindCd));
+        final ResultActions resultActions = mockMvc.perform(get(url, upKindCd));
 
         //then
-        resultActions
-                .andExpect(status().isOk())
-                .andDo(print());
+        resultActions.andExpect(status().isOk());
+
+        List<Breed> breeds = breedRepository.findAll();
+
+        assertThat(breeds.size()).isEqualTo(1);
+        assertThat(breeds.get(0).getKindCd()).isEqualTo("000117");
+        assertThat(breeds.get(0).getKnm()).isEqualTo("기타축종");
     }
 
 }
