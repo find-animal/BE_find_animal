@@ -2,8 +2,10 @@ package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
 import com.example.animal.domain.Breed;
+import com.example.animal.domain.CityProvince;
 import com.example.animal.domain.Shelter;
 import com.example.animal.repository.BreedRepository;
+import com.example.animal.repository.CityProvinceRepository;
 import com.example.animal.repository.ShelterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,13 +42,35 @@ class OpenApiControllerTest {
     @Autowired
     private ShelterRepository shelterRepository;
 
+    @Autowired
+    private CityProvinceRepository cityProvinceRepository;
+
     @BeforeEach
     public void mockMvcSetUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
         breedRepository.deleteAll();
         shelterRepository.deleteAll();
+        cityProvinceRepository.deleteAll();
+    }
 
+    @DisplayName("loadSaveCityProvince: 공공데이터의 시도 정보를 가져온뒤 저장한다.")
+    @Test
+    public void loadSaveCityProvince() throws Exception {
+        //given
+        String url = "/open-api/city-province";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(get(url));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+        List<CityProvince> citiesProvinces = cityProvinceRepository.findAll();
+
+        assertThat(citiesProvinces.size()).isEqualTo(17);
+        assertThat(citiesProvinces.get(0).getOrgCd()).isEqualTo("6110000");
+        assertThat(citiesProvinces.get(0).getOrgdownNm()).isEqualTo("서울특별시");
     }
 
     @DisplayName("loadSaveBreeds: 공공데이터의 품종 정보를 가져온뒤 저장한다.")
@@ -79,8 +103,8 @@ class OpenApiControllerTest {
 
         //when
         final ResultActions resultActions = mockMvc.perform(get(url)
-                .param("uprCd",uprCd)
-                .param("orgCd",orgCd));
+                .param("uprCd", uprCd)
+                .param("orgCd", orgCd));
 
         //then
         resultActions.andExpect(status().isOk());
