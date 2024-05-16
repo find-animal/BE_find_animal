@@ -4,6 +4,9 @@ import com.example.animal.config.OpenApiProperties;
 import com.example.animal.dto.response.BreedsListResponse;
 import com.example.animal.service.BreedService;
 import com.example.animal.service.OpenApiService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Tag(name = "공공데이터 api", description = "공공데이터를 활용한 데이터 저장용 API")
 @RequiredArgsConstructor
 @RestController
 public class OpenApiController {
@@ -25,6 +29,8 @@ public class OpenApiController {
     private final OpenApiService openApiService;
     private final BreedService breedService;
 
+    @Operation(summary = "품종 정보 로드 및 저장", description = "파라미터로 받은 품종 정보를 로드 하고 저장합니다.")
+    @Parameter(name = "upKindCd",description = "개: 417000, 고양이: 422400, 기타: 429900")
     @GetMapping("/open-api/animals/{upKindCd}")
     public ResponseEntity<BreedsListResponse> loadSaveBreads(@PathVariable(name = "upKindCd") String upKindCd) {
         HttpURLConnection urlConnection = null;
