@@ -2,7 +2,9 @@ package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
 import com.example.animal.domain.Breed;
+import com.example.animal.domain.Shelter;
 import com.example.animal.repository.BreedRepository;
+import com.example.animal.repository.ShelterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,14 +37,19 @@ class OpenApiControllerTest {
     @Autowired
     private BreedRepository breedRepository;
 
+    @Autowired
+    private ShelterRepository shelterRepository;
+
     @BeforeEach
     public void mockMvcSetUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
         breedRepository.deleteAll();
+        shelterRepository.deleteAll();
+
     }
 
-    @DisplayName("loadBreeds: 공공데이터의 품종 정보를 가져온뒤 저장한다.")
+    @DisplayName("loadSaveBreeds: 공공데이터의 품종 정보를 가져온뒤 저장한다.")
     @Test
     public void loadSaveBreeds() throws Exception {
         //given
@@ -60,6 +67,29 @@ class OpenApiControllerTest {
         assertThat(breeds.size()).isEqualTo(1);
         assertThat(breeds.get(0).getKindCd()).isEqualTo("000117");
         assertThat(breeds.get(0).getKnm()).isEqualTo("기타축종");
+    }
+
+    @DisplayName("loadSaveShelter: 공공데이터의 보호소 정보를 가져온뒤 저장한다.")
+    @Test
+    public void loadSaveShelter() throws Exception {
+        //given
+        String uprCd = "6110000";
+        String orgCd = "3220000";
+        String url = "/open-api/shelter";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(get(url)
+                .param("uprCd",uprCd)
+                .param("orgCd",orgCd));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+        List<Shelter> shelters = shelterRepository.findAll();
+
+        assertThat(shelters.size()).isEqualTo(5);
+        assertThat(shelters.get(0).getCareNm()).isEqualTo("한국동물구조관리협회");
+        assertThat(shelters.get(0).getCareRegNo()).isEqualTo("311322200900001");
     }
 
 }
