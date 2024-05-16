@@ -1,6 +1,8 @@
 package com.example.animal.controller;
 
 import com.example.animal.config.OpenApiProperties;
+import com.example.animal.dto.response.AnimalsListResponse;
+import com.example.animal.service.OpenApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +15,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 public class OpenApiController {
 
     private final OpenApiProperties openApiProperties;
+    private final OpenApiService openApiService;
 
     @GetMapping("/open-api/animals/{upKindCd}")
-    public ResponseEntity<String> loadAnimals(@PathVariable(name = "upKindCd") String upKindCd) {
+    public ResponseEntity<AnimalsListResponse> loadAnimals(@PathVariable(name = "upKindCd") String upKindCd) {
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         String result = null;
@@ -51,8 +55,10 @@ public class OpenApiController {
             if (urlConnection != null) urlConnection.disconnect();
         }
 
+        AnimalsListResponse animals = openApiService.parsingJsonObject(result);
+
         return ResponseEntity.ok()
-                .body(result);
+                .body(animals);
     }
 
     /*
