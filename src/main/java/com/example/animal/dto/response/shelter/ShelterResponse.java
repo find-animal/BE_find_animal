@@ -1,5 +1,6 @@
 package com.example.animal.dto.response.shelter;
 
+import com.example.animal.domain.CityProvince;
 import com.example.animal.domain.Shelter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,10 +16,11 @@ public class ShelterResponse {
     @JsonProperty("careNm")
     private String careNm;
 
-    public Shelter toEntity() {
+    public Shelter toEntity(CityProvince cityProvince) {
         return Shelter.builder()
                 .careRegNo(this.careRegNo)
                 .careNm(this.careNm)
+                .cityProvince(cityProvince)
                 .build();
     }
 }

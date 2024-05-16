@@ -79,7 +79,7 @@ public class OpenApiController {
 
         ShelterListResponse shelters = openApiService.parsingJsonObject(result, ShelterListResponse.class);
 
-        shelterService.saveAll(shelters);
+        shelterService.saveAll(shelters, uprCd);
 
         return ResponseEntity.ok()
                 .body(shelters);

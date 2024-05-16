@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 public class Shelter {
+    //member
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +21,23 @@ public class Shelter {
     //보호소명
     private String careNm;
     //시도명
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "CITYPROVINCE_ID")
     private CityProvince cityProvince;
 
+    public void setCityProvince(CityProvince cityProvince) {
+        this.cityProvince = cityProvince;
+
+        if (!cityProvince.getShelters().contains(this)) {
+            cityProvince.getShelters().add(this);
+        }
+    }
+
     @Builder
-    public Shelter(String careRegNo, String careNm) {
+    public Shelter(String careRegNo, String careNm, CityProvince cityProvince) {
         this.careRegNo = careRegNo;
         this.careNm = careNm;
+        this.cityProvince = cityProvince;
     }
 
 }
