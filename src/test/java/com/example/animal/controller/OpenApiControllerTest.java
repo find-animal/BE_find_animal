@@ -3,9 +3,11 @@ package com.example.animal.controller;
 import com.example.animal.config.OpenApiProperties;
 import com.example.animal.domain.Breed;
 import com.example.animal.domain.CityProvince;
+import com.example.animal.domain.District;
 import com.example.animal.domain.Shelter;
 import com.example.animal.repository.BreedRepository;
 import com.example.animal.repository.CityProvinceRepository;
+import com.example.animal.repository.DistrictRepository;
 import com.example.animal.repository.ShelterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -45,13 +47,39 @@ class OpenApiControllerTest {
     @Autowired
     private CityProvinceRepository cityProvinceRepository;
 
+    @Autowired
+    private DistrictRepository districtRepository;
+
     @BeforeEach
     public void mockMvcSetUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
         breedRepository.deleteAll();
         shelterRepository.deleteAll();
-        cityProvinceRepository.deleteAll();
+//        cityProvinceRepository.deleteAll();
+        districtRepository.deleteAll();
+    }
+
+    @DisplayName("loadSaveDistrict: 공공데이터의 시군구 정보를 가져온뒤 저장한다.")
+    @Test
+    public void loadSaveDistrict() throws Exception {
+        //given
+        String url = "/open-api/district";
+        String uprCd = "6110000";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(get(url)
+                .param("uprCd",uprCd));
+
+        //then
+        resultActions.andExpect(status().isOk());
+
+        List<District> districts = districtRepository.findAll();
+
+        assertThat(districts.size()).isEqualTo(27);
+        assertThat(districts.get(0).getOrgCd()).isEqualTo("6119999");
+        assertThat(districts.get(0).getOrgdownNm()).isEqualTo("가정보호");
+        assertThat(districts.get(0).getCityProvince().getOrgCd()).isEqualTo(uprCd);
     }
 
     @DisplayName("loadSaveCityProvince: 공공데이터의 시도 정보를 가져온뒤 저장한다.")
