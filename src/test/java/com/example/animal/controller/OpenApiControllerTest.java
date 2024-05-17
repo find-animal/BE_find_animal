@@ -1,6 +1,5 @@
 package com.example.animal.controller;
 
-import com.example.animal.config.OpenApiProperties;
 import com.example.animal.domain.Breed;
 import com.example.animal.domain.CityProvince;
 import com.example.animal.domain.District;
