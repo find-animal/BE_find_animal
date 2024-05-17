@@ -24,9 +24,6 @@ public class CityProvince {
     private String orgdownNm;
 
     @OneToMany(mappedBy = "cityProvince")
-    private List<Shelter> shelters = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cityProvince")
     private List<District> districts = new ArrayList<>();
 
     @Builder

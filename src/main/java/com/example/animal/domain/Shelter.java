@@ -21,22 +21,22 @@ public class Shelter {
     private String careNm;
     //시도명
     @ManyToOne
-    @JoinColumn(name = "CITYPROVINCE_ID")
-    private CityProvince cityProvince;
+    @JoinColumn(name = "DISTRICT_ID")
+    private District district;
 
-    public void setCityProvince(CityProvince cityProvince) {
-        this.cityProvince = cityProvince;
+    public void setDistrict(District district) {
+        this.district = district;
 
-        if (!cityProvince.getShelters().contains(this)) {
-            cityProvince.getShelters().add(this);
+        if (!district.getShelters().contains(this)) {
+            district.getShelters().add(this);
         }
     }
 
     @Builder
-    public Shelter(String careRegNo, String careNm, CityProvince cityProvince) {
+    public Shelter(String careRegNo, String careNm, District district) {
         this.careRegNo = careRegNo;
         this.careNm = careNm;
-        this.cityProvince = cityProvince;
+        this.district = district;
     }
 
 }

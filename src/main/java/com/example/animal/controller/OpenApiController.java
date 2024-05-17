@@ -54,7 +54,7 @@ public class OpenApiController {
     @GetMapping("/open-api/shelter")
     public ResponseEntity<ShelterListResponse> loadSaveShelter(@RequestParam(value = "uprCd") String uprCd, @RequestParam(value = "orgCd") String orgCd) {
         ShelterListResponse shelters = openApiService.loadShelter(uprCd, orgCd);
-        shelterService.saveAll(shelters, uprCd);
+        shelterService.saveAll(shelters, orgCd);
 
         return ResponseEntity.ok()
                 .body(shelters);

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -23,6 +26,10 @@ public class District {
     @ManyToOne
     @JoinColumn(name = "CITYPROVINCE_ID")
     private CityProvince cityProvince;
+
+    @OneToMany(mappedBy = "district")
+    private List<Shelter> shelters = new ArrayList<>();
+
 
     public void setCityProvince(CityProvince cityProvince) {
         this.cityProvince = cityProvince;
