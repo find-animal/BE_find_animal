@@ -15,14 +15,14 @@ import java.util.List;
 @Getter
 public class BreedsListResponse {
     @JsonProperty("item")
-    private List<BreadResponse> animals;
+    private List<BreadResponse> breeds;
 
     @JsonCreator
     public BreedsListResponse(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
-        this.animals = Arrays.stream(objectMapper.treeToValue(itemNode, BreadResponse[].class)).toList();
+        this.breeds = Arrays.stream(objectMapper.treeToValue(itemNode, BreadResponse[].class)).toList();
     }
 
 }

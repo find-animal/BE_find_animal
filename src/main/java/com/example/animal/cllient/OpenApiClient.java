@@ -1,5 +1,6 @@
 package com.example.animal.cllient;
 
+import com.example.animal.dto.response.animal.AnimalListResponse;
 import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
 import com.example.animal.dto.response.district.DistrictListResponse;
@@ -31,5 +32,10 @@ public interface OpenApiClient {
     BreedsListResponse loadBreeds(
             @RequestParam(value = "up_kind_cd") String upKindCd
     );
+
+    @GetMapping("/abandonmentPublic")
+    AnimalListResponse loadAnimal(
+            @RequestParam(value = "pageNo") Integer pageNo,
+            @RequestParam(value = "numOfRows") Integer numOfRows);
 
 }

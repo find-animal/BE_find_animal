@@ -1,5 +1,6 @@
 package com.example.animal.controller;
 
+import com.example.animal.dto.response.animal.AnimalListResponse;
 import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
 import com.example.animal.dto.response.district.DistrictListResponse;
@@ -24,6 +25,17 @@ public class OpenApiController {
     private final CityProvinceService cityProvinceService;
     private final DistrictService districtService;
     private final OpenApiService openApiService;
+    private final AnimalService animalService;
+
+    @Operation(summary = "보호소 동물 정보 조회 및 저장", description = "보호소 동물 정보를 조회하고 저장합니다.")
+    @GetMapping("/open-api/animal")
+    public ResponseEntity<AnimalListResponse> loadSaveAnimal() {
+        AnimalListResponse animals = openApiService.loadAnimals();
+        animalService.saveAll(animals);
+
+        return ResponseEntity.ok()
+                .body(animals);
+    }
 
     @Operation(summary = "시군구 정보 조회 및 저장", description = "시군구 정보를 조회하고 저장합니다.")
     @Parameter(name = "uprCd", description = "시군구 상위코드(시도코드) 미입력시 데이터 x")

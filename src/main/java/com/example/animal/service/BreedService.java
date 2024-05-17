@@ -16,7 +16,7 @@ public class BreedService {
 
     //품종 전체 정보 저장
     public List<Breed> saveAll(BreedsListResponse response) {
-        return breedRepository.saveAll(response.getAnimals().stream()
+        return breedRepository.saveAll(response.getBreeds().stream()
                 .map(BreadResponse::toEntity)
                 .toList());
     }

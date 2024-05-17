@@ -1,6 +1,7 @@
 package com.example.animal.service;
 
 import com.example.animal.cllient.OpenApiClient;
+import com.example.animal.dto.response.animal.AnimalListResponse;
 import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
 import com.example.animal.dto.response.district.DistrictListResponse;
@@ -36,5 +37,18 @@ public class OpenApiService {
         BreedsListResponse breeds = client.loadBreeds(upKindCd);
 
         return breeds;
+    }
+
+    public AnimalListResponse loadAnimals() {
+        AnimalListResponse animals = new AnimalListResponse();
+        try{
+            for(int i = 1; i <= 1000; i++) {
+                animals.getAnimals().addAll(client.loadAnimal(i,100).getAnimals());
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return animals;
+        }
+        return animals;
     }
 }
