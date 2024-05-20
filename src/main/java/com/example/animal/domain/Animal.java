@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -23,7 +23,7 @@ public class Animal {
     private String desertionNo;
     //접수일
     @Temporal(TemporalType.DATE)
-    private Date happenDt;
+    private LocalDate happenDt;
     //발견장소
     private String happenPlace;
     //품종
@@ -61,7 +61,7 @@ public class Animal {
     private String officeTel;
 
     @Builder
-    public Animal(String desertionNo, Date happenDt, String happenPlace, String kindCd, String colorCd, String age, String weight, String fileName, String popFile, SexType sexCd, NeuterType neuterYn, String specialMark, String careNm, String careTel, String careAddr, String orgNm, String chargeNm, String officeTel) {
+    public Animal(String desertionNo, LocalDate happenDt, String happenPlace, String kindCd, String colorCd, String age, String weight, String fileName, String popFile, SexType sexCd, NeuterType neuterYn, String specialMark, String careNm, String careTel, String careAddr, String orgNm, String chargeNm, String officeTel) {
         this.desertionNo = desertionNo;
         this.happenDt = happenDt;
         this.happenPlace = happenPlace;

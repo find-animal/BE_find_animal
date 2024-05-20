@@ -3,11 +3,16 @@ package com.example.animal.dto.response.animal;
 import com.example.animal.domain.Animal;
 import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +22,10 @@ public class AnimalResponse {
     private String desertionNo;
     //접수일
     @JsonProperty("happenDt")
-    private Date happenDt;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern = "yyyyMMdd")
+    private LocalDate happenDt;
     //발견장소
     @JsonProperty("happenPlace")
     private String happenPlace;
