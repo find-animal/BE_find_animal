@@ -10,6 +10,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Getter
@@ -22,6 +23,9 @@ public class DistrictListResponse {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
-        this.districts = Arrays.stream(objectMapper.treeToValue(itemNode, DistrictResponse[].class)).toList();
+        //결과가 없다면 빈 배열을 추가
+        this.districts = Arrays.stream(
+                Optional.ofNullable(objectMapper.treeToValue(itemNode, DistrictResponse[].class)
+                ).orElse(new DistrictResponse[0])).toList();
     }
 }

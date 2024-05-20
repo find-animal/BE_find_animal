@@ -38,9 +38,9 @@ public class OpenApiController {
     }
 
     @Operation(summary = "시군구 정보 조회 및 저장", description = "시군구 정보를 조회하고 저장합니다.")
-    @Parameter(name = "uprCd", description = "시군구 상위코드(시도코드) 미입력시 데이터 x")
+    @Parameter(name = "upr_cd", description = "시군구 상위코드(시도코드) 미입력시 데이터 x")
     @GetMapping("/open-api/district")
-    public ResponseEntity<DistrictListResponse> loadSaveDistrict(@RequestParam(value = "uprCd") String uprCd) {
+    public ResponseEntity<DistrictListResponse> loadSaveDistrict(@RequestParam(value = "upr_cd") String uprCd) {
         DistrictListResponse districts = openApiService.loadDistrict(uprCd);
         districtService.saveAll(districts, uprCd);
 
