@@ -1,6 +1,5 @@
 package com.example.animal.controller;
 
-import com.example.animal.domain.Shelter;
 import com.example.animal.dto.response.animal.AnimalListResponse;
 import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.dto.response.cityprovince.CityProvinceListResponse;
@@ -10,8 +9,6 @@ import com.example.animal.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,23 +27,14 @@ public class OpenApiController {
     private final OpenApiService openApiService;
     private final AnimalService animalService;
 
-    private static final int SHELTER_FIRST = 1;
-    private static final int SHELTER_LAST = 253;
-
     @Operation(summary = "보호소 동물 정보 조회 및 저장", description = "보호소 동물 정보를 조회하고 저장합니다.")
     @GetMapping("/open-api/animal")
-    public ResponseEntity<List<AnimalListResponse>> loadSaveAnimal() {
-        List<AnimalListResponse> allAnimals = new ArrayList<>();
-        for (int i = SHELTER_FIRST; i <= SHELTER_LAST; i++) {
-            List<Shelter> shelters = shelterService.findByDistrictId(i);
-            for (Shelter shelter : shelters) {
-                AnimalListResponse animals = openApiService.loadAnimals(shelter.getCareRegNo());
-                animalService.saveAll(animals, shelter.getCareRegNo());
-                allAnimals.add(animals);
-            }
-        }
+    public ResponseEntity<AnimalListResponse> loadSaveAnimal() {
+        AnimalListResponse animals = openApiService.loadAnimals();
+        animalService.saveAll(animals);
+
         return ResponseEntity.ok()
-                .body(allAnimals);
+                .body(animals);
     }
 
     @Operation(summary = "시군구 정보 조회 및 저장", description = "시군구 정보를 조회하고 저장합니다.")

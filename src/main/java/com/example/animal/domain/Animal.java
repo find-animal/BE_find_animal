@@ -17,17 +17,13 @@ public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ANIMAL_ID")
+    @Column(name = "id")
     private Long id;
+    //유기번호
+    private String desertionNo;
     //접수일
     @Temporal(TemporalType.DATE)
     private LocalDate happenDt;
-    //공고시작일
-    @Temporal(TemporalType.DATE)
-    private LocalDate noticeSdt;
-    //공고종료일
-    @Temporal(TemporalType.DATE)
-    private LocalDate noticeEdt;
     //발견장소
     private String happenPlace;
     //품종
@@ -64,20 +60,9 @@ public class Animal {
     //담당자 연락처
     private String officeTel;
 
-    @ManyToOne
-    @JoinColumn(name = "SHELTER_ID")
-    private Shelter shelter;
-
-    public void setShelter(Shelter shelter) {
-        this.shelter = shelter;
-
-        if (!shelter.getAnimals().contains(this)) {
-            shelter.getAnimals().add(this);
-        }
-    }
-
     @Builder
-    public Animal(LocalDate happenDt, String happenPlace, String kindCd, String colorCd, String age, String weight, String fileName, String popFile, SexType sexCd, NeuterType neuterYn, String specialMark, String careNm, String careTel, String careAddr, String orgNm, String chargeNm, String officeTel, LocalDate noticeSdt, LocalDate noticeEdt, Shelter shelter) {
+    public Animal(String desertionNo, LocalDate happenDt, String happenPlace, String kindCd, String colorCd, String age, String weight, String fileName, String popFile, SexType sexCd, NeuterType neuterYn, String specialMark, String careNm, String careTel, String careAddr, String orgNm, String chargeNm, String officeTel) {
+        this.desertionNo = desertionNo;
         this.happenDt = happenDt;
         this.happenPlace = happenPlace;
         this.kindCd = kindCd;
@@ -95,8 +80,5 @@ public class Animal {
         this.orgNm = orgNm;
         this.chargeNm = chargeNm;
         this.officeTel = officeTel;
-        this.noticeSdt = noticeSdt;
-        this.noticeEdt = noticeEdt;
-        this.shelter = shelter;
     }
 }

@@ -5,7 +5,6 @@ import com.example.animal.domain.Shelter;
 import com.example.animal.dto.response.shelter.ShelterListResponse;
 import com.example.animal.repository.DistrictRepository;
 import com.example.animal.repository.ShelterRepository;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +24,5 @@ public class ShelterService {
         return shelterRepository.saveAll(response.getShelters().stream()
                 .map((shelter) -> shelter.toEntity(district))
                 .toList());
-    }
-
-    public List<Shelter> findByDistrictId(int id) {
-        return shelterRepository.findByDistrictId(id).orElse(Collections.emptyList());
     }
 }
