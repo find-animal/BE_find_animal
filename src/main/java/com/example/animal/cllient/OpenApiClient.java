@@ -11,31 +11,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "openapi")
 public interface OpenApiClient {
-    @GetMapping("/sigungu")
-    DistrictListResponse loadDistrict(
-            @RequestParam(value = "upr_cd") String uprCd
-    );
 
-    @GetMapping("/sido")
-    CityProvinceListResponse loadCityProvince(
-            @RequestParam(value = "numOfRows") int numOfRows,
-            @RequestParam(value = "pageNo") int pageNo
-    );
+  @GetMapping("/sigungu")
+  DistrictListResponse loadDistrict(
+      @RequestParam(value = "upr_cd") String uprCd
+  );
 
-    @GetMapping("/shelter")
-    ShelterListResponse loadShelter(
-            @RequestParam(value = "upr_cd") String uprCd,
-            @RequestParam(value = "org_cd") String orgCd
-    );
+  @GetMapping("/sido")
+  CityProvinceListResponse loadCityProvince(
+      @RequestParam(value = "numOfRows") int numOfRows,
+      @RequestParam(value = "pageNo") int pageNo
+  );
 
-    @GetMapping("/kind")
-    BreedsListResponse loadBreeds(
-            @RequestParam(value = "up_kind_cd") String upKindCd
-    );
+  @GetMapping("/shelter")
+  ShelterListResponse loadShelter(
+      @RequestParam(value = "upr_cd") String uprCd,
+      @RequestParam(value = "org_cd") String orgCd
+  );
 
-    @GetMapping("/abandonmentPublic")
-    AnimalListResponse loadAnimal(
-            @RequestParam(value = "pageNo") Integer pageNo,
-            @RequestParam(value = "numOfRows") Integer numOfRows);
+  @GetMapping("/kind")
+  BreedsListResponse loadBreeds(
+      @RequestParam(value = "up_kind_cd") String upKindCd
+  );
+
+  @GetMapping("/abandonmentPublic")
+  AnimalListResponse loadAnimal(
+      @RequestParam(value = "care_reg_no") String careRegNo,
+      @RequestParam(value = "numOfRows") Integer numOfRows);
 
 }
