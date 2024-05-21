@@ -31,8 +31,6 @@ class OpenApiControllerTest {
 
     @Autowired
     protected MockMvc mockMvc;
-    @Autowired
-    private OpenApiProperties openApiProperties;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -53,10 +51,10 @@ class OpenApiControllerTest {
     public void mockMvcSetUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
-        breedRepository.deleteAll();
-        shelterRepository.deleteAll();
+//        breedRepository.deleteAll();
+//        shelterRepository.deleteAll();
 //        cityProvinceRepository.deleteAll();
-        districtRepository.deleteAll();
+//        districtRepository.deleteAll();
     }
 
     @DisplayName("loadSaveDistrict: 공공데이터의 시군구 정보를 가져온뒤 저장한다.")
@@ -68,7 +66,7 @@ class OpenApiControllerTest {
 
         //when
         final ResultActions resultActions = mockMvc.perform(get(url)
-                .param("uprCd",uprCd));
+                .param("upr_cd",uprCd));
 
         //then
         resultActions.andExpect(status().isOk());

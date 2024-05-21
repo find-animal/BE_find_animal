@@ -15,6 +15,10 @@ public class OpenApiService {
 
     private final OpenApiClient client;
 
+    private static final int CITY_ROW_NUM = 17;
+    private static final int CITY_PAGE_NUM = 1;
+    private static final int ANIMAL_ROW_NUM = 1000;
+
     public DistrictListResponse loadDistrict(String uprCd) {
         DistrictListResponse districts = client.loadDistrict(uprCd);
 
@@ -22,7 +26,7 @@ public class OpenApiService {
     }
 
     public CityProvinceListResponse loadCityProvince() {
-        CityProvinceListResponse citiesProvinces = client.loadCityProvince(17, 1);
+        CityProvinceListResponse citiesProvinces = client.loadCityProvince(CITY_ROW_NUM, CITY_PAGE_NUM);
 
         return citiesProvinces;
     }
@@ -39,16 +43,8 @@ public class OpenApiService {
         return breeds;
     }
 
-    public AnimalListResponse loadAnimals() {
-        AnimalListResponse animals = new AnimalListResponse();
-        try{
-            for(int i = 1; i <= 1000; i++) {
-                animals.getAnimals().addAll(client.loadAnimal(i,100).getAnimals());
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-            return animals;
-        }
+    public AnimalListResponse loadAnimals(String careRegNo) {
+        AnimalListResponse animals = client.loadAnimal(careRegNo, ANIMAL_ROW_NUM);
         return animals;
     }
 }

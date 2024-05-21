@@ -1,6 +1,8 @@
 package com.example.animal.domain;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,7 @@ public class Shelter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "SHELTER_ID")
     private Long id;
     //보호소 번호
     private String careRegNo;
@@ -23,6 +25,9 @@ public class Shelter {
     @ManyToOne
     @JoinColumn(name = "DISTRICT_ID")
     private District district;
+
+    @OneToMany(mappedBy = "shelter")
+    private List<Animal> animals = new ArrayList<>();
 
     public void setDistrict(District district) {
         this.district = district;
