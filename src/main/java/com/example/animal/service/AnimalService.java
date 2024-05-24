@@ -3,13 +3,13 @@ package com.example.animal.service;
 import com.example.animal.domain.Animal;
 import com.example.animal.domain.Shelter;
 import com.example.animal.dto.response.animal.AnimalListResponse;
-import com.example.animal.dto.response.animal.AnimalResponse;
+import com.example.animal.dto.response.animal.AnimalListViewResponse;
 import com.example.animal.repository.AnimalRepository;
 import com.example.animal.repository.ShelterRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
@@ -26,5 +26,15 @@ public class AnimalService {
     return animalRepository.saveAll(response.getAnimals().stream()
         .map((animal) -> animal.toEntity(shelter))
         .toList());
+  }
+
+  //보호소 동물 리스트 추출
+  public List<AnimalListViewResponse> getAnimalList(Pageable pageable) {
+    List<AnimalListViewResponse> pageResult = animalRepository.findAll(pageable)
+        .stream()
+        .map(AnimalListViewResponse::new)
+        .toList();
+
+    return pageResult;
   }
 }
