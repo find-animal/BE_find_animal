@@ -7,9 +7,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
 public class Shelter {
 
@@ -21,6 +23,16 @@ public class Shelter {
   private String careRegNo;
   //보호소명
   private String careNm;
+  //보호소 주소
+  private String careAddr;
+  //보호소 전화번호
+  private String careTel;
+  //관할기관
+  private String orgNm;
+  //담당자 이름
+  private String chargeNm;
+  //담당자 연락처
+  private String officeTel;
   //시도명
   @ManyToOne
   @JoinColumn(name = "DISTRICT_ID")

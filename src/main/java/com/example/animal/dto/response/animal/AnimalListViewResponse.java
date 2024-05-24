@@ -1,27 +1,31 @@
 package com.example.animal.dto.response.animal;
 
 import com.example.animal.domain.Animal;
-import com.example.animal.domain.enums.NeuterType;
-import com.example.animal.domain.enums.SexType;
 import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
 public class AnimalListViewResponse {
-
   private Long id;
+  private String fileName;
   private String kindCd;
+  private String happenPlace;
+  private LocalDate happenDt;
   private String age;
-  private SexType sexCd;
-  private NeuterType neuterYn;
+  private String weight;
   private LocalDate noticeSdt;
+  private LocalDate noticeEdt;
 
   public AnimalListViewResponse(Animal animal) {
     this.id = animal.getId();
+    this.fileName = animal.getFileName();
     this.kindCd = animal.getKindCd();
+    this.happenPlace = animal.getHappenPlace();
+    this.happenDt = animal.getHappenDt();
     this.age = animal.getAge();
-    this.sexCd = animal.getSexCd();
-    this.neuterYn = animal.getNeuterYn();
+    this.weight = animal.getWeight();
     this.noticeSdt = animal.getNoticeSdt();
+    this.noticeEdt = animal.getNoticeEdt();
   }
+
 }

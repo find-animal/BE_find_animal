@@ -3,7 +3,6 @@ package com.example.animal.controller;
 import com.example.animal.dto.response.animal.AnimalListViewResponse;
 import com.example.animal.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +20,11 @@ public class AnimalApiController {
 
   private final AnimalService animalService;
 
-  @Operation(summary = "유기동물 리스트를 조회", description = "파라미터로 받은 page와 size 만큼 동물이 조회가 됩니다.")
+  @Operation(summary = "유기동물 리스트를 조회", description = "파라미터로 받은 page와 size 만큼 동물이 조회가 됩니다.\ndefault value: page = 0, size = 10")
   @GetMapping("/api/animals")
   public ResponseEntity<List<AnimalListViewResponse>> findAllAnimals(
-      @PageableDefault(page = 0, sort = "noticeSdt", direction = Direction.DESC) Pageable pageable) {
-    List<AnimalListViewResponse> animals = animalService.getAnimalList(pageable)
-        .stream()
-        .map(AnimalListViewResponse::new)
-        .toList();
+      @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable) {
+    List<AnimalListViewResponse> animals = animalService.getAnimalList(pageable);
 
     return ResponseEntity.ok()
         .body(animals);

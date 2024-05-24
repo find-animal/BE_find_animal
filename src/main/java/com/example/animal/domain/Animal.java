@@ -2,7 +2,6 @@ package com.example.animal.domain;
 
 import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
-import com.example.animal.dto.response.animal.AnimalListViewResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -52,18 +51,6 @@ public class Animal {
     //특징
     @Lob
     private String specialMark;
-    //보호소 이름
-    private String careNm;
-    //보호소 전화번호
-    private String careTel;
-    //보호 장소
-    private String careAddr;
-    //관할기관
-    private String orgNm;
-    //담당자
-    private String chargeNm;
-    //담당자 연락처
-    private String officeTel;
 
     @ManyToOne
     @JoinColumn(name = "SHELTER_ID")
@@ -90,14 +77,15 @@ public class Animal {
         this.sexCd = sexCd;
         this.neuterYn = neuterYn;
         this.specialMark = specialMark;
-        this.careNm = careNm;
-        this.careTel = careTel;
-        this.careAddr = careAddr;
-        this.orgNm = orgNm;
-        this.chargeNm = chargeNm;
-        this.officeTel = officeTel;
         this.noticeSdt = noticeSdt;
         this.noticeEdt = noticeEdt;
+        if(shelter.getCareAddr() == null) {
+            shelter.setCareAddr(careAddr);
+            shelter.setCareTel(careTel);
+            shelter.setOrgNm(orgNm);
+            shelter.setChargeNm(chargeNm);
+            shelter.setOfficeTel(officeTel);
+        }
         this.shelter = shelter;
     }
 }
