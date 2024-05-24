@@ -1,13 +1,12 @@
 package com.example.animal.controller;
 
-import com.example.animal.domain.Breed;
-import com.example.animal.domain.CityProvince;
-import com.example.animal.domain.District;
-import com.example.animal.domain.Shelter;
+import com.example.animal.domain.cityprovince.entity.CityProvince;
+import com.example.animal.domain.district.entity.District;
+import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.repository.BreedRepository;
-import com.example.animal.repository.CityProvinceRepository;
-import com.example.animal.repository.DistrictRepository;
-import com.example.animal.repository.ShelterRepository;
+import com.example.animal.domain.cityprovince.repository.CityProvinceRepository;
+import com.example.animal.domain.district.repository.DistrictRepository;
+import com.example.animal.domain.shelter.repository.ShelterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
