@@ -1,6 +1,5 @@
 package com.example.animal.controller;
 
-import com.example.animal.domain.Breed;
 import com.example.animal.domain.cityprovince.entity.CityProvince;
 import com.example.animal.domain.district.entity.District;
 import com.example.animal.domain.shelter.entity.Shelter;
