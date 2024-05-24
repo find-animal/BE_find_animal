@@ -2,6 +2,7 @@ package com.example.animal.domain;
 
 import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
+import com.example.animal.dto.response.animal.AnimalListViewResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
