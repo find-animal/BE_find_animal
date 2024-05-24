@@ -1,7 +1,6 @@
 package com.example.animal.domain.cllient;
 
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
-import com.example.animal.dto.response.breed.BreedsListResponse;
 import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
 import com.example.animal.domain.shelter.dto.response.ShelterListResponse;
@@ -27,11 +26,6 @@ public interface OpenApiClient {
   ShelterListResponse loadShelter(
       @RequestParam(value = "upr_cd") String uprCd,
       @RequestParam(value = "org_cd") String orgCd
-  );
-
-  @GetMapping("/kind")
-  BreedsListResponse loadBreeds(
-      @RequestParam(value = "up_kind_cd") String upKindCd
   );
 
   @GetMapping("/abandonmentPublic")
