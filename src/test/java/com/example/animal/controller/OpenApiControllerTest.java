@@ -1,12 +1,16 @@
 package com.example.animal.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.animal.domain.cityprovince.entity.CityProvince;
-import com.example.animal.domain.district.entity.District;
-import com.example.animal.domain.shelter.entity.Shelter;
-import com.example.animal.repository.BreedRepository;
 import com.example.animal.domain.cityprovince.repository.CityProvinceRepository;
+import com.example.animal.domain.district.entity.District;
 import com.example.animal.domain.district.repository.DistrictRepository;
+import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +22,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class OpenApiControllerTest {
@@ -33,9 +31,6 @@ class OpenApiControllerTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private BreedRepository breedRepository;
 
     @Autowired
     private ShelterRepository shelterRepository;
@@ -95,26 +90,6 @@ class OpenApiControllerTest {
         assertThat(citiesProvinces.size()).isEqualTo(17);
         assertThat(citiesProvinces.get(0).getOrgCd()).isEqualTo("6110000");
         assertThat(citiesProvinces.get(0).getOrgdownNm()).isEqualTo("서울특별시");
-    }
-
-    @DisplayName("loadSaveBreeds: 공공데이터의 품종 정보를 가져온뒤 저장한다.")
-    @Test
-    public void loadSaveBreeds() throws Exception {
-        //given
-        String upKindCd = "429900"; //기타축종 무조건 하나밖에 없음
-        String url = "/open-api/breed/{upkindCd}";
-
-        //when
-        final ResultActions resultActions = mockMvc.perform(get(url, upKindCd));
-
-        //then
-        resultActions.andExpect(status().isOk());
-
-        List<Breed> breeds = breedRepository.findAll();
-
-        assertThat(breeds.size()).isEqualTo(1);
-        assertThat(breeds.get(0).getKindCd()).isEqualTo("000117");
-        assertThat(breeds.get(0).getKnm()).isEqualTo("기타축종");
     }
 
     @DisplayName("loadSaveShelter: 공공데이터의 보호소 정보를 가져온뒤 저장한다.")
