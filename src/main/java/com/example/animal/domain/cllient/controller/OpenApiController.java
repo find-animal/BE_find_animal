@@ -1,13 +1,13 @@
 package com.example.animal.domain.cllient.controller;
 
-import com.example.animal.domain.animal.dto.response.AnimalListResponse;
+import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.service.AnimalService;
 import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
 import com.example.animal.domain.cityprovince.service.CityProvinceService;
 import com.example.animal.domain.cllient.service.OpenApiService;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
 import com.example.animal.domain.district.service.DistrictService;
-import com.example.animal.domain.shelter.dto.response.ShelterListResponse;
+import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.service.ShelterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,12 +37,12 @@ public class OpenApiController {
 
   @Operation(summary = "보호소 동물 정보 조회 및 저장", description = "보호소 동물 정보를 조회하고 저장합니다.")
   @GetMapping("/open-api/animal")
-  public ResponseEntity<List<AnimalListResponse>> loadSaveAnimal() {
-    List<AnimalListResponse> allAnimals = new ArrayList<>();
+  public ResponseEntity<List<AnimalListOpenApiResponse>> loadSaveAnimal() {
+    List<AnimalListOpenApiResponse> allAnimals = new ArrayList<>();
     for (int i = SHELTER_FIRST; i <= SHELTER_LAST; i++) {
       List<Shelter> shelters = shelterService.findByDistrictId(i);
       for (Shelter shelter : shelters) {
-        AnimalListResponse animals = openApiService.loadAnimals(shelter.getCareRegNo());
+        AnimalListOpenApiResponse animals = openApiService.loadAnimals(shelter.getCareRegNo());
         animalService.saveAll(animals, shelter.getCareRegNo());
         allAnimals.add(animals);
       }
@@ -79,9 +79,9 @@ public class OpenApiController {
   @Parameter(name = "uprCd", description = "시도코드 미입력시 데이터 x")
   @Parameter(name = "orgCd", description = "시군구코드 미입력시 데이터 x")
   @GetMapping("/open-api/shelter")
-  public ResponseEntity<ShelterListResponse> loadSaveShelter(
+  public ResponseEntity<ShelterListOpenApiResponse> loadSaveShelter(
       @RequestParam(value = "uprCd") String uprCd, @RequestParam(value = "orgCd") String orgCd) {
-    ShelterListResponse shelters = openApiService.loadShelter(uprCd, orgCd);
+    ShelterListOpenApiResponse shelters = openApiService.loadShelter(uprCd, orgCd);
     shelterService.saveAll(shelters, orgCd);
 
     return ResponseEntity.ok()

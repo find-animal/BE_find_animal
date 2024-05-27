@@ -1,10 +1,10 @@
 package com.example.animal.domain.cllient.service;
 
-import com.example.animal.domain.animal.dto.response.AnimalListResponse;
+import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
 import com.example.animal.domain.cllient.OpenApiClient;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
-import com.example.animal.domain.shelter.dto.response.ShelterListResponse;
+import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +30,14 @@ public class OpenApiService {
     return citiesProvinces;
   }
 
-  public ShelterListResponse loadShelter(String uprCd, String orgCd) {
-    ShelterListResponse shelters = client.loadShelter(uprCd, orgCd);
+  public ShelterListOpenApiResponse loadShelter(String uprCd, String orgCd) {
+    ShelterListOpenApiResponse shelters = client.loadShelter(uprCd, orgCd);
 
     return shelters;
   }
 
-  public AnimalListResponse loadAnimals(String careRegNo) {
-    AnimalListResponse animals = client.loadAnimal(careRegNo, ANIMAL_ROW_NUM);
+  public AnimalListOpenApiResponse loadAnimals(String careRegNo) {
+    AnimalListOpenApiResponse animals = client.loadAnimal(careRegNo, ANIMAL_ROW_NUM);
     return animals;
   }
 }

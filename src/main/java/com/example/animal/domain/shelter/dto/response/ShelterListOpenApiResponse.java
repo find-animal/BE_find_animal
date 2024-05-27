@@ -13,15 +13,15 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class ShelterListResponse {
+public class ShelterListOpenApiResponse {
     @JsonProperty("item")
-    private List<ShelterResponse> shelters;
+    private List<ShelterOpenApiResponse> shelters;
 
     @JsonCreator
-    public ShelterListResponse(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
+    public ShelterListOpenApiResponse(@JsonProperty("response") JsonNode node) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
-        this.shelters = Arrays.stream(objectMapper.treeToValue(itemNode, ShelterResponse[].class)).toList();
+        this.shelters = Arrays.stream(objectMapper.treeToValue(itemNode, ShelterOpenApiResponse[].class)).toList();
     }
 }

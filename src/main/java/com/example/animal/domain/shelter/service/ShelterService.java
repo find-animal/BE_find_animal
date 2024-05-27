@@ -2,7 +2,7 @@ package com.example.animal.domain.shelter.service;
 
 import com.example.animal.domain.district.entity.District;
 import com.example.animal.domain.shelter.entity.Shelter;
-import com.example.animal.domain.shelter.dto.response.ShelterListResponse;
+import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import com.example.animal.domain.district.repository.DistrictRepository;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
 import java.util.Collections;
@@ -18,7 +18,7 @@ public class ShelterService {
     private final DistrictRepository districtRepository;
 
     //보호소 전체 정보 저장
-    public List<Shelter> saveAll(ShelterListResponse response, String orgCd) {
+    public List<Shelter> saveAll(ShelterListOpenApiResponse response, String orgCd) {
         District district = districtRepository.findByOrgCd(orgCd)
                 .orElseThrow(() -> new IllegalArgumentException("Not Found cityProvince"));
 
