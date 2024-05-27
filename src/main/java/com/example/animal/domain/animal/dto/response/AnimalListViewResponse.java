@@ -8,7 +8,7 @@ import lombok.Getter;
 public class AnimalListViewResponse {
   private Long id;
   private String fileName;
-  private String kindCd;
+  private String animalBreed;
   private String happenPlace;
   private LocalDate happenDt;
   private String age;
@@ -19,7 +19,7 @@ public class AnimalListViewResponse {
   public AnimalListViewResponse(Animal animal) {
     this.id = animal.getId();
     this.fileName = animal.getFileName();
-    this.kindCd = animal.getKindCd();
+    this.animalBreed = animal.getAnimalBreed();
     this.happenPlace = animal.getHappenPlace();
     this.happenDt = animal.getHappenDt();
     this.age = animal.getAge();

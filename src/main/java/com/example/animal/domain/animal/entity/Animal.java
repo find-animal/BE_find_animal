@@ -52,6 +52,8 @@ public class Animal {
     //특징
     @Lob
     private String specialMark;
+    //품종
+    private String animalBreed;
 
     @ManyToOne
     @JoinColumn(name = "SHELTER_ID")
@@ -88,5 +90,6 @@ public class Animal {
             shelter.setOfficeTel(officeTel);
         }
         this.shelter = shelter;
+        this.animalBreed = kindCd.substring(kindCd.indexOf("]") + 2);
     }
 }
