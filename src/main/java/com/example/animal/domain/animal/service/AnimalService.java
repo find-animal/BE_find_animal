@@ -1,13 +1,15 @@
 package com.example.animal.domain.animal.service;
 
-import com.example.animal.domain.animal.dto.response.AnimalResponse;
-import com.example.animal.domain.animal.entity.Animal;
-import com.example.animal.domain.enums.SexType;
-import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
+import com.example.animal.domain.animal.dto.response.AnimalResponse;
+import com.example.animal.domain.animal.entity.Animal;
+import com.example.animal.domain.animal.entity.QAnimal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
+import com.example.animal.domain.enums.SexType;
+import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import com.querydsl.core.BooleanBuilder;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +52,28 @@ public class AnimalService {
   }
 
   //보호소 동물 필터
-  public List<AnimalListResponse> getFilteredAnimalList(String startYear, String endYear, SexType sexCd, LocalDate startDate, LocalDate endDate,Pageable pageable) {
-    List<AnimalListResponse> pageResult = animalRepository.findByFilters(startYear, endYear, sexCd, startDate,endDate, pageable)
+  public List<AnimalListResponse> getFilteredAnimalList(String startYear, String endYear,
+      SexType sexCd, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+    QAnimal animal = QAnimal.animal;
+    BooleanBuilder builder = new BooleanBuilder();
+
+    if (startYear != null && endYear != null) {
+      builder.and(animal.age.between(startYear, endYear));
+    }
+
+    if (sexCd != null) {
+      builder.and(animal.sexCd.eq(sexCd));
+    }
+
+    if (startDate != null && endDate != null) {
+      builder.and(animal.noticeEdt.between(startDate, endDate));
+    }
+
+    List<AnimalListResponse> result = animalRepository.findAll(builder, pageable)
         .stream()
         .map(AnimalListResponse::new)
         .toList();
 
-    return pageResult;
+    return result;
   }
 }

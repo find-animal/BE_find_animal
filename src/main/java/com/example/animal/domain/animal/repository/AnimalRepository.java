@@ -7,9 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
-public interface AnimalRepository extends JpaRepository<Animal, Long> {
+public interface AnimalRepository extends JpaRepository<Animal, Long>,
+    QuerydslPredicateExecutor<Animal> {
 
   @Query("SELECT a FROM Animal a WHERE " +
       "(:startAge IS NULL OR :endAge IS NULL OR a.age BETWEEN :startAge AND :endAge) " +

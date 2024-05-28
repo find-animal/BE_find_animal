@@ -106,7 +106,7 @@ class AnimalApiControllerTest {
     final String happenPlace = "happenPlace";
     final LocalDate happenDt = LocalDate.of(2026, 5, 20);
 
-    final Shelter shelter = shelterRepository.findById(106L)
+    final Shelter shelter = shelterRepository.findById(1263L)
         .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
 
     Animal savedAnimal = animalRepository.save(Animal.builder()
