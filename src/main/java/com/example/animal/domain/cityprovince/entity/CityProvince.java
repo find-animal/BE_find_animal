@@ -1,6 +1,7 @@
 package com.example.animal.domain.cityprovince.entity;
 
 import com.example.animal.domain.district.entity.District;
+import com.example.animal.domain.shelter.entity.Shelter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,6 +27,9 @@ public class CityProvince {
 
     @OneToMany(mappedBy = "cityProvince")
     private List<District> districts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cityProvince")
+    private List<Shelter> shelters = new ArrayList<>();
 
     @Builder
     public CityProvince(String orgCd, String orgdownNm) {
