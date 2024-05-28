@@ -6,7 +6,6 @@ import com.example.animal.domain.animal.service.AnimalService;
 import com.example.animal.domain.enums.SexType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,48 +37,41 @@ public class AnimalApiController {
         .body(animal);
   }
 
-  @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다."
-      )
+  @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다.")
   @GetMapping("/api/animals")
   public ResponseEntity<List<AnimalListResponse>> findAnimals(
       @Parameter(
           name = "startYear",
           description = "출생연도 시작 연도",
-          example = "2023",
-          required = false)
-      @RequestParam String startYear,
+          example = "2023")
+      @RequestParam(name = "startYear", required = false) String startYear,
+
       @Parameter(
           name = "endYear",
           description = "출생연도 마지막 연도 |2023년생을 조회 -> startYear : 2023, endYear: 2024",
-          example = "2024",
-          required = false)
-      @RequestParam String endYear,
+          example = "2024")
+      @RequestParam(name = "endYear", required = false) String endYear,
+
       @Parameter(
           name = "sexCd",
           description = "성별",
-          example = "M",
-          required = false)
-      @RequestParam SexType sexCd,
+          example = "M")
+      @RequestParam(name = "sexCd", required = false) SexType sexCd,
+
       @Parameter(
           name = "startDate",
           description = "보호소기간 조회 시작 기간",
-          example = "2024-05-23",
-          required = false)
-      @RequestParam
+          example = "2024-05-23")
+      @RequestParam(name = "startDate", required = false)
       @DateTimeFormat(iso = ISO.DATE) LocalDate startDate,
+
       @Parameter(
           name = "endDate",
           description = "보호소기간 조회 마지막 기간",
-          example = "2024-05-24",
-          required = false)
-      @RequestParam
+          example = "2024-05-24")
+      @RequestParam(name = "endDate", required = false)
       @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
-      @Parameter(
-          name = "noticeSdt",
-          description = "조회할 페이지 번호와 페이지 내 아이템 개수",
-          example = "{\"page\": 0,\n"
-              + "  \"size\": 10}",
-          required = true)
+
       @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
 
   ) {

@@ -10,6 +10,8 @@ import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ class AnimalApiControllerTest {
 
   @Autowired
   protected MockMvc mockMvc;
+
+  @Autowired
+  protected ObjectMapper objectMapper;
 
   @Autowired
   AnimalRepository animalRepository;
@@ -81,6 +86,65 @@ class AnimalApiControllerTest {
         .andExpect(jsonPath("$.happenPlace").value(happenPlace))
         .andExpect(jsonPath("$.animalBreed").value(animalBreed))
         .andExpect(jsonPath("$.shelter.careNm").value(careNm));
+  }
+
+  @DisplayName("findAnimal: 필터조건에 맞는 유기 동물 리스트 조회에 성공한다.")
+  @Test
+  public void findAnimals() throws Exception {
+    //given
+    final String url = "/api/animals";
+    final String startYear = "2026";
+    final String endYear = "2027";
+    final SexType sexCd = SexType.M;
+    final LocalDate startDate = LocalDate.of(2026, 5, 23);
+    final LocalDate endDate = LocalDate.of(2026, 5, 24);
+    final int page = 0;
+    final int size = 1;
+
+    final String fileName = "fileName";
+    final String animalBreed = "animalBreed";
+    final String happenPlace = "happenPlace";
+    final LocalDate happenDt = LocalDate.of(2026, 5, 20);
+
+    final Shelter shelter = shelterRepository.findById(106L)
+        .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
+
+    Animal savedAnimal = animalRepository.save(Animal.builder()
+        .age(startYear)
+        .sexCd(sexCd)
+        .fileName(fileName)
+        .kindCd("[개] animalBreed")
+        .happenPlace(happenPlace)
+        .happenDt(happenDt)
+        .age(startYear)
+        .noticeEdt(startDate)
+        .shelter(shelter)
+        .build());
+
+    //when
+    final ResultActions resultActions = mockMvc.perform(get(url)
+        .param("startYear", startYear)
+        .param("endYear", endYear)
+        .param("sexCd", String.valueOf(sexCd))
+        .param("startDate", String.valueOf(startDate))
+        .param("endDate", String.valueOf(endDate))
+        .param("page", String.valueOf(page))
+        .param("size", String.valueOf(size))
+    );
+
+    //then
+    resultActions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(size))
+        .andExpect(jsonPath("$[0].id").value(savedAnimal.getId()))
+        .andExpect(jsonPath("$[0].fileName").value(fileName))
+        .andExpect(jsonPath("$[0].animalBreed").value(animalBreed))
+        .andExpect(jsonPath("$[0].happenPlace").value(happenPlace))
+        .andExpect(jsonPath("$[0].happenDt").value(happenDt.toString()))
+        .andExpect(jsonPath("$[0].age").value(startYear))
+        .andExpect(jsonPath("$[0].sexCd").value(sexCd.toString()))
+        .andExpect(jsonPath("$[0].noticeEdt").value(String.valueOf(startDate)));
+
   }
 
 }
