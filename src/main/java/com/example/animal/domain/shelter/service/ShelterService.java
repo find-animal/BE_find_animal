@@ -26,7 +26,11 @@ public class ShelterService {
                 .toList());
     }
 
-    public List<Shelter> findByDistrictId(int id) {
+    public List<Shelter> findByDistrictId(Long id) {
         return shelterRepository.findByDistrictId(id).orElse(Collections.emptyList());
+    }
+
+    public List<Shelter> findByCityProvinceId(Long id) {
+        return shelterRepository.findByCityProvinceId(id).orElse(Collections.emptyList());
     }
 }

@@ -32,14 +32,14 @@ public class OpenApiController {
   private final OpenApiService openApiService;
   private final AnimalService animalService;
 
-  private static final int SHELTER_FIRST = 1;
-  private static final int SHELTER_LAST = 253;
+  private static final Long SHELTER_FIRST = 1L;
+  private static final Long SHELTER_LAST = 253L;
 
   @Operation(summary = "보호소 동물 정보 조회 및 저장", description = "보호소 동물 정보를 조회하고 저장합니다.")
   @GetMapping("/open-api/animal")
   public ResponseEntity<List<AnimalListOpenApiResponse>> loadSaveAnimal() {
     List<AnimalListOpenApiResponse> allAnimals = new ArrayList<>();
-    for (int i = SHELTER_FIRST; i <= SHELTER_LAST; i++) {
+    for (Long i = SHELTER_FIRST; i <= SHELTER_LAST; i++) {
       List<Shelter> shelters = shelterService.findByDistrictId(i);
       for (Shelter shelter : shelters) {
         AnimalListOpenApiResponse animals = openApiService.loadAnimals(shelter.getCareRegNo());

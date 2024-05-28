@@ -26,10 +26,6 @@ class AnimalApiControllerTest {
 
   @Autowired
   protected MockMvc mockMvc;
-
-  @Autowired
-  protected ObjectMapper objectMapper;
-
   @Autowired
   AnimalRepository animalRepository;
 
@@ -98,6 +94,7 @@ class AnimalApiControllerTest {
     final SexType sexCd = SexType.M;
     final LocalDate startDate = LocalDate.of(2026, 5, 23);
     final LocalDate endDate = LocalDate.of(2026, 5, 24);
+    final Long districtId = 238L;
     final int page = 0;
     final int size = 1;
 
@@ -125,9 +122,10 @@ class AnimalApiControllerTest {
     final ResultActions resultActions = mockMvc.perform(get(url)
         .param("startYear", startYear)
         .param("endYear", endYear)
-        .param("sexCd", String.valueOf(sexCd))
-        .param("startDate", String.valueOf(startDate))
-        .param("endDate", String.valueOf(endDate))
+        .param("sexCd", sexCd.toString())
+        .param("startDate", startDate.toString())
+        .param("endDate", endDate.toString())
+        .param("districtId", districtId.toString())
         .param("page", String.valueOf(page))
         .param("size", String.valueOf(size))
     );
