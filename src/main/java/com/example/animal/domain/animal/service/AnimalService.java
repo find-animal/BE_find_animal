@@ -2,11 +2,13 @@ package com.example.animal.domain.animal.service;
 
 import com.example.animal.domain.animal.dto.response.AnimalResponse;
 import com.example.animal.domain.animal.entity.Animal;
+import com.example.animal.domain.enums.SexType;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
 import com.example.animal.domain.animal.repository.AnimalRepository;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -45,5 +47,15 @@ public class AnimalService {
         .orElseThrow(() -> new IllegalArgumentException("Not Found Animal"));
 
     return new AnimalResponse(animal);
+  }
+
+  //보호소 동물 필터
+  public List<AnimalListResponse> getFilteredAnimalList(String startYear, String endYear, SexType sexCd, LocalDate startDate, LocalDate endDate,Pageable pageable) {
+    List<AnimalListResponse> pageResult = animalRepository.findByFilters(startYear, endYear, sexCd, startDate,endDate, pageable)
+        .stream()
+        .map(AnimalListResponse::new)
+        .toList();
+
+    return pageResult;
   }
 }
