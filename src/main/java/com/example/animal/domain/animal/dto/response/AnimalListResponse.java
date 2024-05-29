@@ -1,7 +1,6 @@
 package com.example.animal.domain.animal.dto.response;
 
 import com.example.animal.domain.animal.entity.Animal;
-import com.example.animal.domain.enums.SexType;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,7 @@ public class AnimalListResponse {
   private String happenPlace;
   private LocalDate happenDt;
   private String age;
-  private SexType sexCd;
+  private String sex;
   private String weight;
   private LocalDate noticeSdt;
   private LocalDate noticeEdt;
@@ -29,7 +28,7 @@ public class AnimalListResponse {
         .happenPlace(animal.getHappenPlace())
         .happenDt(animal.getHappenDt())
         .age(animal.getAge())
-        .sexCd(animal.getSexCd())
+        .sex(animal.getSexCd().label)
         .weight(animal.getWeight())
         .noticeSdt(animal.getNoticeSdt())
         .noticeEdt(animal.getNoticeEdt())

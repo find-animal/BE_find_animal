@@ -48,7 +48,7 @@ class AnimalApiControllerTest {
     final String age = "age";
     final String colorCd = "colorCd";
     final NeuterType neuterYn = NeuterType.Y;
-    final SexType sexCd = SexType.M;
+    final SexType sex = SexType.M;
     final String weight = "weight";
     final String happenPlace = "happenPlace";
     final String animalBreed = "animalBreed";
@@ -59,7 +59,7 @@ class AnimalApiControllerTest {
         .age(age)
         .colorCd(colorCd)
         .neuterYn(neuterYn)
-        .sexCd(sexCd)
+        .sexCd(sex)
         .weight(weight)
         .happenPlace(happenPlace)
         .kindCd("[개] animalBreed")
@@ -76,8 +76,8 @@ class AnimalApiControllerTest {
         .andExpect(jsonPath("$.specialMark").value(specialMark))
         .andExpect(jsonPath("$.age").value(age))
         .andExpect(jsonPath("$.colorCd").value(colorCd))
-        .andExpect(jsonPath("$.neuterYn").value(neuterYn.toString()))
-        .andExpect(jsonPath("$.sexCd").value(sexCd.toString()))
+        .andExpect(jsonPath("$.neuterYn").value(neuterYn.label))
+        .andExpect(jsonPath("$.sex").value(sex.label))
         .andExpect(jsonPath("$.weight").value(weight))
         .andExpect(jsonPath("$.happenPlace").value(happenPlace))
         .andExpect(jsonPath("$.animalBreed").value(animalBreed))
@@ -91,7 +91,7 @@ class AnimalApiControllerTest {
     final String url = "/api/animals";
     final String startYear = "2026";
     final String endYear = "2027";
-    final SexType sexCd = SexType.M;
+    final SexType sex = SexType.M;
     final LocalDate startDate = LocalDate.of(2026, 5, 23);
     final LocalDate endDate = LocalDate.of(2026, 5, 24);
     final Long districtId = 238L;
@@ -108,7 +108,7 @@ class AnimalApiControllerTest {
 
     Animal savedAnimal = animalRepository.save(Animal.builder()
         .age(startYear)
-        .sexCd(sexCd)
+        .sexCd(sex)
         .fileName(fileName)
         .kindCd("[개] animalBreed")
         .happenPlace(happenPlace)
@@ -122,7 +122,7 @@ class AnimalApiControllerTest {
     final ResultActions resultActions = mockMvc.perform(get(url)
         .param("startYear", startYear)
         .param("endYear", endYear)
-        .param("sexCd", sexCd.toString())
+        .param("sexCd", sex.toString())
         .param("startDate", startDate.toString())
         .param("endDate", endDate.toString())
         .param("districtId", districtId.toString())
@@ -140,7 +140,7 @@ class AnimalApiControllerTest {
         .andExpect(jsonPath("$.content[0].happenPlace").value(happenPlace))
         .andExpect(jsonPath("$.content[0].happenDt").value(happenDt.toString()))
         .andExpect(jsonPath("$.content[0].age").value(startYear))
-        .andExpect(jsonPath("$.content[0].sexCd").value(sexCd.toString()))
+        .andExpect(jsonPath("$.content[0].sex").value(sex.label))
         .andExpect(jsonPath("$.content[0].noticeEdt").value(String.valueOf(startDate)));
 
   }
