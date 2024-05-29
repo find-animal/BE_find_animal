@@ -133,15 +133,15 @@ class AnimalApiControllerTest {
     //then
     resultActions
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()").value(size))
-        .andExpect(jsonPath("$[0].id").value(savedAnimal.getId()))
-        .andExpect(jsonPath("$[0].fileName").value(fileName))
-        .andExpect(jsonPath("$[0].animalBreed").value(animalBreed))
-        .andExpect(jsonPath("$[0].happenPlace").value(happenPlace))
-        .andExpect(jsonPath("$[0].happenDt").value(happenDt.toString()))
-        .andExpect(jsonPath("$[0].age").value(startYear))
-        .andExpect(jsonPath("$[0].sexCd").value(sexCd.toString()))
-        .andExpect(jsonPath("$[0].noticeEdt").value(String.valueOf(startDate)));
+        .andExpect(jsonPath("$.content.length()").value(size))
+        .andExpect(jsonPath("$.content[0].id").value(savedAnimal.getId()))
+        .andExpect(jsonPath("$.content[0].fileName").value(fileName))
+        .andExpect(jsonPath("$.content[0].animalBreed").value(animalBreed))
+        .andExpect(jsonPath("$.content[0].happenPlace").value(happenPlace))
+        .andExpect(jsonPath("$.content[0].happenDt").value(happenDt.toString()))
+        .andExpect(jsonPath("$.content[0].age").value(startYear))
+        .andExpect(jsonPath("$.content[0].sexCd").value(sexCd.toString()))
+        .andExpect(jsonPath("$.content[0].noticeEdt").value(String.valueOf(startDate)));
 
   }
 
