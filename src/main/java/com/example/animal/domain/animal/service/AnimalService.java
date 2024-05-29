@@ -3,6 +3,7 @@ package com.example.animal.domain.animal.service;
 import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
+import com.example.animal.domain.animal.dto.response.AnimalPageResponse;
 import com.example.animal.domain.animal.dto.response.AnimalResponse;
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
@@ -10,6 +11,7 @@ import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +41,13 @@ public class AnimalService {
   }
 
   //보호소 동물 필터
-  public List<AnimalListResponse> getFilteredAnimalList(FilterAnimalRequest filterAnimalRequest,
+  public AnimalPageResponse getFilteredAnimalList(FilterAnimalRequest filterAnimalRequest,
       Pageable pageable) {
-    List<AnimalListResponse> animals = animalRepository.findAnimalByFilter(filterAnimalRequest,
-            pageable)
-        .stream()
+    Page<Animal> animalPage = animalRepository.findAnimalByFilter(filterAnimalRequest,pageable);
+    List<AnimalListResponse> animals = animalPage.getContent().stream()
         .map(AnimalListResponse::new)
         .toList();
 
-    return animals;
+    return AnimalPageResponse.of(animals,animalPage);
   }
 }
