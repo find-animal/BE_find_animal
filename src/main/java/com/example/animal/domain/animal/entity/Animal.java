@@ -3,6 +3,7 @@ package com.example.animal.domain.animal.entity;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
