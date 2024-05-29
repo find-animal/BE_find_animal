@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 @Entity
 public class CityProvince {
-//team
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CITYPROVINCE_ID")
