@@ -46,38 +46,38 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
 
   private static void checkNoticeDate(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.getStartDate() != null && filterAnimalRequest.getEndDate() != null) {
-      whereClause.and(animal.noticeEdt.between(filterAnimalRequest.getStartDate(),
-          filterAnimalRequest.getEndDate()));
+    if (filterAnimalRequest.startDate() != null && filterAnimalRequest.endDate() != null) {
+      whereClause.and(animal.noticeEdt.between(filterAnimalRequest.startDate(),
+          filterAnimalRequest.endDate()));
     }
   }
 
   private static void checkAge(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.getStartYear() != null && filterAnimalRequest.getEndYear() != null) {
+    if (filterAnimalRequest.startYear() != null && filterAnimalRequest.endYear() != null) {
       whereClause.and(
-          animal.age.between(filterAnimalRequest.getStartYear(), filterAnimalRequest.getEndYear()));
+          animal.age.between(filterAnimalRequest.startYear(), filterAnimalRequest.endYear()));
     }
   }
 
   private static void checkCityProvince(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.getCityProvinceId() != null) {
-      whereClause.and(animal.shelter.cityProvince.id.eq(filterAnimalRequest.getCityProvinceId()));
+    if (filterAnimalRequest.cityProvinceId() != null) {
+      whereClause.and(animal.shelter.cityProvince.id.eq(filterAnimalRequest.cityProvinceId()));
     }
   }
 
   private static void checkDistrict(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.getDistrictId() != null) {
-      whereClause.and(animal.shelter.district.id.eq(filterAnimalRequest.getDistrictId()));
+    if (filterAnimalRequest.districtId() != null) {
+      whereClause.and(animal.shelter.district.id.eq(filterAnimalRequest.districtId()));
     }
   }
 
   private static void checkSex(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.getSexCd() != null) {
-      whereClause.and(animal.sexCd.eq(filterAnimalRequest.getSexCd()));
+    if (filterAnimalRequest.sexCd() != null) {
+      whereClause.and(animal.sexCd.eq(filterAnimalRequest.sexCd()));
     }
   }
 
