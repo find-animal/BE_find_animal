@@ -3,9 +3,11 @@ package com.example.animal.domain.animal.dto.response;
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.enums.SexType;
 import java.time.LocalDate;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class AnimalListResponse {
 
   private Long id;
@@ -19,16 +21,18 @@ public class AnimalListResponse {
   private LocalDate noticeSdt;
   private LocalDate noticeEdt;
 
-  public AnimalListResponse(Animal animal) {
-    this.id = animal.getId();
-    this.fileName = animal.getFileName();
-    this.animalBreed = animal.getAnimalBreed();
-    this.happenPlace = animal.getHappenPlace();
-    this.happenDt = animal.getHappenDt();
-    this.age = animal.getAge();
-    this.sexCd = animal.getSexCd();
-    this.weight = animal.getWeight();
-    this.noticeSdt = animal.getNoticeSdt();
-    this.noticeEdt = animal.getNoticeEdt();
+  public static AnimalListResponse fromEntity(Animal animal) {
+    return AnimalListResponse.builder()
+        .id(animal.getId())
+        .fileName(animal.getFileName())
+        .animalBreed(animal.getAnimalBreed())
+        .happenPlace(animal.getHappenPlace())
+        .happenDt(animal.getHappenDt())
+        .age(animal.getAge())
+        .sexCd(animal.getSexCd())
+        .weight(animal.getWeight())
+        .noticeSdt(animal.getNoticeSdt())
+        .noticeEdt(animal.getNoticeEdt())
+        .build();
   }
 }

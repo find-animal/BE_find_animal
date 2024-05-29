@@ -28,7 +28,7 @@ public class AnimalService {
         .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
 
     return animalRepository.saveAll(response.getAnimals().stream()
-        .map((animal) -> animal.toEntity(shelter))
+        .map((animalResponse) -> animalResponse.toEntity(shelter))
         .toList());
   }
 
@@ -37,17 +37,17 @@ public class AnimalService {
     Animal animal = animalRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Not Found Animal"));
 
-    return new AnimalResponse(animal);
+    return AnimalResponse.fromEntity(animal);
   }
 
   //보호소 동물 필터
   public AnimalPageResponse getFilteredAnimalList(FilterAnimalRequest filterAnimalRequest,
       Pageable pageable) {
-    Page<Animal> animalPage = animalRepository.findAnimalByFilter(filterAnimalRequest,pageable);
+    Page<Animal> animalPage = animalRepository.findAnimalByFilter(filterAnimalRequest, pageable);
     List<AnimalListResponse> animals = animalPage.getContent().stream()
-        .map(AnimalListResponse::new)
+        .map((animal -> AnimalListResponse.fromEntity(animal)))
         .toList();
 
-    return AnimalPageResponse.of(animals,animalPage);
+    return AnimalPageResponse.of(animals, animalPage);
   }
 }
