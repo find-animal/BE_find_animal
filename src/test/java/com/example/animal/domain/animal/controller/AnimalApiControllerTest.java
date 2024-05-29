@@ -10,7 +10,6 @@ import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,6 +101,7 @@ class AnimalApiControllerTest {
     final String animalBreed = "animalBreed";
     final String happenPlace = "happenPlace";
     final LocalDate happenDt = LocalDate.of(2026, 5, 20);
+    final String weight = "4(kg)";
 
     final Shelter shelter = shelterRepository.findById(1263L)
         .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
@@ -114,6 +114,8 @@ class AnimalApiControllerTest {
         .happenPlace(happenPlace)
         .happenDt(happenDt)
         .age(startYear)
+        .weight(weight)
+        .noticeSdt(happenDt)
         .noticeEdt(startDate)
         .shelter(shelter)
         .build());

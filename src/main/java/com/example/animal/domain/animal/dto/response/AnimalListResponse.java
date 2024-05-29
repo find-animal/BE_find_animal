@@ -2,23 +2,35 @@ package com.example.animal.domain.animal.dto.response;
 
 import com.example.animal.domain.animal.entity.Animal;
 import java.time.LocalDate;
+import java.util.Objects;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
 @Builder
-public class AnimalListResponse {
+public record AnimalListResponse(
+    Long id,
+    String fileName,
+    String animalBreed,
+    String happenPlace,
+    LocalDate happenDt,
+    String age,
+    String sex,
+    String weight,
+    LocalDate noticeSdt,
+    LocalDate noticeEdt
+) {
 
-  private Long id;
-  private String fileName;
-  private String animalBreed;
-  private String happenPlace;
-  private LocalDate happenDt;
-  private String age;
-  private String sex;
-  private String weight;
-  private LocalDate noticeSdt;
-  private LocalDate noticeEdt;
+  public AnimalListResponse {
+    Objects.requireNonNull(id, "id must not be null");
+    Objects.requireNonNull(fileName, "fileName must not be null");
+    Objects.requireNonNull(animalBreed, "animalBreed must not be null");
+    Objects.requireNonNull(happenPlace, "happenPlace must not be null");
+    Objects.requireNonNull(happenDt, "happenDt must not be null");
+    Objects.requireNonNull(age, "age must not be null");
+    Objects.requireNonNull(sex, "sex must not be null");
+    Objects.requireNonNull(weight, "weight must not be null");
+    Objects.requireNonNull(noticeSdt, "noticeSdt must not be null");
+    Objects.requireNonNull(noticeEdt, "noticeEdt must not be null");
+  }
 
   public static AnimalListResponse fromEntity(Animal animal) {
     return AnimalListResponse.builder()

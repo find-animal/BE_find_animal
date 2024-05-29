@@ -2,23 +2,34 @@ package com.example.animal.domain.animal.dto.response;
 
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.shelter.dto.response.ShelterResponse;
+import jakarta.validation.constraints.NotNull;
+import java.util.Objects;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
 @Builder
-public class AnimalResponse {
-
-  private String popFile;
-  private String specialMark;
-  private String age;
-  private String colorCd;
-  private String neuterYn;
-  private String sex;
-  private String weight;
-  private String happenPlace;
-  private String animalBreed;
-  private ShelterResponse shelter;
+public record AnimalResponse(
+    String popFile,
+    String specialMark,
+    String age,
+    String colorCd,
+    String neuterYn,
+    String sex,
+    String weight,
+    String happenPlace,
+    String animalBreed,
+    ShelterResponse shelter
+) {
+  public AnimalResponse {
+    Objects.requireNonNull(popFile, "popFile must not be null");
+    Objects.requireNonNull(specialMark, "specialMark must not be null");
+    Objects.requireNonNull(age, "age must not be null");
+    Objects.requireNonNull(neuterYn, "neuterYn must not be null");
+    Objects.requireNonNull(sex, "sex must not be null");
+    Objects.requireNonNull(weight, "weight must not be null");
+    Objects.requireNonNull(happenPlace, "happenPlace must not be null");
+    Objects.requireNonNull(animalBreed, "animalBreed must not be null");
+    Objects.requireNonNull(shelter, "shelter must not be null");
+  }
 
   public static AnimalResponse fromEntity(Animal animal) {
     return AnimalResponse.builder()
@@ -34,5 +45,4 @@ public class AnimalResponse {
         .shelter(ShelterResponse.fromEntity(animal.getShelter()))
         .build();
   }
-
 }

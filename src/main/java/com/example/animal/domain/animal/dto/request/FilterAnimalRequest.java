@@ -13,6 +13,7 @@ public record FilterAnimalRequest(
     @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
     Long districtId,
     Long cityProvinceId
+
 ) {
 
 }
