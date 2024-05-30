@@ -27,7 +27,6 @@ class AnimalApiControllerTest {
   protected MockMvc mockMvc;
   @Autowired
   AnimalRepository animalRepository;
-
   @Autowired
   ShelterRepository shelterRepository;
 
@@ -144,7 +143,5 @@ class AnimalApiControllerTest {
         .andExpect(jsonPath("$.content[0].age").value(startYear))
         .andExpect(jsonPath("$.content[0].sex").value(sex.label))
         .andExpect(jsonPath("$.content[0].noticeEdt").value(String.valueOf(startDate)));
-
   }
-
 }
