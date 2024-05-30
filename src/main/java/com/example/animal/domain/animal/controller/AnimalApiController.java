@@ -7,6 +7,7 @@ import com.example.animal.domain.animal.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -35,8 +36,8 @@ public class AnimalApiController {
   @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다.")
   @GetMapping("/api/animals")
   public ResponseEntity<AnimalPageResponse> findAnimals(
-      @ModelAttribute FilterAnimalRequest filterAnimalRequest,
-      @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
+      @ParameterObject @ModelAttribute FilterAnimalRequest filterAnimalRequest,
+      @ParameterObject @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
   ) {
     AnimalPageResponse animals = animalService.getFilteredAnimalList(filterAnimalRequest,
         pageable);
