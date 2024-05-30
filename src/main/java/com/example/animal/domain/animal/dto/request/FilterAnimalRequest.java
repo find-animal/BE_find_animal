@@ -2,6 +2,7 @@ package com.example.animal.domain.animal.dto.request;
 
 import com.example.animal.domain.enums.SexType;
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -11,8 +12,8 @@ public record FilterAnimalRequest(
     SexType sexCd,
     @DateTimeFormat(iso = ISO.DATE) LocalDate startDate,
     @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
-    Long districtId,
-    Long cityProvinceId
+    List<Long> districtIds,
+    List<Long> cityProvinceIds
 
 ) {
 

@@ -62,15 +62,15 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
 
   private static void checkCityProvince(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.cityProvinceId() != null) {
-      whereClause.and(animal.shelter.cityProvince.id.eq(filterAnimalRequest.cityProvinceId()));
+    if (filterAnimalRequest.cityProvinceIds() != null) {
+      whereClause.and(animal.shelter.cityProvince.id.in(filterAnimalRequest.cityProvinceIds()));
     }
   }
 
   private static void checkDistrict(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.districtId() != null) {
-      whereClause.and(animal.shelter.district.id.eq(filterAnimalRequest.districtId()));
+    if (filterAnimalRequest.districtIds() != null) {
+      whereClause.and(animal.shelter.district.id.in(filterAnimalRequest.districtIds()));
     }
   }
 
