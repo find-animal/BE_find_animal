@@ -37,7 +37,7 @@ public class AnimalService {
   //보호소 동물 상세 정보 조회
   public AnimalResponse getAnimalDetail(Long id) {
     Animal animal = animalRepository.findById(id)
-        .orElseThrow(() -> new AnimalException(ErrorCode.RESOURCE_NOT_FOUND));
+        .orElseThrow(() -> new AnimalException(ErrorCode.NO_MATCHING_RESOURCE_FOUND_BY_ID));
 
     return AnimalResponse.fromEntity(animal);
   }

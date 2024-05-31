@@ -7,6 +7,7 @@ import com.example.animal.domain.animal.entity.Animal;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -46,9 +47,8 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
 
   private static void checkNoticeDate(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.startDate() != null && filterAnimalRequest.endDate() != null) {
-      whereClause.and(animal.noticeEdt.between(filterAnimalRequest.startDate(),
-          filterAnimalRequest.endDate()));
+    if (filterAnimalRequest.canAdopt()) {
+      whereClause.and(animal.noticeEdt.after(LocalDate.now()));
     }
   }
 
