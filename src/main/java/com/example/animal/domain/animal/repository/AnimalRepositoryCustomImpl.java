@@ -4,6 +4,9 @@ import static com.example.animal.domain.animal.entity.QAnimal.animal;
 
 import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
 import com.example.animal.domain.animal.entity.Animal;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.animal.validator.AgeRangeValidator;
+import com.example.animal.exception.common.CommonErrorCode;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -41,7 +44,7 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
     checkSex(filterAnimalRequest, whereClause);
     checkDistrict(filterAnimalRequest, whereClause);
     checkCityProvince(filterAnimalRequest, whereClause);
-    checkAge(filterAnimalRequest, whereClause);
+    setAgeRange(filterAnimalRequest, whereClause);
     checkNoticeDate(filterAnimalRequest, whereClause);
   }
 
@@ -52,9 +55,11 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
     }
   }
 
-  private static void checkAge(FilterAnimalRequest filterAnimalRequest,
+  private static void setAgeRange(FilterAnimalRequest filterAnimalRequest,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.startYear() != null && filterAnimalRequest.endYear() != null) {
+    AgeRangeValidator.validate(filterAnimalRequest);
+
+    if (filterAnimalRequest.startYear() != null) {
       whereClause.and(
           animal.age.between(filterAnimalRequest.startYear(), filterAnimalRequest.endYear()));
     }
@@ -82,12 +87,18 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
   }
 
   private List<Animal> getContent(Pageable pageable, BooleanBuilder whereClause) {
-    return queryFactory
+    List<Animal> content = queryFactory
         .selectFrom(animal)
         .where(whereClause)
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
+
+    if(content.isEmpty()) {
+      throw new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE);
+    }
+
+    return content;
   }
 
   private JPQLQuery<Animal> getCount(BooleanBuilder whereClause) {
