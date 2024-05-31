@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,7 @@ public class AnimalApiController {
       content = {@Content(schema = @Schema(implementation = CustomErrorResponse.class))})
   })
   @GetMapping("/api/animals/{id}")
-  public ResponseEntity<AnimalResponse> findAnimal(@PathVariable(name = "id") Long id) {
+  public ResponseEntity<AnimalResponse> findAnimal(@Valid @PathVariable(name = "id") Long id) {
     AnimalResponse animal = animalService.getAnimalDetail(id);
 
     return ResponseEntity.ok()
@@ -47,7 +48,7 @@ public class AnimalApiController {
   @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다.")
   @GetMapping("/api/animals")
   public ResponseEntity<AnimalPageResponse> findAnimals(
-      @ParameterObject @ModelAttribute FilterAnimalRequest filterAnimalRequest,
+      @Valid @ParameterObject @ModelAttribute FilterAnimalRequest filterAnimalRequest,
       @ParameterObject @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
   ) {
     AnimalPageResponse animals = animalService.getFilteredAnimalList(filterAnimalRequest,

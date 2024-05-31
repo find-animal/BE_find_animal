@@ -1,5 +1,7 @@
 package com.example.animal.domain.animal.service;
 
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
 import com.example.animal.exception.enums.ErrorCode;
 import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
@@ -10,7 +12,6 @@ import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
-import com.example.animal.exception.animal.AnimalException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class AnimalService {
   //보호소 동물 상세 정보 조회
   public AnimalResponse getAnimalDetail(Long id) {
     Animal animal = animalRepository.findById(id)
-        .orElseThrow(() -> new AnimalException(ErrorCode.NO_MATCHING_RESOURCE_FOUND_BY_ID));
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
 
     return AnimalResponse.fromEntity(animal);
   }
