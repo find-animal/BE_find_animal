@@ -19,5 +19,9 @@ public record FilterAnimalRequest(
     List<Long> cityProvinceIds
 
 ) {
-
+    public FilterAnimalRequest {
+        if(canAdopt == null) {
+            canAdopt = false;
+        }
+    }
 }
