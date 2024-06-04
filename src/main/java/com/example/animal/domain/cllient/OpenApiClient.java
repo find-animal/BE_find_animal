@@ -32,5 +32,4 @@ public interface OpenApiClient {
   AnimalListOpenApiResponse loadAnimal(
       @RequestParam(value = "care_reg_no") String careRegNo,
       @RequestParam(value = "numOfRows") Integer numOfRows);
-
 }

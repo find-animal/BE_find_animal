@@ -12,6 +12,7 @@ import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,10 @@ public class AnimalService {
   public List<Animal> saveAll(AnimalListOpenApiResponse response, String careRegNo) {
     Shelter shelter = shelterRepository.findByCareRegNo(careRegNo)
         .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
+
+    if(response == null) {
+      return Collections.emptyList();
+    }
 
     return animalRepository.saveAll(response.getAnimals().stream()
         .map((animalResponse) -> animalResponse.toEntity(shelter))

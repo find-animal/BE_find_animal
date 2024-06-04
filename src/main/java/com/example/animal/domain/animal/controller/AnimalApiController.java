@@ -21,11 +21,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "유기동물 API", description = "유기 동물 관련 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("${server.api.prefix}/animals")
 public class AnimalApiController {
 
   private final AnimalService animalService;
@@ -37,7 +39,7 @@ public class AnimalApiController {
       @ApiResponse(responseCode = "500",description = "db에 해당 id값을 가진 데이터가 없음",
       content = {@Content(schema = @Schema(implementation = CustomErrorResponse.class))})
   })
-  @GetMapping("/api/animals/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<AnimalResponse> findAnimal(@Valid @PathVariable(name = "id") Long id) {
     AnimalResponse animal = animalService.getAnimalDetail(id);
 
@@ -46,7 +48,7 @@ public class AnimalApiController {
   }
 
   @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다.")
-  @GetMapping("/api/animals")
+  @GetMapping("")
   public ResponseEntity<AnimalPageResponse> findAnimals(
       @Valid @ParameterObject @ModelAttribute FilterAnimalRequest filterAnimalRequest,
       @ParameterObject @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
