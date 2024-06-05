@@ -5,7 +5,7 @@ import static com.example.animal.domain.animal.entity.QAnimal.animal;
 import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.exception.RestApiException;
-import com.example.animal.exception.animal.validator.AgeRangeValidator;
+import com.example.animal.exception.animal.validator.AnimalValidator;
 import com.example.animal.exception.common.CommonErrorCode;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
@@ -56,7 +56,7 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
 
   private static void setAgeRange(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    AgeRangeValidator.validate(animalSearchCondition);
+    AnimalValidator.ageValidate(animalSearchCondition);
 
     if (animalSearchCondition.startYear() != null) {
       whereClause.and(
