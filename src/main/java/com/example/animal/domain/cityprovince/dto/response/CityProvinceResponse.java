@@ -1,24 +1,19 @@
 package com.example.animal.domain.cityprovince.dto.response;
 
 import com.example.animal.domain.cityprovince.entity.CityProvince;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import lombok.Builder;
 
-@Getter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CityProvinceResponse {
-    //시도코드
-    @JsonProperty("orgCd")
-    private String orgCd;
-    //시도명
-    @JsonProperty("orgdownNm")
-    private String orgdownNm;
+@Builder
+public record CityProvinceResponse(
+    Long id,
 
-    public CityProvince toEntity() {
-        return CityProvince.builder()
-                .orgCd(this.orgCd)
-                .orgdownNm(this.orgdownNm)
-                .build();
-    }
+    String orgdownNm
+) {
+
+  public static CityProvinceResponse toEntity(CityProvince cityProvince) {
+    return CityProvinceResponse.builder()
+        .id(cityProvince.getId())
+        .orgdownNm(cityProvince.getOrgdownNm())
+        .build();
+  }
 }

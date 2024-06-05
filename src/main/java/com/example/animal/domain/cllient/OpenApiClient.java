@@ -1,7 +1,7 @@
 package com.example.animal.domain.cllient;
 
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
-import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
+import com.example.animal.domain.cityprovince.dto.response.CityProvinceListOpenApiResponse;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
 import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,7 +17,7 @@ public interface OpenApiClient {
   );
 
   @GetMapping("/sido")
-  CityProvinceListResponse loadCityProvince(
+  CityProvinceListOpenApiResponse loadCityProvince(
       @RequestParam(value = "numOfRows") int numOfRows,
       @RequestParam(value = "pageNo") int pageNo
   );

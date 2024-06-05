@@ -2,7 +2,7 @@ package com.example.animal.domain.cllient.controller;
 
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.service.AnimalService;
-import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
+import com.example.animal.domain.cityprovince.dto.response.CityProvinceListOpenApiResponse;
 import com.example.animal.domain.cityprovince.service.CityProvinceService;
 import com.example.animal.domain.cllient.service.OpenApiService;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
@@ -65,8 +65,8 @@ public class OpenApiController {
 
   @Operation(summary = "시도 정보 조회 및 저장", description = "시도 정보를 조회하고 저장합니다.")
   @GetMapping("/open-api/city-province")
-  public ResponseEntity<CityProvinceListResponse> loadSaveCityProvince() {
-    CityProvinceListResponse citiesProvinces = openApiService.loadCityProvince();
+  public ResponseEntity<CityProvinceListOpenApiResponse> loadSaveCityProvince() {
+    CityProvinceListOpenApiResponse citiesProvinces = openApiService.loadCityProvince();
 
     cityProvinceService.saveAll(citiesProvinces);
 
