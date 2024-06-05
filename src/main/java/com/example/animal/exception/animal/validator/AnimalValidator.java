@@ -4,8 +4,9 @@ import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.animal.AnimalErrorCode;
 
-public class AgeRangeValidator {
-  public static void validate(AnimalSearchCondition animalSearchCondition) {
+public class AnimalValidator {
+
+  public static void ageValidate(AnimalSearchCondition animalSearchCondition) {
     String startYear = animalSearchCondition.startYear();
     String endYear = animalSearchCondition.endYear();
 
@@ -17,7 +18,7 @@ public class AgeRangeValidator {
     }
 
     if (hasStartYear && Integer.parseInt(startYear) >= Integer.parseInt(endYear)) {
-      throw new RestApiException(AnimalErrorCode.INVALID_DATE_RANGE);
+      throw new RestApiException(AnimalErrorCode.INVALID_AGE_RANGE);
     }
   }
 }
