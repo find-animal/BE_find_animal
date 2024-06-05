@@ -1,6 +1,6 @@
 package com.example.animal.domain.animal.controller;
 
-import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
+import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.domain.animal.dto.response.AnimalPageResponse;
 import com.example.animal.domain.animal.dto.response.AnimalResponse;
 import com.example.animal.domain.animal.service.AnimalService;
@@ -50,10 +50,10 @@ public class AnimalApiController {
   @Operation(summary = "유기동물 리스트를 조회", description = "필터링된 유기동물을 조회합니다.")
   @GetMapping("")
   public ResponseEntity<AnimalPageResponse> findAnimals(
-      @Valid @ParameterObject @ModelAttribute FilterAnimalRequest filterAnimalRequest,
+      @Valid @ParameterObject @ModelAttribute AnimalSearchCondition animalSearchCondition,
       @ParameterObject @PageableDefault(sort = "noticeSdt", direction = Direction.DESC) Pageable pageable
   ) {
-    AnimalPageResponse animals = animalService.getFilteredAnimalList(filterAnimalRequest,
+    AnimalPageResponse animals = animalService.getFilteredAnimalList(animalSearchCondition,
         pageable);
 
     return ResponseEntity.ok()

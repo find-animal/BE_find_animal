@@ -2,8 +2,7 @@ package com.example.animal.domain.animal.service;
 
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.common.CommonErrorCode;
-import com.example.animal.exception.enums.ErrorCode;
-import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
+import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
 import com.example.animal.domain.animal.dto.response.AnimalPageResponse;
@@ -49,11 +48,11 @@ public class AnimalService {
   }
 
   //보호소 동물 필터
-  public AnimalPageResponse getFilteredAnimalList(FilterAnimalRequest filterAnimalRequest,
+  public AnimalPageResponse getFilteredAnimalList(AnimalSearchCondition animalSearchCondition,
       Pageable pageable) {
-    Page<Animal> animalPage = animalRepository.findAnimalByFilter(filterAnimalRequest, pageable);
+    Page<Animal> animalPage = animalRepository.findAnimalByFilter(animalSearchCondition, pageable);
     List<AnimalListResponse> animals = animalPage.getContent().stream()
-        .map((animal -> AnimalListResponse.fromEntity(animal)))
+        .map((AnimalListResponse::fromEntity))
         .toList();
 
     return AnimalPageResponse.of(animals, animalPage);
