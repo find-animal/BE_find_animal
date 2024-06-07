@@ -2,7 +2,7 @@ package com.example.animal.domain.user.dto.request;
 
 import com.example.animal.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 public record AddUserRequest(
@@ -13,9 +13,11 @@ public record AddUserRequest(
 ) {
 
   public static User toEntity(AddUserRequest request) {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     return User.builder()
         .email(request.email)
-        .password(request.password)
+        .password(encoder.encode(request.password))
         .build();
   }
 }

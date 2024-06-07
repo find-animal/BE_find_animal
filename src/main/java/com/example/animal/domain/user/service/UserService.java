@@ -6,6 +6,7 @@ import com.example.animal.domain.user.dto.response.SignupResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -24,10 +25,12 @@ public class UserService {
 
   //로그인 임시임 추후 security로 변경할 예정
   public Boolean login(LoginRequest dto) {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     User user = userRepository.findByEmail(dto.email())
         .orElseThrow(() -> new IllegalArgumentException("Not Found User Email"));
 
-    return user.getPassword().equals(dto.password());
+    return encoder.matches(dto.password(), user.getPassword());
   }
 
 }
