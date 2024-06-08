@@ -7,4 +7,6 @@ public interface ErrorCode {
   int getStatus();
 
   String getMessage();
+
+  void setMessage(String message);
 }

@@ -1,4 +1,4 @@
-package com.example.animal.exception.animal;
+package com.example.animal.exception.user;
 
 import com.example.animal.exception.enums.ErrorCode;
 import lombok.Getter;
@@ -6,9 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AnimalErrorCode implements ErrorCode {
-  MISSING_REQUIRED_FIELDS(1000,400,"Both startYear and endYear must be present or absent"),
-  INVALID_AGE_RANGE(1001,400,"StartYear must be less than endYear"),
+public enum UserErrorCode implements ErrorCode {
+
   ;
   private final int code;
   private final int status;
@@ -23,4 +22,5 @@ public enum AnimalErrorCode implements ErrorCode {
   public void setMessage(String message) {
     this.message = message;
   }
+
 }

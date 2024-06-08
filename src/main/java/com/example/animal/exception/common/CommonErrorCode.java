@@ -14,7 +14,15 @@ public enum CommonErrorCode implements ErrorCode {
 
   private final int code;
   private final int status;
-  private final String message;
+  private final String defaultMessage;
+  private String message;
 
+  public String getMessage() {
+    return (message != null) ? message : defaultMessage;
+  }
 
+  @Override
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

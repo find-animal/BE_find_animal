@@ -20,31 +20,34 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(RestApiException.class)
   public ResponseEntity<Object> handleCustomException(RestApiException e) {
     ErrorCode errorCode = e.getErrorCode();
-    return handleExceptionInternal(errorCode);
+    return handleExceptionInternal(errorCode, e.getMessage());
   }
 
   @ExceptionHandler({MethodArgumentTypeMismatchException.class})
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
       MethodArgumentTypeMismatchException e) {
     ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
-    return handleExceptionInternal(errorCode);
+    return handleExceptionInternal(errorCode, e.getMessage());
   }
 
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatusCode status, WebRequest request) {
     ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
-    return handleExceptionInternal(errorCode);
+    String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+    return handleExceptionInternal(errorCode, errorMessage);
   }
 
   @ExceptionHandler({Exception.class})
   public ResponseEntity<Object> handleAllException(Exception ex) {
-    System.out.println(ex.getMessage());
     ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
-    return handleExceptionInternal(errorCode);
+    return handleExceptionInternal(errorCode, ex.getMessage());
   }
 
-  private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
+  private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, String message) {
+    if (message != null && !message.isEmpty()) {
+      errorCode.setMessage(message);
+    }
     return ResponseEntity.status(errorCode.getStatus())
         .body(makeErrorResponse(errorCode));
   }

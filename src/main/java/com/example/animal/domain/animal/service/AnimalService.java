@@ -1,7 +1,5 @@
 package com.example.animal.domain.animal.service;
 
-import com.example.animal.exception.RestApiException;
-import com.example.animal.exception.common.CommonErrorCode;
 import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
 import com.example.animal.domain.animal.dto.response.AnimalListResponse;
@@ -11,6 +9,8 @@ import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class AnimalService {
     Shelter shelter = shelterRepository.findByCareRegNo(careRegNo)
         .orElseThrow(() -> new IllegalArgumentException("Not Found Shelter"));
 
-    if(response == null) {
+    if (response == null) {
       return Collections.emptyList();
     }
 
