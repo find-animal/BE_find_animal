@@ -5,9 +5,12 @@ import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.SignupResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.user.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,8 +19,14 @@ public class UserService {
   private final UserRepository userRepository;
 
   //회원가입
+  @Transactional
   public SignupResponse save(AddUserRequest dto) {
-    //todo 이메일 비밀번호 유효성 체크
+    //db에 해당 이메일이 존재하는 지 확인
+    userRepository.findByEmail(dto.email())
+        .ifPresent(user ->{
+          throw new RestApiException(UserErrorCode.EMAIL_ALREADY_EXISTS);
+        });
+    
     User savedUser = userRepository.save(AddUserRequest.toEntity(dto));
 
     return SignupResponse.fromEntity(savedUser);
