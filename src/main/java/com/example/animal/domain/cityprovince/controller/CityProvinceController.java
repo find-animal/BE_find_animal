@@ -23,7 +23,6 @@ public class CityProvinceController {
   @GetMapping("")
   public ResponseEntity<List<CityProvinceResponse>> findCityProvince() {
     List<CityProvinceResponse> cityProvinces = cityProvinceService.findAll();
-
     return ResponseEntity.ok()
         .body(cityProvinces);
   }

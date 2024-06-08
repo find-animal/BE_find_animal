@@ -10,7 +10,7 @@ public record CityProvinceResponse(
     String orgdownNm
 ) {
 
-  public static CityProvinceResponse toEntity(CityProvince cityProvince) {
+  public static CityProvinceResponse fromEntity(CityProvince cityProvince) {
     return CityProvinceResponse.builder()
         .id(cityProvince.getId())
         .orgdownNm(cityProvince.getOrgdownNm())

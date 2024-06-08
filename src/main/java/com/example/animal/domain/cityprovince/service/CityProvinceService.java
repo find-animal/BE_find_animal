@@ -25,7 +25,7 @@ public class CityProvinceService {
   //시도 정보 조회
   public List<CityProvinceResponse> findAll() {
     return cityProvinceRepository.findAll()
-        .stream().map(CityProvinceResponse::toEntity)
+        .stream().map(CityProvinceResponse::fromEntity)
         .toList();
   }
 }
