@@ -33,6 +33,7 @@ public class AnimalListOpenApiResponse {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
+        if(itemNode == null) return;
         this.animals = Arrays.stream(
             Optional.ofNullable(objectMapper.treeToValue(itemNode, AnimalOpenApiResponse[].class)
             ).orElse(new AnimalOpenApiResponse[0])).toList();

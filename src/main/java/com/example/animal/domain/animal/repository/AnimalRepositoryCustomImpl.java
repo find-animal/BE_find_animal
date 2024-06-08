@@ -2,10 +2,10 @@ package com.example.animal.domain.animal.repository;
 
 import static com.example.animal.domain.animal.entity.QAnimal.animal;
 
-import com.example.animal.domain.animal.dto.request.FilterAnimalRequest;
+import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.exception.RestApiException;
-import com.example.animal.exception.animal.validator.AgeRangeValidator;
+import com.example.animal.exception.animal.validator.AnimalValidator;
 import com.example.animal.exception.common.CommonErrorCode;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
@@ -25,12 +25,12 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Page<Animal> findAnimalByFilter(FilterAnimalRequest filterAnimalRequest,
+  public Page<Animal> findAnimalByFilter(AnimalSearchCondition animalSearchCondition,
       Pageable pageable) {
 
     BooleanBuilder whereClause = new BooleanBuilder();
 
-    setWhereClause(filterAnimalRequest, whereClause);
+    setWhereClause(animalSearchCondition, whereClause);
 
     List<Animal> content = getContent(pageable, whereClause);
 
@@ -39,50 +39,42 @@ public class AnimalRepositoryCustomImpl implements AnimalRepositoryCustom {
     return PageableExecutionUtils.getPage(content, pageable, count::fetchCount);
   }
 
-  private static void setWhereClause(FilterAnimalRequest filterAnimalRequest,
+  private static void setWhereClause(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    checkSex(filterAnimalRequest, whereClause);
-    checkDistrict(filterAnimalRequest, whereClause);
-    checkCityProvince(filterAnimalRequest, whereClause);
-    setAgeRange(filterAnimalRequest, whereClause);
-    checkNoticeDate(filterAnimalRequest, whereClause);
+    checkSex(animalSearchCondition, whereClause);
+    checkCityProvince(animalSearchCondition, whereClause);
+    setAgeRange(animalSearchCondition, whereClause);
+    checkNoticeDate(animalSearchCondition, whereClause);
   }
 
-  private static void checkNoticeDate(FilterAnimalRequest filterAnimalRequest,
+  private static void checkNoticeDate(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.canAdopt()) {
+    if (animalSearchCondition.canAdopt()) {
       whereClause.and(animal.noticeEdt.after(LocalDate.now()));
     }
   }
 
-  private static void setAgeRange(FilterAnimalRequest filterAnimalRequest,
+  private static void setAgeRange(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    AgeRangeValidator.validate(filterAnimalRequest);
+    AnimalValidator.ageValidate(animalSearchCondition);
 
-    if (filterAnimalRequest.startYear() != null) {
+    if (animalSearchCondition.startYear() != null) {
       whereClause.and(
-          animal.age.between(filterAnimalRequest.startYear(), filterAnimalRequest.endYear()));
+          animal.age.between(animalSearchCondition.startYear(), animalSearchCondition.endYear()));
     }
   }
 
-  private static void checkCityProvince(FilterAnimalRequest filterAnimalRequest,
+  private static void checkCityProvince(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.cityProvinceIds() != null) {
-      whereClause.and(animal.shelter.cityProvince.id.in(filterAnimalRequest.cityProvinceIds()));
+    if (animalSearchCondition.cityProvinceIds() != null) {
+      whereClause.and(animal.shelter.cityProvince.id.in(animalSearchCondition.cityProvinceIds()));
     }
   }
 
-  private static void checkDistrict(FilterAnimalRequest filterAnimalRequest,
+  private static void checkSex(AnimalSearchCondition animalSearchCondition,
       BooleanBuilder whereClause) {
-    if (filterAnimalRequest.districtIds() != null) {
-      whereClause.and(animal.shelter.district.id.in(filterAnimalRequest.districtIds()));
-    }
-  }
-
-  private static void checkSex(FilterAnimalRequest filterAnimalRequest,
-      BooleanBuilder whereClause) {
-    if (filterAnimalRequest.sexCd() != null) {
-      whereClause.and(animal.sexCd.eq(filterAnimalRequest.sexCd()));
+    if (animalSearchCondition.sexCd() != null) {
+      whereClause.and(animal.sexCd.eq(animalSearchCondition.sexCd()));
     }
   }
 

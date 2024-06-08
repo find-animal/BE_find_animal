@@ -1,7 +1,7 @@
 package com.example.animal.domain.cllient.service;
 
 import com.example.animal.domain.animal.dto.response.AnimalListOpenApiResponse;
-import com.example.animal.domain.cityprovince.dto.response.CityProvinceListResponse;
+import com.example.animal.domain.cityprovince.dto.response.CityProvinceListOpenApiResponse;
 import com.example.animal.domain.cllient.OpenApiClient;
 import com.example.animal.domain.district.dto.response.DistrictListResponse;
 import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
@@ -24,8 +24,8 @@ public class OpenApiService {
     return districts;
   }
 
-  public CityProvinceListResponse loadCityProvince() {
-    CityProvinceListResponse citiesProvinces = client.loadCityProvince(CITY_ROW_NUM, CITY_PAGE_NUM);
+  public CityProvinceListOpenApiResponse loadCityProvince() {
+    CityProvinceListOpenApiResponse citiesProvinces = client.loadCityProvince(CITY_ROW_NUM, CITY_PAGE_NUM);
 
     return citiesProvinces;
   }

@@ -7,7 +7,7 @@ import lombok.Builder;
 @Builder
 public record AnimalListResponse(
     Long id,
-    String fileName,
+    String popFile,
     String animalBreed,
     String age,
     String sex,
@@ -18,7 +18,7 @@ public record AnimalListResponse(
 
   public AnimalListResponse {
     Objects.requireNonNull(id, "id must not be null");
-    Objects.requireNonNull(fileName, "fileName must not be null");
+    Objects.requireNonNull(popFile, "popFile must not be null");
     Objects.requireNonNull(animalBreed, "animalBreed must not be null");
     Objects.requireNonNull(age, "age must not be null");
     Objects.requireNonNull(sex, "sex must not be null");
@@ -30,7 +30,7 @@ public record AnimalListResponse(
   public static AnimalListResponse fromEntity(Animal animal) {
     return AnimalListResponse.builder()
         .id(animal.getId())
-        .fileName(animal.getFileName())
+        .popFile(animal.getPopFile())
         .animalBreed(animal.getAnimalBreed())
         .age(animal.getAge())
         .sex(animal.getSexCd().label)

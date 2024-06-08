@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AnimalErrorCode implements ErrorCode {
   MISSING_REQUIRED_FIELDS(1000,400,"Both startYear and endYear must be present or absent"),
-  INVALID_DATE_RANGE(1001,400,"StartYear must be less than endYear"),
+  INVALID_AGE_RANGE(1001,400,"StartYear must be less than endYear"),
   ;
   private final int code;
   private final int status;
