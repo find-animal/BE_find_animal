@@ -21,9 +21,9 @@ public class QUser extends EntityPathBase<User> {
 
     public final com.example.animal.domain.QBaseEntity _super = new com.example.animal.domain.QBaseEntity(this);
 
-    public final StringPath email = createString("email");
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final StringPath nickname = createString("nickname");
 
     public final StringPath password = createString("password");
 

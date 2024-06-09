@@ -23,13 +23,13 @@ public class User extends BaseEntity {
   @Column(name = "USER_ID")
   private Long id;
 
-  private String email;
+  private String nickname;
 
   private String password;
 
   @Builder
-  public User(String email, String password) {
-    this.email = email;
+  public User(String nickname, String password) {
+    this.nickname = nickname;
     this.password = password;
   }
 
