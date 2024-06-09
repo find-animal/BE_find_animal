@@ -22,6 +22,8 @@ public class QShelter extends EntityPathBase<Shelter> {
 
     public static final QShelter shelter = new QShelter("shelter");
 
+    public final com.example.animal.domain.QBaseEntity _super = new com.example.animal.domain.QBaseEntity(this);
+
     public final ListPath<com.example.animal.domain.animal.entity.Animal, com.example.animal.domain.animal.entity.QAnimal> animals = this.<com.example.animal.domain.animal.entity.Animal, com.example.animal.domain.animal.entity.QAnimal>createList("animals", com.example.animal.domain.animal.entity.Animal.class, com.example.animal.domain.animal.entity.QAnimal.class, PathInits.DIRECT2);
 
     public final StringPath careAddr = createString("careAddr");
@@ -43,6 +45,12 @@ public class QShelter extends EntityPathBase<Shelter> {
     public final StringPath officeTel = createString("officeTel");
 
     public final StringPath orgNm = createString("orgNm");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> register_dtm = _super.register_dtm;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> update_dtm = _super.update_dtm;
 
     public QShelter(String variable) {
         this(Shelter.class, forVariable(variable), INITS);

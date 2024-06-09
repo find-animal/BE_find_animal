@@ -1,5 +1,6 @@
 package com.example.animal.domain.animal.entity;
 
+import com.example.animal.domain.BaseEntity;
 import com.example.animal.domain.enums.NeuterType;
 import com.example.animal.domain.enums.SexType;
 import com.example.animal.domain.shelter.entity.Shelter;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Animal {
+public class Animal extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

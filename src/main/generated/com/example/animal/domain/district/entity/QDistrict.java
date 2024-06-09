@@ -22,6 +22,8 @@ public class QDistrict extends EntityPathBase<District> {
 
     public static final QDistrict district = new QDistrict("district");
 
+    public final com.example.animal.domain.QBaseEntity _super = new com.example.animal.domain.QBaseEntity(this);
+
     public final com.example.animal.domain.cityprovince.entity.QCityProvince cityProvince;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
@@ -30,7 +32,13 @@ public class QDistrict extends EntityPathBase<District> {
 
     public final StringPath orgdownNm = createString("orgdownNm");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> register_dtm = _super.register_dtm;
+
     public final ListPath<com.example.animal.domain.shelter.entity.Shelter, com.example.animal.domain.shelter.entity.QShelter> shelters = this.<com.example.animal.domain.shelter.entity.Shelter, com.example.animal.domain.shelter.entity.QShelter>createList("shelters", com.example.animal.domain.shelter.entity.Shelter.class, com.example.animal.domain.shelter.entity.QShelter.class, PathInits.DIRECT2);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> update_dtm = _super.update_dtm;
 
     public QDistrict(String variable) {
         this(District.class, forVariable(variable), INITS);

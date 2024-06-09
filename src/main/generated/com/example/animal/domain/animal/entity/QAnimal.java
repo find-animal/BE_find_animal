@@ -22,6 +22,8 @@ public class QAnimal extends EntityPathBase<Animal> {
 
     public static final QAnimal animal = new QAnimal("animal");
 
+    public final com.example.animal.domain.QBaseEntity _super = new com.example.animal.domain.QBaseEntity(this);
+
     public final StringPath age = createString("age");
 
     public final StringPath animalBreed = createString("animalBreed");
@@ -46,11 +48,17 @@ public class QAnimal extends EntityPathBase<Animal> {
 
     public final StringPath popFile = createString("popFile");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> register_dtm = _super.register_dtm;
+
     public final EnumPath<com.example.animal.domain.enums.SexType> sexCd = createEnum("sexCd", com.example.animal.domain.enums.SexType.class);
 
     public final com.example.animal.domain.shelter.entity.QShelter shelter;
 
     public final StringPath specialMark = createString("specialMark");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> update_dtm = _super.update_dtm;
 
     public final StringPath weight = createString("weight");
 

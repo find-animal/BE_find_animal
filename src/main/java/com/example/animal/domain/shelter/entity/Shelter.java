@@ -1,5 +1,6 @@
 package com.example.animal.domain.shelter.entity;
 
+import com.example.animal.domain.BaseEntity;
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.cityprovince.entity.CityProvince;
 import com.example.animal.domain.district.entity.District;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Shelter {
+public class Shelter extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
