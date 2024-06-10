@@ -35,9 +35,9 @@ public class AnimalApiController {
   @Operation(summary = "유기동물 상세 정보 조회", description = "유기 동물의 정보가 조회됩니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "성공",
-      content = {@Content(schema = @Schema(implementation = AnimalResponse.class))}),
-      @ApiResponse(responseCode = "500",description = "db에 해당 id값을 가진 데이터가 없음",
-      content = {@Content(schema = @Schema(implementation = CustomErrorResponse.class))})
+          content = {@Content(schema = @Schema(implementation = AnimalResponse.class))}),
+      @ApiResponse(responseCode = "500", description = "db에 해당 id값을 가진 데이터가 없음",
+          content = {@Content(schema = @Schema(implementation = CustomErrorResponse.class))})
   })
   @GetMapping("/{id}")
   public ResponseEntity<AnimalResponse> findAnimal(@Valid @PathVariable(name = "id") Long id) {

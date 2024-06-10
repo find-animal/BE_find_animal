@@ -1,13 +1,17 @@
 package com.example.animal.domain.user.service;
 
+import com.example.animal.config.jwt.TokenProvider;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
+import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.SignupResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.user.UserErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final TokenProvider tokenProvider;
 
   //회원가입
   @Transactional
@@ -33,13 +38,21 @@ public class UserService {
   }
 
   //로그인 임시임 추후 security로 변경할 예정
-  public Boolean login(LoginRequest dto) {
+  public LoginResponse login(LoginRequest dto) {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     User user = userRepository.findByNickname(dto.id())
-        .orElseThrow(() -> new IllegalArgumentException("Not Found User Email"));
+        .orElseThrow(() -> new UsernameNotFoundException("Not Found User Nickname"));
 
-    return encoder.matches(dto.password(), user.getPassword());
+    if(!encoder.matches(dto.password(), user.getPassword())) {
+      throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+    }
+
+    String token = tokenProvider.generateToken(user);
+
+    return LoginResponse.builder()
+        .jwt(token)
+        .build();
   }
 
 }

@@ -1,5 +1,6 @@
 package com.example.animal.config;
 
+import com.example.animal.config.jwt.TokenProvider;
 import com.example.animal.domain.user.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
 
   private final UserDetailService userDetailService;
+  private final TokenProvider tokenProvider;
 
   private String[] whiteList = {"/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
       "/api-docs/**", "/v3/api-docs/**", "api/v1/animals/**","api/v1/user/**","/api/v1/cityProvince","/open-api/**"};
@@ -33,9 +36,10 @@ public class SecurityConfig {
         )
         .sessionManagement(config -> config.sessionCreationPolicy(
             SessionCreationPolicy.STATELESS))//jwt로 인증을 진행하므로 세션은 stateless
+        .addFilterBefore(new TokenAuthenticationFilter(tokenProvider),
+            UsernamePasswordAuthenticationFilter.class)
     ;
     //jwt 필터를 추후에 추가해줘야한다.
-
     return http.build();
   }
 

@@ -2,6 +2,7 @@ package com.example.animal.domain.user.controller;
 
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
+import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.SignupResponse;
 import com.example.animal.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,10 +34,9 @@ public class UserController {
 
   @Operation(summary = "로그인", description = "임시용 임")
   @PostMapping("login")
-  public ResponseEntity<Boolean> login(@RequestBody LoginRequest request) {
-    Boolean result = userService.login(request);
-
+  public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    LoginResponse response = userService.login(request);
     return ResponseEntity.ok()
-        .body(result);
+        .body(response);
   }
 }
