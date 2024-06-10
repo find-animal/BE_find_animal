@@ -2,6 +2,8 @@ package com.example.animal.config.jwt;
 
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.jwt.JwtErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -49,16 +51,13 @@ public class TokenProvider {
           .build()
           .parseSignedClaims(token);
       return true;
-    } catch (SecurityException | MalformedJwtException e) {
-      System.out.println("Invalid JWT Token");
+    } catch (SecurityException | MalformedJwtException | UnsupportedJwtException e) {
+      throw new RestApiException(JwtErrorCode.INVALID_TOKEN);
     } catch (ExpiredJwtException e) {
-      System.out.println("Expired JWT Token");
-    } catch (UnsupportedJwtException e) {
-      System.out.println("Unsupported JWT Token");
+      throw new RestApiException(JwtErrorCode.EXPIRED_TOKEN);
     } catch (IllegalArgumentException e) {
-      System.out.println("JWT claims string is empty");
+      throw new RestApiException(JwtErrorCode.CLAIMS_IS_EMPTY);
     }
-    return false;
   }
 
   //토큰 기반으로 인증 정보를 가져오는 메소드
@@ -66,10 +65,11 @@ public class TokenProvider {
     Claims claims = getClaims(token);
     Long userId = Long.parseLong(claims.getSubject());
 
-    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Not Found User"));
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("Not Found User"));
 
     return new UsernamePasswordAuthenticationToken(
-        user,null,user.getAuthorities()
+        user, null, user.getAuthorities()
     );
 
 

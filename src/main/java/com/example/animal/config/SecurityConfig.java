@@ -1,5 +1,7 @@
 package com.example.animal.config;
 
+import com.example.animal.config.jwt.JwtExceptionFilter;
+import com.example.animal.config.jwt.TokenAuthenticationFilter;
 import com.example.animal.config.jwt.TokenProvider;
 import com.example.animal.domain.user.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class SecurityConfig {
 
   private final UserDetailService userDetailService;
   private final TokenProvider tokenProvider;
+  private final JwtExceptionFilter jwtExceptionFilter;
 
   private String[] whiteList = {"/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
       "/api-docs/**", "/v3/api-docs/**", "api/v1/animals/**","api/v1/user/**","/api/v1/cityProvince","/open-api/**"};
@@ -38,6 +41,7 @@ public class SecurityConfig {
             SessionCreationPolicy.STATELESS))//jwt로 인증을 진행하므로 세션은 stateless
         .addFilterBefore(new TokenAuthenticationFilter(tokenProvider),
             UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(jwtExceptionFilter, TokenAuthenticationFilter.class)
     ;
     //jwt 필터를 추후에 추가해줘야한다.
     return http.build();

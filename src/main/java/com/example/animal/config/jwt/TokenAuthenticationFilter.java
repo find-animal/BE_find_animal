@@ -1,7 +1,5 @@
-package com.example.animal.config;
+package com.example.animal.config.jwt;
 
-import com.example.animal.config.jwt.TokenProvider;
-import com.example.animal.domain.user.entity.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +26,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     //가져온 값에서 접두사 제거
     String token = getAccessToken(authorizationHeader);
     //가져온 토큰이 유효한지 확인하고, 유효하다면 인증 정보를 설정
-    if (tokenProvider.validToken(token)) {
+    //임시로 null이면은 그냥 넘어가게 해놈 추후 빼야함
+    if (token != null && tokenProvider.validToken(token)) {
       Authentication authentication = tokenProvider.getAuthentication(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
