@@ -32,6 +32,8 @@ public class User extends BaseEntity implements UserDetails {
 
   private String password;
 
+  private String favoriteAnimal = "";
+
   @Builder
   public User(String nickname, String password) {
     this.nickname = nickname;
@@ -41,6 +43,11 @@ public class User extends BaseEntity implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(("ROLE_USER")));
+  }
+
+  public void setFavoriteAnimal(Long id) {
+    this.favoriteAnimal += id + ",";
+    System.out.println(this.favoriteAnimal);
   }
 
   @Override
