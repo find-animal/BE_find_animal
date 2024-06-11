@@ -1,8 +1,6 @@
 package com.example.animal.domain.user.service;
 
-import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +18,5 @@ public class UserDetailService implements UserDetailsService {
   public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
     return userRepository.findByNickname(nickname)
         .orElseThrow(() -> new IllegalArgumentException("Not Found User Email"));
-
   }
 }

@@ -39,6 +39,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     //로그인 회원가입시에는 이전에 토큰이 없기에 토큰 필터를 거치지 않고 sercurity로 넘어감
+    //swagger도 추가해줘야함
     String excludePath = "/api/v1/user";
     String path = request.getRequestURI();
     return path.startsWith(excludePath);

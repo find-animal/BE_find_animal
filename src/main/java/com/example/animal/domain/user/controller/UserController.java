@@ -34,7 +34,7 @@ public class UserController {
 
   @Operation(summary = "로그인", description = "임시용 임")
   @PostMapping("login")
-  public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+  public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
     LoginResponse response = userService.login(request);
     return ResponseEntity.ok()
         .body(response);

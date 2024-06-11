@@ -10,8 +10,6 @@ import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.user.UserErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +26,10 @@ public class UserService {
   public SignupResponse save(AddUserRequest dto) {
     //db에 해당 이메일이 존재하는 지 확인
     userRepository.findByNickname(dto.nickname())
-        .ifPresent(user ->{
+        .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.EMAIL_ALREADY_EXISTS);
         });
-    
+
     User savedUser = userRepository.save(AddUserRequest.toEntity(dto));
 
     return SignupResponse.fromEntity(savedUser);
@@ -42,10 +40,10 @@ public class UserService {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     User user = userRepository.findByNickname(dto.id())
-        .orElseThrow(() -> new UsernameNotFoundException("Not Found User Nickname"));
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
-    if(!encoder.matches(dto.password(), user.getPassword())) {
-      throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+    if (!encoder.matches(dto.password(), user.getPassword())) {
+      throw new RestApiException(UserErrorCode.INVALID_PASSWORD);
     }
 
     String token = tokenProvider.generateToken(user);
