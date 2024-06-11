@@ -1,11 +1,12 @@
 package com.example.animal.config.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
-import io.jsonwebtoken.Jwt;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.jwt.JwtErrorCode;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,9 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:application-test.yml")
 class TokenProviderTest {
 
   @Autowired
@@ -69,10 +73,14 @@ class TokenProviderTest {
         .createToken(jwtProperties);
 
     //when
-    boolean result = tokenProvider.validToken(token);
+    Throwable thrown = catchThrowable(
+        () -> tokenProvider.validToken(token)
+    );
 
     //then
-    assertThat(result).isFalse();
+    assertThat(thrown)
+        .isInstanceOf(RestApiException.class)
+        .hasFieldOrPropertyWithValue("errorCode", JwtErrorCode.EXPIRED_TOKEN);
   }
 
   @DisplayName("[성공] 토큰 기반으로 인증정보를 가져온다.")
