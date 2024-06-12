@@ -1,6 +1,7 @@
 package com.example.animal.domain.animal.controller;
 
 import com.example.animal.domain.animal.dto.request.AnimalSearchCondition;
+import com.example.animal.domain.animal.dto.response.AnimalListResponse;
 import com.example.animal.domain.animal.dto.response.AnimalPageResponse;
 import com.example.animal.domain.animal.dto.response.AnimalResponse;
 import com.example.animal.domain.animal.service.AnimalService;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnimalApiController {
 
   private final AnimalService animalService;
+
+  @Operation(summary = "관심동물 리스트 조회", description = "관심동물 리스트를 조회합니다.")
+  @GetMapping("/favorite/{userId}")
+  public ResponseEntity<List<AnimalListResponse>> findFavoriteAnimals(
+      @PathVariable(name = "userId") Long userId) {
+    List<AnimalListResponse> animals = animalService.findFavoriteAnimals(userId);
+
+    return ResponseEntity.ok()
+        .body(animals);
+  }
 
   @Operation(summary = "유기동물 상세 정보 조회", description = "유기 동물의 정보가 조회됩니다.")
   @ApiResponses(value = {
