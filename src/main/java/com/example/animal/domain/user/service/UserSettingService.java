@@ -34,8 +34,6 @@ public class UserSettingService {
 
     user.setId(updateIdRequest.id());
 
-    userRepository.save(user);
-
     return UserResponse.fromEntity(user);
   }
 
@@ -48,8 +46,6 @@ public class UserSettingService {
 
     //암호화시켜서 넣어야함
     user.setPassword(bCryptPasswordEncoder.encode(updatePasswordRequest.password()));
-
-    userRepository.save(user);
 
     return UserResponse.fromEntity(user);
   }

@@ -29,10 +29,8 @@ public class User extends BaseEntity implements UserDetails {
   @Column(name = "USER_ID")
   private Long userId;
 
-  @Setter
   private String id;
 
-  @Setter
   private String password;
 
   private String favoriteAnimal = "";
@@ -46,6 +44,14 @@ public class User extends BaseEntity implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority(("ROLE_USER")));
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public void setFavoriteAnimal(Long id) {
