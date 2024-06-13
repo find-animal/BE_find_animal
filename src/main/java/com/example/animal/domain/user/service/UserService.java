@@ -59,7 +59,7 @@ public class UserService {
   @Transactional
   public SignupResponse save(AddUserRequest dto) {
     //db에 해당 이메일이 존재하는 지 확인
-    userRepository.findByNickname(dto.nickname())
+    userRepository.findById(dto.id())
         .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.EMAIL_ALREADY_EXISTS);
         });
@@ -73,7 +73,7 @@ public class UserService {
   public LoginResponse login(LoginRequest dto) {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    User user = userRepository.findByNickname(dto.id())
+    User user = userRepository.findById(dto.id())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
     if (!encoder.matches(dto.password(), user.getPassword())) {

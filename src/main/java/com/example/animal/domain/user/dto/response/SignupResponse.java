@@ -5,13 +5,13 @@ import lombok.Builder;
 
 @Builder
 public record SignupResponse(
-    String nickname,
+    String id,
     String password
 ) {
 
   public static SignupResponse fromEntity(User user) {
     return SignupResponse.builder()
-        .nickname(user.getNickname())
+        .id(user.getId())
         .password(user.getPassword())
         .build();
   }

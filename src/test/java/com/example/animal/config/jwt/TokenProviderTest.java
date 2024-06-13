@@ -60,7 +60,7 @@ class TokenProviderTest {
         .getSubject());
 
     //then
-    assertThat(userId).isEqualTo(testUser.getId());
+    assertThat(userId).isEqualTo(testUser.getUserId());
   }
 
   @DisplayName("[실패] 유효기간이 만료된 토큰일 때 유효성 검증에 실패한다.")
@@ -91,9 +91,9 @@ class TokenProviderTest {
         .nickname("test")
         .password("test")
         .build());
-    Map<String,Object> claims = Map.of("nickname",testUser.getNickname());
+    Map<String,Object> claims = Map.of("nickname",testUser.getId());
     String token = JwtFactory.builder()
-        .subject(testUser.getId().toString())
+        .subject(testUser.getUserId().toString())
         .claims(claims)
         .build()
         .createToken(jwtProperties);

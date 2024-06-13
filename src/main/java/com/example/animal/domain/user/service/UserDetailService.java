@@ -15,8 +15,8 @@ public class UserDetailService implements UserDetailsService {
 
   //사용자 이름으로 사용자 정보를 가져오는 메소드
   @Override
-  public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-    return userRepository.findByNickname(nickname)
-        .orElseThrow(() -> new IllegalArgumentException("Not Found User Email"));
+  public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+    return userRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Not Found User"));
   }
 }

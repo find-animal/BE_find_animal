@@ -23,9 +23,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath favoriteAnimal = createString("favoriteAnimal");
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final StringPath nickname = createString("nickname");
+    public final StringPath id = createString("id");
 
     public final StringPath password = createString("password");
 
@@ -34,6 +32,8 @@ public class QUser extends EntityPathBase<User> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> update_dtm = _super.update_dtm;
+
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));

@@ -26,17 +26,17 @@ public class User extends BaseEntity implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "USER_ID")
-  private Long id;
+  private Long userId;
 
-  private String nickname;
+  private String id;
 
   private String password;
 
   private String favoriteAnimal = "";
 
   @Builder
-  public User(String nickname, String password) {
-    this.nickname = nickname;
+  public User(String id, String password) {
+    this.id = id;
     this.password = password;
   }
 
@@ -52,7 +52,7 @@ public class User extends BaseEntity implements UserDetails {
 
   @Override
   public String getUsername() {
-    return nickname;
+    return id;
   }
 
   @Override //계정 만료 여부 반환

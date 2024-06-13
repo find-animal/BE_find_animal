@@ -33,7 +33,7 @@ public class TokenProvider {
     Date now = new Date();
     String jwt = Jwts.builder()
         .issuer(jwtProperties.getIssuer())
-        .subject(user.getId().toString())
+        .subject(user.getUserId().toString())
         .issuedAt(now)
         .signWith(getSigningKey())
         .expiration(new Date(now.getTime() + jwtProperties.getExpirationDate())) //현재시간 + 1일 임시임
@@ -86,7 +86,7 @@ public class TokenProvider {
   //claims payload에 들어갈 내용 추가
   private Map<String, ?> getClaimsMap(User user) {
     Map<String, String> map = new HashMap<>();
-    map.put("nickname", user.getNickname());
+    map.put("nickname", user.getId());
     map.put("password", user.getPassword());
 
     return map;
