@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 public record AddUserRequest(
-    @Schema(description = "이메일", example = "abc123@mail.com")
+    @Schema(description = "아이디", example = "abc1")
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(min = 4, message = "아이디는 최소 4글자 이상이어야 합니다.")
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영문자와 숫자만 사용할 수 있습니다.")
