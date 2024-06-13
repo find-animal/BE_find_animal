@@ -32,6 +32,7 @@ public class User extends BaseEntity implements UserDetails {
   @Setter
   private String id;
 
+  @Setter
   private String password;
 
   private String favoriteAnimal = "";

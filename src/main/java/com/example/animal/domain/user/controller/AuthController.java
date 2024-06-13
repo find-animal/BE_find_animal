@@ -25,16 +25,6 @@ public class AuthController {
 
   private final AuthService authService;
 
-  @Operation(summary = "관심 유기동물 추가", description = "관심 유기동물이 user 정보에 저장이 됩니다.")
-  @PostMapping("/saveAnimal")
-  public ResponseEntity<FavoriteAnimalResponse> addFavoriteAnimal(
-      @Valid @RequestBody AddFavoriteAnimalRequest addFavoriteAnimalRequest) {
-    FavoriteAnimalResponse response = authService.saveFavoriteAnimal(addFavoriteAnimalRequest);
-
-    return ResponseEntity.ok()
-        .body(response);
-  }
-
   @Operation(summary = "회원가입")
   @PostMapping("/signup")
   public ResponseEntity<UserResponse> signup(@Valid @RequestBody AddUserRequest request) {

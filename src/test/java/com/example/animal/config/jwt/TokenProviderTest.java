@@ -44,7 +44,7 @@ class TokenProviderTest {
   public void generateToken() {
     //given
     User testUser = userRepository.save(User.builder()
-        .nickname("test")
+        .id("test")
         .password("test")
         .build());
 
@@ -88,7 +88,7 @@ class TokenProviderTest {
   public void getAuthentication() {
     //given
     User testUser = userRepository.save(User.builder()
-        .nickname("test")
+        .id("test")
         .password("test")
         .build());
     Map<String,Object> claims = Map.of("nickname",testUser.getId());

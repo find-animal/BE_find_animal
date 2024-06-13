@@ -1,6 +1,7 @@
 package com.example.animal.domain.user.controller;
 
 import com.example.animal.domain.user.dto.request.UpdateIdRequest;
+import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.service.UserSettingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "유저 API", description = "유저 설정 관련 API")
+@Tag(name = "유저 설정 API", description = "유저 설정 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${server.api.prefix}/userSetting")
@@ -24,17 +25,27 @@ public class UserSettingController {
 
   //아이디 변경
   @Operation(summary = "아이디 변경")
-  @PatchMapping("/{userId}")
+  @PatchMapping("/id/{userId}")
   public ResponseEntity<UserResponse> updateId(
       @PathVariable(name = "userId") Long userId,
       @RequestBody @Valid UpdateIdRequest updateIdRequest
   ) {
-    UserResponse response = userSettingService.updateId(userId,updateIdRequest);
+    UserResponse response = userSettingService.updateId(userId, updateIdRequest);
 
     return ResponseEntity.ok()
         .body(response);
   }
 
   //비밀번호 변경
+  @Operation(summary = "비밀번호 변경")
+  @PatchMapping("/password/{userId}")
+  public ResponseEntity<UserResponse> updatePassword(
+      @PathVariable(name = "userId") Long userId,
+      @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest
+  ) {
+    UserResponse response = userSettingService.updatePassword(userId, updatePasswordRequest);
 
+    return ResponseEntity.ok()
+        .body(response);
+  }
 }
