@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "유저 관심 동물 api")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.api.prefix}/userFavorite")
+@RequestMapping("${server.api.prefix}/user")
 public class UserController {
 
   private final UserFavoriteService userFavoriteService;
