@@ -50,7 +50,10 @@ public class User extends BaseEntity implements UserDetails {
 
   public void setFavoriteAnimal(Long id) {
     this.favoriteAnimal += id + ",";
-    System.out.println(this.favoriteAnimal);
+  }
+
+  public void setFavoriteAnimal(String list) {
+    this.favoriteAnimal = list;
   }
 
   @Override

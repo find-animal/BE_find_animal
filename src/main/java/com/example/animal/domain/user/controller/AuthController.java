@@ -1,7 +1,5 @@
 package com.example.animal.domain.user.controller;
 
-import com.example.animal.domain.user.dto.request.AddFavoriteAnimalRequest;
-import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.LoginResponse;
