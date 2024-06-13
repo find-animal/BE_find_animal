@@ -4,13 +4,13 @@ import com.example.animal.domain.user.entity.User;
 import lombok.Builder;
 
 @Builder
-public record SignupResponse(
+public record UserResponse(
     String id,
     String password
 ) {
 
-  public static SignupResponse fromEntity(User user) {
-    return SignupResponse.builder()
+  public static UserResponse fromEntity(User user) {
+    return UserResponse.builder()
         .id(user.getId())
         .password(user.getPassword())
         .build();

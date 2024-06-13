@@ -8,7 +8,7 @@ import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
-import com.example.animal.domain.user.dto.response.SignupResponse;
+import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class AuthService {
 
   private final UserRepository userRepository;
   private final TokenProvider tokenProvider;
@@ -57,7 +57,7 @@ public class UserService {
 
   //회원가입
   @Transactional
-  public SignupResponse save(AddUserRequest dto) {
+  public UserResponse save(AddUserRequest dto) {
     //db에 해당 이메일이 존재하는 지 확인
     userRepository.findById(dto.id())
         .ifPresent(user -> {
@@ -66,7 +66,7 @@ public class UserService {
 
     User savedUser = userRepository.save(AddUserRequest.toEntity(dto));
 
-    return SignupResponse.fromEntity(savedUser);
+    return UserResponse.fromEntity(savedUser);
   }
 
   //로그인 임시임 추후 security로 변경할 예정

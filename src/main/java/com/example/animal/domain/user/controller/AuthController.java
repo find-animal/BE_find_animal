@@ -5,8 +5,8 @@ import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.LoginResponse;
-import com.example.animal.domain.user.dto.response.SignupResponse;
-import com.example.animal.domain.user.service.UserService;
+import com.example.animal.domain.user.dto.response.UserResponse;
+import com.example.animal.domain.user.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "유저 API", description = "유저 관련 API")
+@Tag(name = "Auth API", description = "Auth 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${server.api.prefix}/user")
-public class UserController {
+@RequestMapping("${server.api.prefix}/auth")
+public class AuthController {
 
-  private final UserService userService;
+  private final AuthService authService;
 
   @Operation(summary = "관심 유기동물 추가", description = "관심 유기동물이 user 정보에 저장이 됩니다.")
   @PostMapping("/saveAnimal")
   public ResponseEntity<FavoriteAnimalResponse> addFavoriteAnimal(
       @Valid @RequestBody AddFavoriteAnimalRequest addFavoriteAnimalRequest) {
-    FavoriteAnimalResponse response = userService.saveFavoriteAnimal(addFavoriteAnimalRequest);
+    FavoriteAnimalResponse response = authService.saveFavoriteAnimal(addFavoriteAnimalRequest);
 
     return ResponseEntity.ok()
         .body(response);
@@ -37,8 +37,8 @@ public class UserController {
 
   @Operation(summary = "회원가입")
   @PostMapping("/signup")
-  public ResponseEntity<SignupResponse> signup(@Valid @RequestBody AddUserRequest request) {
-    SignupResponse response = userService.save(request);
+  public ResponseEntity<UserResponse> signup(@Valid @RequestBody AddUserRequest request) {
+    UserResponse response = authService.save(request);
 
     return ResponseEntity.ok()
         .body(response);
@@ -47,7 +47,7 @@ public class UserController {
   @Operation(summary = "로그인", description = "임시용 임")
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-    LoginResponse response = userService.login(request);
+    LoginResponse response = authService.login(request);
     return ResponseEntity.ok()
         .body(response);
   }
