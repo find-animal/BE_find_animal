@@ -2,6 +2,7 @@ package com.example.animal.domain.shelter.repository;
 
 import com.example.animal.domain.shelter.dto.ShelterSearchCondition;
 import com.example.animal.domain.shelter.dto.response.SheltersResponse;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,11 @@ public class ShelterQueryDslRepository {
     }
 
     public Page<SheltersResponse> findAllShelters(ShelterSearchCondition shelterSearchCondition, Pageable pageable) {
+        BooleanBuilder whereClause = new BooleanBuilder();
+        if (shelterSearchCondition.cityProvinceId() != null) {
+            whereClause.and(shelter.cityProvince.id.in(shelterSearchCondition.cityProvinceId()));
+        }
+
         List<SheltersResponse> shelters = query
                 .select(Projections.fields(
                         SheltersResponse.class,
@@ -39,6 +45,7 @@ public class ShelterQueryDslRepository {
 
                 ))
                 .from(shelter)
+                .where(whereClause)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

@@ -26,7 +26,7 @@ public class SecurityConfig {
   private final JwtExceptionFilter jwtExceptionFilter;
 
   private String[] whiteList = {"/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
-      "/api-docs/**", "/v3/api-docs/**", "api/v1/animals/**","api/v1/user/**","/api/v1/cityProvince/**","/open-api/**"};
+      "/api-docs/**", "/v3/api-docs/**", "api/v1/animals/**","api/v1/user/**","/api/v1/cityProvince/**","/open-api/**", "api/v1/shelter/**"};
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
