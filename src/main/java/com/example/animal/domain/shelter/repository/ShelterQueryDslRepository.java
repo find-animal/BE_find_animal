@@ -53,6 +53,7 @@ public class ShelterQueryDslRepository {
         long totalCount = query
                 .select(shelter.id.countDistinct())
                 .from(shelter)
+                .where(whereClause)
                 .fetchCount();
         return new PageImpl<>(shelters, pageable, totalCount);
     }
