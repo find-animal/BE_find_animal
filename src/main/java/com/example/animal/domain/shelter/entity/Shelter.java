@@ -38,12 +38,12 @@ public class Shelter extends BaseEntity {
   //담당자 연락처
   private String officeTel;
   //시도명
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "DISTRICT_ID")
   private District district;
 
   //도시면
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CITYPROVINCE_ID")
   private CityProvince cityProvince;
 
