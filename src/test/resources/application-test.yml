@@ -20,6 +20,6 @@ server:
   port: 9000
 
 jwt:
-  issuer: find_animal
-  secret_key: ZmluZF9hbmltYWxfc2VjcmV0X2tleWZpbmRfYW5pbWFsX3NlY3JldF9rZXlmaW5kX2FuaW1hbF9zZWNyZXRfa2V5ZmluZF9hbmltYWxfc2VjcmV0X2tleQ
-  expiration_date: 86400000
+  issuer: ${jwt_issuer}
+  secret_key: ${jwt_secret_key}
+  expiration_date: ${jwt_expiration_date}
