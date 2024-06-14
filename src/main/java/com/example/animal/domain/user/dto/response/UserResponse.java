@@ -5,14 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record UserResponse(
-    String id,
-    String password
+    String id
 ) {
 
   public static UserResponse fromEntity(User user) {
     return UserResponse.builder()
         .id(user.getId())
-        .password(user.getPassword())
         .build();
   }
 }

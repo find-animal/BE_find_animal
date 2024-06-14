@@ -1,9 +1,10 @@
 package com.example.animal.domain.user.service;
 
 import com.example.animal.config.jwt.TokenProvider;
-import com.example.animal.domain.animal.repository.AnimalRepository;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
+import com.example.animal.domain.user.dto.request.UpdateIdRequest;
+import com.example.animal.domain.user.dto.response.CheckIdResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
@@ -22,6 +23,18 @@ public class AuthService {
   private final UserRepository userRepository;
   private final TokenProvider tokenProvider;
 
+  //아이디 체크
+  public CheckIdResponse checkId(UpdateIdRequest updateIdRequest) {
+    CheckIdResponse response = new CheckIdResponse(true);
+    
+    userRepository.findById(updateIdRequest.id())
+        .ifPresent(user -> {
+          throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
+        });
+
+    return response;
+  }
+
   //회원가입
   @Transactional
   public UserResponse save(AddUserRequest dto) {
@@ -36,7 +49,7 @@ public class AuthService {
     return UserResponse.fromEntity(savedUser);
   }
 
-  //로그인 임시임 추후 security로 변경할 예정
+  //로그인
   public LoginResponse login(LoginRequest dto) {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
