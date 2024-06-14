@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: animal
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+server:
+  port: 9000
+
+jwt:
+  issuer: find_animal
+  secret_key: ZmluZF9hbmltYWxfc2VjcmV0X2tleWZpbmRfYW5pbWFsX3NlY3JldF9rZXlmaW5kX2FuaW1hbF9zZWNyZXRfa2V5ZmluZF9hbmltYWxfc2VjcmV0X2tleQ
+  expiration_date: 86400000

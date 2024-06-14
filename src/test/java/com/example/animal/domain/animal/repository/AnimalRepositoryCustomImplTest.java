@@ -81,7 +81,7 @@ class AnimalRepositoryCustomImplTest {
         .happenDt(LocalDate.of(2024, 5, 29))
         .kindCd("[개] 믹스견")
         .sexCd(SexType.M)
-        .noticeEdt(LocalDate.of(2024, 6, 10))
+        .noticeEdt(LocalDate.of(2025, 6, 10))
         .noticeSdt(LocalDate.of(2024, 5, 30))
         .shelter(savedShelter)
         .build();
