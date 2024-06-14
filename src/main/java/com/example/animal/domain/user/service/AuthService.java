@@ -26,7 +26,7 @@ public class AuthService {
   //아이디 체크
   public CheckIdResponse checkId(UpdateIdRequest updateIdRequest) {
     CheckIdResponse response = new CheckIdResponse(true);
-    
+
     userRepository.findById(updateIdRequest.id())
         .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
