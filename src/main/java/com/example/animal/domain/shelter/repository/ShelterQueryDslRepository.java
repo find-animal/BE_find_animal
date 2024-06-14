@@ -30,19 +30,18 @@ public class ShelterQueryDslRepository {
 
     public Page<SheltersResponse> findAllShelters(ShelterSearchCondition shelterSearchCondition, Pageable pageable) {
         BooleanBuilder whereClause = new BooleanBuilder();
-        if (shelterSearchCondition.cityProvinceId() != null) {
+        if (!shelterSearchCondition.cityProvinceId().isEmpty()) {
             whereClause.and(shelter.cityProvince.id.in(shelterSearchCondition.cityProvinceId()));
         }
 
         List<SheltersResponse> shelters = query
-                .select(Projections.fields(
+                .select(Projections.constructor(
                         SheltersResponse.class,
-                        shelter.id.as("SHELTER_ID"),
-                        shelter.careNm.as("care_nm"),
-                        shelter.careRegNo.as("care_reg_no"),
-                        shelter.careAddr.as("care_addr"),
-                        shelter.careTel.as("care_tel")
-
+                        shelter.id.as("id"),
+                        shelter.careNm.as("careNm"),
+                        shelter.careRegNo.as("careRegNo"),
+                        shelter.careAddr.as("careAddr"),
+                        shelter.careTel.as("careTel")
                 ))
                 .from(shelter)
                 .where(whereClause)
