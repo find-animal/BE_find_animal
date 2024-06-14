@@ -1,4 +1,9 @@
 package com.example.animal.domain.shelter.dto;
 
-public record ShelterSearchCondition(int pageNo) {
+import java.util.List;
+
+public record ShelterSearchCondition(
+        int pageNo
+        , List<Long> cityProvinceId
+) {
 }
