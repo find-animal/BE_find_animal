@@ -25,6 +25,7 @@ public class UserWebConfig implements WebMvcConfigurer {
                 HttpMethod.HEAD.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),
+                HttpMethod.PATCH.name(),
                 HttpMethod.DELETE.name()
             ); //허용할 메소드
       }
