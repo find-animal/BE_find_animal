@@ -3,6 +3,7 @@ package com.example.animal.config.jwt;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
 import com.example.animal.exception.jwt.JwtErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -66,7 +67,7 @@ public class TokenProvider {
     Long userId = Long.parseLong(claims.getSubject());
 
     User user = userRepository.findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("Not Found User"));
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
 
     return new UsernamePasswordAuthenticationToken(
         user, null, user.getAuthorities()
@@ -87,8 +88,6 @@ public class TokenProvider {
   private Map<String, ?> getClaimsMap(User user) {
     Map<String, String> map = new HashMap<>();
     map.put("nickname", user.getId());
-    map.put("password", user.getPassword());
-
     return map;
   }
 
