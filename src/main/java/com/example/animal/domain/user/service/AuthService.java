@@ -2,8 +2,8 @@ package com.example.animal.domain.user.service;
 
 import com.example.animal.config.jwt.TokenProvider;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
+import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
-import com.example.animal.domain.user.dto.request.UpdateIdRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
@@ -24,10 +24,10 @@ public class AuthService {
   private final TokenProvider tokenProvider;
 
   //아이디 체크
-  public CheckIdResponse checkId(UpdateIdRequest updateIdRequest) {
+  public CheckIdResponse checkId(CheckIdRequest checkIdRequest) {
     CheckIdResponse response = new CheckIdResponse(true);
 
-    userRepository.findById(updateIdRequest.id())
+    userRepository.findById(checkIdRequest.id())
         .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
         });

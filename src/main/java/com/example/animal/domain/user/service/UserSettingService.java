@@ -1,6 +1,5 @@
 package com.example.animal.domain.user.service;
 
-import com.example.animal.domain.user.dto.request.UpdateIdRequest;
 import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
@@ -18,24 +17,6 @@ public class UserSettingService {
 
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-  //아이디 변경
-  @Transactional
-  public UserResponse updateId(Long userId, UpdateIdRequest updateIdRequest) {
-    //유저 찾기
-    User user = userRepository.findById(userId)
-        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
-
-    //중복된 아이디 처리
-    userRepository.findById(updateIdRequest.id())
-        .ifPresent(savedUser -> {
-          throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
-        });
-
-    user.setId(updateIdRequest.id());
-
-    return UserResponse.fromEntity(user);
-  }
 
   //비밀번호 변경
   @Transactional

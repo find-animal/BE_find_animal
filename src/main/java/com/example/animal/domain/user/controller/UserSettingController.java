@@ -1,6 +1,5 @@
 package com.example.animal.domain.user.controller;
 
-import com.example.animal.domain.user.dto.request.UpdateIdRequest;
 import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.service.UserSettingService;
@@ -22,19 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserSettingController {
 
   private final UserSettingService userSettingService;
-
-  //아이디 변경
-  @Operation(summary = "아이디 변경")
-  @PatchMapping("/id/{userId}")
-  public ResponseEntity<UserResponse> updateId(
-      @PathVariable(name = "userId") Long userId,
-      @RequestBody @Valid UpdateIdRequest updateIdRequest
-  ) {
-    UserResponse response = userSettingService.updateId(userId, updateIdRequest);
-
-    return ResponseEntity.ok()
-        .body(response);
-  }
 
   //비밀번호 변경
   @Operation(summary = "비밀번호 변경")

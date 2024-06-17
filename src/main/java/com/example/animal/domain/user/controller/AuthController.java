@@ -1,8 +1,8 @@
 package com.example.animal.domain.user.controller;
 
 import com.example.animal.domain.user.dto.request.AddUserRequest;
+import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
-import com.example.animal.domain.user.dto.request.UpdateIdRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth API", description = "Auth 관련 API")
@@ -47,8 +46,8 @@ public class AuthController {
 
   @Operation(summary = "아이디 중복 체크")
   @GetMapping("/checkId")
-  public ResponseEntity<CheckIdResponse> checkId(@ParameterObject @Valid UpdateIdRequest updateIdRequest) {
-    CheckIdResponse response = authService.checkId(updateIdRequest);
+  public ResponseEntity<CheckIdResponse> checkId(@ParameterObject @Valid CheckIdRequest checkIdRequest) {
+    CheckIdResponse response = authService.checkId(checkIdRequest);
 
     return ResponseEntity.ok()
         .body(response);
