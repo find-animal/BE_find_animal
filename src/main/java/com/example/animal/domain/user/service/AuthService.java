@@ -22,6 +22,7 @@ public class AuthService {
 
   private final UserRepository userRepository;
   private final TokenProvider tokenProvider;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   //아이디 체크
   public CheckIdResponse checkId(CheckIdRequest checkIdRequest) {
@@ -44,19 +45,18 @@ public class AuthService {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
         });
 
-    User savedUser = userRepository.save(AddUserRequest.toEntity(dto));
+    User savedUser = userRepository.save(AddUserRequest.toEntity(dto,passwordEncoder));
 
     return UserResponse.fromEntity(savedUser);
   }
 
   //로그인
   public LoginResponse login(LoginRequest dto) {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     User user = userRepository.findById(dto.id())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
-    if (!encoder.matches(dto.password(), user.getPassword())) {
+    if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
       throw new RestApiException(UserErrorCode.INVALID_PASSWORD);
     }
 

@@ -20,12 +20,11 @@ public record AddUserRequest(
     String password
 ) {
 
-  public static User toEntity(AddUserRequest request) {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+  public static User toEntity(AddUserRequest request, BCryptPasswordEncoder passwordEncoder) {
 
     return User.builder()
         .id(request.id)
-        .password(encoder.encode(request.password))
+        .password(passwordEncoder.encode(request.password))
         .build();
   }
 }
