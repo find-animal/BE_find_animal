@@ -1,6 +1,8 @@
 package com.example.animal.domain.user.service;
 
 import com.example.animal.config.jwt.TokenProvider;
+import com.example.animal.domain.email.entity.Email;
+import com.example.animal.domain.email.repository.EmailRepository;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
@@ -10,6 +12,7 @@ import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
 import com.example.animal.exception.user.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +26,7 @@ public class AuthService {
   private final UserRepository userRepository;
   private final TokenProvider tokenProvider;
   private final BCryptPasswordEncoder passwordEncoder;
+  private final EmailRepository emailRepository;
 
   //아이디 체크
   public CheckIdResponse checkId(CheckIdRequest checkIdRequest) {
@@ -45,7 +49,13 @@ public class AuthService {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
         });
 
+    Email email = emailRepository.findByEmail(dto.email())
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+
     User savedUser = userRepository.save(AddUserRequest.toEntity(dto, passwordEncoder));
+
+    //user db에 저장이 되면 인증코드를 삭제
+    emailRepository.delete(email);
 
     return UserResponse.fromEntity(savedUser);
   }
