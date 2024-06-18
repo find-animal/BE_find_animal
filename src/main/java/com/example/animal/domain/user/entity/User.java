@@ -13,7 +13,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,10 +34,13 @@ public class User extends BaseEntity implements UserDetails {
 
   private String favoriteAnimal = "";
 
+  private String email;
+
   @Builder
-  public User(String id, String password) {
+  public User(String id, String password, String email) {
     this.id = id;
     this.password = password;
+    this.email = email;
   }
 
   @Override

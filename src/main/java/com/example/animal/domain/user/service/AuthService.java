@@ -39,7 +39,7 @@ public class AuthService {
   //회원가입
   @Transactional
   public UserResponse save(AddUserRequest dto) {
-    //db에 해당 이메일이 존재하는 지 확인
+    //db에 해당 아이디가 존재하는 지 확인
     userRepository.findById(dto.id())
         .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
