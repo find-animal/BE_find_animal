@@ -19,17 +19,6 @@ public record AnimalResponse(
     String animalBreed,
     ShelterResponse shelter
 ) {
-  public AnimalResponse {
-    Objects.requireNonNull(popFile, "popFile must not be null");
-    Objects.requireNonNull(specialMark, "specialMark must not be null");
-    Objects.requireNonNull(age, "age must not be null");
-    Objects.requireNonNull(neuterYn, "neuterYn must not be null");
-    Objects.requireNonNull(sex, "sex must not be null");
-    Objects.requireNonNull(weight, "weight must not be null");
-    Objects.requireNonNull(happenPlace, "happenPlace must not be null");
-    Objects.requireNonNull(animalBreed, "animalBreed must not be null");
-    Objects.requireNonNull(shelter, "shelter must not be null");
-  }
 
   public static AnimalResponse fromEntity(Animal animal) {
     return AnimalResponse.builder()
