@@ -45,7 +45,7 @@ public class AuthService {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
         });
 
-    User savedUser = userRepository.save(AddUserRequest.toEntity(dto,passwordEncoder));
+    User savedUser = userRepository.save(AddUserRequest.toEntity(dto, passwordEncoder));
 
     return UserResponse.fromEntity(savedUser);
   }

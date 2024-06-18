@@ -1,8 +1,13 @@
 package com.example.animal.domain.email.service;
 
 import com.example.animal.domain.email.dto.EmailMessage;
+import com.example.animal.domain.email.dto.request.CodeRequest;
+import com.example.animal.domain.email.dto.response.EmailResponse;
 import com.example.animal.domain.email.entity.Email;
 import com.example.animal.domain.email.repository.EmailRepository;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
+import com.example.animal.exception.email.EmailErrorCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Random;
@@ -21,7 +26,7 @@ public class EmailService {
   private final SpringTemplateEngine templateEngine;
   private final EmailRepository emailRepository;
 
-  public void sendMail(EmailMessage emailMessage, String type) {
+  public EmailResponse sendMail(EmailMessage emailMessage, String type) {
 
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -38,9 +43,29 @@ public class EmailService {
           .code(code)
           .build());
 
+      return EmailResponse.builder()
+          .isSuccess(true)
+          .build();
+
     } catch (MessagingException e) {
-      throw new RuntimeException(e);
+      throw new RestApiException(EmailErrorCode.EMAIL_SEND_ERROR);
     }
+  }
+
+  //이메일 인증코드 확인
+  public EmailResponse checkCode(CodeRequest codeRequest) {
+    EmailResponse response = EmailResponse.builder()
+        .isSuccess(true)
+        .build();
+    Email email = emailRepository.findByEmail(codeRequest.email())
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+
+    if (!email.getCode().equals(codeRequest.code())) {
+      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
+    }
+
+    return response;
+
   }
 
   // 인증번호 생성 메서드
