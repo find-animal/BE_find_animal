@@ -34,7 +34,7 @@ public class EmailController {
         .body(response);
   }
 
-  @Operation(summary = "비밀번호 찾기 및 새로운 비밀번호 설정")
+  @Operation(summary = "비밀번호 인증 번호")
   @PostMapping("/password")
   public ResponseEntity<EmailResponse> sendPasswordMail(@RequestBody EmailRequest emailRequest) {
     EmailMessage emailMessage = EmailMessage.builder()

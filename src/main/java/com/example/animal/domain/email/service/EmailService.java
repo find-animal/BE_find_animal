@@ -10,11 +10,13 @@ import com.example.animal.exception.common.CommonErrorCode;
 import com.example.animal.exception.email.EmailErrorCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -26,6 +28,7 @@ public class EmailService {
   private final SpringTemplateEngine templateEngine;
   private final EmailRepository emailRepository;
 
+  @Transactional
   public EmailResponse sendMail(EmailMessage emailMessage, String type) {
 
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -37,12 +40,21 @@ public class EmailService {
       mimeMessageHelper.setSubject(emailMessage.subject()); // 메일 제목
       mimeMessageHelper.setText(setContext(type, code), true); // 메일 본문 내용, HTML 여부
       javaMailSender.send(mimeMessage);
+      
+      //기존에 인증코드가 존재한다면 update로 변경해줘야함
 
-      emailRepository.save(Email.builder()
-          .email(emailMessage.to())
-          .code(code)
-          .build());
+      Optional<Email> email = emailRepository.findByEmail(emailMessage.to());
 
+      if(email.isPresent()) {
+        Email savedEmail = email.get();
+        savedEmail.setCode(code);
+      }else {
+        emailRepository.save(Email.builder()
+            .email(emailMessage.to())
+            .code(code)
+            .build());
+      }
+      
       return EmailResponse.builder()
           .isSuccess(true)
           .build();

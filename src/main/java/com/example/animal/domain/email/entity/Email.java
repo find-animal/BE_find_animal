@@ -32,4 +32,8 @@ public class Email {
     this.email = email;
     this.code = code;
   }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
 }
