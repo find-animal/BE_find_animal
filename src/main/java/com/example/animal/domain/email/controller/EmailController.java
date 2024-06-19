@@ -24,7 +24,7 @@ public class EmailController {
 
   private final EmailService emailService;
 
-  @Operation(summary = "이메일 인증코드 확인")
+  @Operation(summary = "인증코드 확인")
   @GetMapping("/checkCode")
   public ResponseEntity<EmailResponse> checkCode(
       @ParameterObject @ModelAttribute CodeRequest codeRequest) {
@@ -36,15 +36,16 @@ public class EmailController {
 
   @Operation(summary = "비밀번호 찾기 및 새로운 비밀번호 설정")
   @PostMapping("/password")
-  public ResponseEntity<Void> sendPasswordMail(@RequestBody EmailRequest emailRequest) {
+  public ResponseEntity<EmailResponse> sendPasswordMail(@RequestBody EmailRequest emailRequest) {
     EmailMessage emailMessage = EmailMessage.builder()
         .to(emailRequest.email())
-        .subject("[FIND_ANIMAL] 새로운 비밀번호 설정")
+        .subject("[FIND_ANIMAL] 비밀번호 인증 코드 발송")
         .build();
 
-    emailService.sendMail(emailMessage, "password");
+    EmailResponse emailResponse = emailService.sendMail(emailMessage, "password");
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok()
+        .body(emailResponse);
   }
 
   @Operation(summary = "이메일 인증 번호")
