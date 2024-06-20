@@ -2,7 +2,7 @@ package com.example.animal.domain.shelter.repository;
 
 import static com.example.animal.domain.shelter.entity.QShelter.shelter;
 
-import com.example.animal.domain.shelter.dto.ShelterSearchCondition;
+import com.example.animal.domain.shelter.dto.request.ShelterSearchCondition;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.common.CommonErrorCode;

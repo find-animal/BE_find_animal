@@ -1,6 +1,6 @@
 package com.example.animal.domain.shelter.controller;
 
-import com.example.animal.domain.shelter.dto.ShelterSearchCondition;
+import com.example.animal.domain.shelter.dto.request.ShelterSearchCondition;
 import com.example.animal.domain.shelter.dto.response.ShelterPageResponse;
 import com.example.animal.domain.shelter.service.ShelterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +30,7 @@ public class ShelterController {
     ShelterSearchCondition shelterSearchCondition = new ShelterSearchCondition(pageNo,
         cityProvinceId);
     ShelterPageResponse shelters = shelterService.getFilteredShelterList(shelterSearchCondition);
-    
+
     return ResponseEntity.ok()
         .body(shelters);
   }

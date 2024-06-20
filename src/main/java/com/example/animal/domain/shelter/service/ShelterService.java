@@ -2,12 +2,11 @@ package com.example.animal.domain.shelter.service;
 
 import com.example.animal.domain.district.entity.District;
 import com.example.animal.domain.district.repository.DistrictRepository;
-import com.example.animal.domain.shelter.dto.ShelterSearchCondition;
+import com.example.animal.domain.shelter.dto.request.ShelterSearchCondition;
 import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import com.example.animal.domain.shelter.dto.response.ShelterPageResponse;
 import com.example.animal.domain.shelter.dto.response.SheltersResponse;
 import com.example.animal.domain.shelter.entity.Shelter;
-import com.example.animal.domain.shelter.repository.ShelterQueryDslRepository;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class ShelterService {
 
   private final ShelterRepository shelterRepository;
-  private final ShelterQueryDslRepository shelterQueryDslRepository;
   private final DistrictRepository districtRepository;
 
   //보호소 전체 정보 저장
