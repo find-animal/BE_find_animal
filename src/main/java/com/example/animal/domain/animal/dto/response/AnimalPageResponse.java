@@ -15,12 +15,6 @@ public record AnimalPageResponse(
     int pageSize
 ) {
 
-  public AnimalPageResponse {
-    Objects.requireNonNull(totalPage, "totalPage must not be null");
-    Objects.requireNonNull(pageNumber, "pageNumber must not be null");
-    Objects.requireNonNull(pageSize, "pageSize must not be null");
-  }
-
   public static AnimalPageResponse of(List<AnimalListResponse> animals, Page<Animal> page) {
     return AnimalPageResponse.builder()
         .content(animals)

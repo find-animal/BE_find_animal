@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ShelterRepository extends JpaRepository<Shelter, Long> {
+public interface ShelterRepository extends JpaRepository<Shelter, Long>, ShelterRepositoryCustom {
 
   Optional<Shelter> findByCareRegNo(String careRegNo);
 

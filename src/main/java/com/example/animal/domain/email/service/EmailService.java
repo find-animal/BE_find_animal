@@ -54,7 +54,7 @@ public class EmailService {
             .code(code)
             .build());
       }
-      
+
       return EmailResponse.builder()
           .isSuccess(true)
           .build();
