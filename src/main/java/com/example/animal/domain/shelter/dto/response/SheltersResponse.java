@@ -9,7 +9,8 @@ public record SheltersResponse(
     String careNm,
     String careRegNo,
     String careAddr,
-    String careTel
+    String careTel,
+    String orgNm
 ) {
 
   public static SheltersResponse fromEntity(Shelter shelter) {
@@ -19,6 +20,7 @@ public record SheltersResponse(
         .careRegNo(shelter.getCareRegNo())
         .careAddr(shelter.getCareAddr())
         .careTel(shelter.getCareTel())
+        .orgNm(shelter.getOrgNm())
         .build();
   }
 }

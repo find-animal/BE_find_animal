@@ -1,4 +1,4 @@
-package com.example.animal.domain.shelter.dto;
+package com.example.animal.domain.shelter.dto.request;
 
 import java.util.List;
 
