@@ -2,8 +2,7 @@ package com.example.animal.domain.user.controller;
 
 import com.example.animal.domain.user.dto.request.FavoriteAnimalRequest;
 import com.example.animal.domain.user.dto.request.FavoriteShelterRequest;
-import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
-import com.example.animal.domain.user.dto.response.FavoriteShelterResponse;
+import com.example.animal.domain.user.dto.response.FavoriteResponse;
 import com.example.animal.domain.user.service.UserFavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,10 +25,23 @@ public class UserController {
 
   @Operation(summary = "관심 보호소 추가", description = "관심 보호소가 user 정보에 저장이 됩니다.")
   @PostMapping("/shelter")
-  public ResponseEntity<FavoriteShelterResponse> addFavoriteShelter(
+  public ResponseEntity<FavoriteResponse> addFavoriteShelter(
       @Valid @RequestBody FavoriteShelterRequest favoriteShelterRequest) {
-    FavoriteShelterResponse response = userFavoriteService.saveFavoriteShelter(
+    FavoriteResponse response = userFavoriteService.saveFavoriteShelter(
         favoriteShelterRequest);
+
+    return ResponseEntity.ok()
+        .body(response);
+  }
+
+  @Operation(summary = "관심 보호소 삭제")
+  @DeleteMapping("/shelter")
+  public ResponseEntity<FavoriteResponse> deleteFavoriteShelter(
+      @Valid @RequestBody FavoriteShelterRequest favoriteShelterRequest
+  ) {
+    FavoriteResponse response = userFavoriteService.deleteFavoriteShelter(
+        favoriteShelterRequest
+    );
 
     return ResponseEntity.ok()
         .body(response);
@@ -37,9 +49,9 @@ public class UserController {
 
   @Operation(summary = "관심 유기동물 추가", description = "관심 유기동물이 user 정보에 저장이 됩니다.")
   @PostMapping("/animal")
-  public ResponseEntity<FavoriteAnimalResponse> addFavoriteAnimal(
+  public ResponseEntity<FavoriteResponse> addFavoriteAnimal(
       @Valid @RequestBody FavoriteAnimalRequest favoriteAnimalRequest) {
-    FavoriteAnimalResponse response = userFavoriteService.saveFavoriteAnimal(
+    FavoriteResponse response = userFavoriteService.saveFavoriteAnimal(
         favoriteAnimalRequest);
 
     return ResponseEntity.ok()
@@ -48,10 +60,10 @@ public class UserController {
 
   @Operation(summary = "관심 유기동물 삭제")
   @DeleteMapping("/animal")
-  public ResponseEntity<FavoriteAnimalResponse> deleteFavoriteAnimal(
+  public ResponseEntity<FavoriteResponse> deleteFavoriteAnimal(
       @Valid @RequestBody FavoriteAnimalRequest favoriteAnimalRequest
   ) {
-    FavoriteAnimalResponse response = userFavoriteService.deleteFavoriteAnimal(
+    FavoriteResponse response = userFavoriteService.deleteFavoriteAnimal(
         favoriteAnimalRequest
     );
 

@@ -6,8 +6,7 @@ import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
 import com.example.animal.domain.user.dto.request.FavoriteAnimalRequest;
 import com.example.animal.domain.user.dto.request.FavoriteShelterRequest;
-import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
-import com.example.animal.domain.user.dto.response.FavoriteShelterResponse;
+import com.example.animal.domain.user.dto.response.FavoriteResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
@@ -29,7 +28,7 @@ public class UserFavoriteService {
 
   //관심보호소 저장
   @Transactional
-  public FavoriteShelterResponse saveFavoriteShelter(
+  public FavoriteResponse saveFavoriteShelter(
       FavoriteShelterRequest favoriteShelterRequest) {
     //db에 user가 존재하는지 확인
     User user = userRepository.findById(favoriteShelterRequest.userId())
@@ -48,14 +47,32 @@ public class UserFavoriteService {
     //저장된 list를 출력
     List<Long> favoriteShelter = parseList(user.getFavoriteShelter());
 
-    return FavoriteShelterResponse.builder()
-        .favoriteShelters(favoriteShelter)
+    return FavoriteResponse.builder()
+        .favoriteIds(favoriteShelter)
+        .build();
+  }
+
+  //관심동물삭제
+  @Transactional
+  public FavoriteResponse deleteFavoriteShelter(FavoriteShelterRequest favoriteShelterRequest) {
+    //db에 유저가 존재하는지 파악
+    User user = userRepository.findById(favoriteShelterRequest.userId())
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    String updatedList = user.getFavoriteShelter()
+        .replace(favoriteShelterRequest.shelterId() + ",", "");
+    user.setFavoriteShelter(updatedList);
+
+    List<Long> favoriteShelters = parseList(user.getFavoriteShelter());
+
+    return FavoriteResponse.builder()
+        .favoriteIds(favoriteShelters)
         .build();
   }
 
   //관심동물 저장
   @Transactional
-  public FavoriteAnimalResponse saveFavoriteAnimal(
+  public FavoriteResponse saveFavoriteAnimal(
       FavoriteAnimalRequest favoriteAnimalRequest) {
     //db에 user가 존재하는지 확인
     User user = userRepository.findById(favoriteAnimalRequest.userId())
@@ -74,14 +91,14 @@ public class UserFavoriteService {
     //저장된 list를 출력
     List<Long> favoriteAnimals = parseList(user.getFavoriteAnimal());
 
-    return FavoriteAnimalResponse.builder()
-        .favoriteAnimals(favoriteAnimals)
+    return FavoriteResponse.builder()
+        .favoriteIds(favoriteAnimals)
         .build();
   }
 
   //관심동물삭제
   @Transactional
-  public FavoriteAnimalResponse deleteFavoriteAnimal(FavoriteAnimalRequest favoriteAnimalRequest) {
+  public FavoriteResponse deleteFavoriteAnimal(FavoriteAnimalRequest favoriteAnimalRequest) {
     //db에 유저가 존재하는지 파악
     User user = userRepository.findById(favoriteAnimalRequest.userId())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
@@ -92,8 +109,8 @@ public class UserFavoriteService {
 
     List<Long> favoriteAnimals = parseList(user.getFavoriteAnimal());
 
-    return FavoriteAnimalResponse.builder()
-        .favoriteAnimals(favoriteAnimals)
+    return FavoriteResponse.builder()
+        .favoriteIds(favoriteAnimals)
         .build();
   }
 

@@ -4,8 +4,8 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record FavoriteShelterResponse(
-    List<Long> favoriteShelters
+public record FavoriteResponse(
+    List<Long> favoriteIds
 ) {
 
 }
