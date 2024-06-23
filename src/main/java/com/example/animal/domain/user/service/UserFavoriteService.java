@@ -2,8 +2,12 @@ package com.example.animal.domain.user.service;
 
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.animal.repository.AnimalRepository;
+import com.example.animal.domain.shelter.entity.Shelter;
+import com.example.animal.domain.shelter.repository.ShelterRepository;
 import com.example.animal.domain.user.dto.request.FavoriteAnimalRequest;
+import com.example.animal.domain.user.dto.request.FavoriteShelterRequest;
 import com.example.animal.domain.user.dto.response.FavoriteAnimalResponse;
+import com.example.animal.domain.user.dto.response.FavoriteShelterResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
@@ -21,6 +25,33 @@ public class UserFavoriteService {
 
   private final UserRepository userRepository;
   private final AnimalRepository animalRepository;
+  private final ShelterRepository shelterRepository;
+
+  //관심보호소 저장
+  @Transactional
+  public FavoriteShelterResponse saveFavoriteShelter(
+      FavoriteShelterRequest favoriteShelterRequest) {
+    //db에 user가 존재하는지 확인
+    User user = userRepository.findById(favoriteShelterRequest.userId())
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+    //db에 해당 보호소의 id값을 가지고 있는지 확인
+    Shelter shelter = shelterRepository.findById(favoriteShelterRequest.shelterId())
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+    //이미 추가되어있는지 확인
+    List<Long> savedShelters = parseList(user.getFavoriteShelter());
+
+    if (savedShelters.contains(shelter.getId())) {
+      throw new RestApiException(UserErrorCode.SHELTER_ALREADY_EXISTS);
+    }
+    //관심동물을 저장
+    user.setFavoriteShelter(favoriteShelterRequest.shelterId());
+    //저장된 list를 출력
+    List<Long> favoriteShelter = parseList(user.getFavoriteShelter());
+
+    return FavoriteShelterResponse.builder()
+        .favoriteShelters(favoriteShelter)
+        .build();
+  }
 
   //관심동물 저장
   @Transactional
@@ -33,7 +64,7 @@ public class UserFavoriteService {
     Animal animal = animalRepository.findById(favoriteAnimalRequest.animalId())
         .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
     //이미 추가되어있는지 확인
-    List<Long> savedAnimals = parseFavoriteAnimal(user.getFavoriteAnimal());
+    List<Long> savedAnimals = parseList(user.getFavoriteAnimal());
 
     if (savedAnimals.contains(animal.getId())) {
       throw new RestApiException(UserErrorCode.ANIMAL_ALREADY_EXISTS);
@@ -41,7 +72,7 @@ public class UserFavoriteService {
     //관심동물을 저장
     user.setFavoriteAnimal(favoriteAnimalRequest.animalId());
     //저장된 list를 출력
-    List<Long> favoriteAnimals = parseFavoriteAnimal(user.getFavoriteAnimal());
+    List<Long> favoriteAnimals = parseList(user.getFavoriteAnimal());
 
     return FavoriteAnimalResponse.builder()
         .favoriteAnimals(favoriteAnimals)
@@ -59,15 +90,15 @@ public class UserFavoriteService {
         .replace(favoriteAnimalRequest.animalId() + ",", "");
     user.setFavoriteAnimal(updatedList);
 
-    List<Long> favoriteAnimals = parseFavoriteAnimal(user.getFavoriteAnimal());
+    List<Long> favoriteAnimals = parseList(user.getFavoriteAnimal());
 
     return FavoriteAnimalResponse.builder()
         .favoriteAnimals(favoriteAnimals)
         .build();
   }
 
-  private List<Long> parseFavoriteAnimal(String favoriteAnimal) {
-    return Arrays.stream(favoriteAnimal.split(","))
+  private List<Long> parseList(String favorite) {
+    return Arrays.stream(favorite.split(","))
         .filter(s -> !s.isEmpty())
         .map(Long::valueOf)
         .toList();
