@@ -52,6 +52,24 @@ public class UserFavoriteService {
         .build();
   }
 
+  //관심동물삭제
+  @Transactional
+  public FavoriteResponse deleteFavoriteShelter(FavoriteShelterRequest favoriteShelterRequest) {
+    //db에 유저가 존재하는지 파악
+    User user = userRepository.findById(favoriteShelterRequest.userId())
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    String updatedList = user.getFavoriteShelter()
+        .replace(favoriteShelterRequest.shelterId() + ",", "");
+    user.setFavoriteShelter(updatedList);
+
+    List<Long> favoriteShelters = parseList(user.getFavoriteShelter());
+
+    return FavoriteResponse.builder()
+        .favoriteIds(favoriteShelters)
+        .build();
+  }
+
   //관심동물 저장
   @Transactional
   public FavoriteResponse saveFavoriteAnimal(

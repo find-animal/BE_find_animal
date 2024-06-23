@@ -34,6 +34,19 @@ public class UserController {
         .body(response);
   }
 
+  @Operation(summary = "관심 보호소 삭제")
+  @DeleteMapping("/shelter")
+  public ResponseEntity<FavoriteResponse> deleteFavoriteShelter(
+      @Valid @RequestBody FavoriteShelterRequest favoriteShelterRequest
+  ) {
+    FavoriteResponse response = userFavoriteService.deleteFavoriteShelter(
+        favoriteShelterRequest
+    );
+
+    return ResponseEntity.ok()
+        .body(response);
+  }
+
   @Operation(summary = "관심 유기동물 추가", description = "관심 유기동물이 user 정보에 저장이 됩니다.")
   @PostMapping("/animal")
   public ResponseEntity<FavoriteResponse> addFavoriteAnimal(
