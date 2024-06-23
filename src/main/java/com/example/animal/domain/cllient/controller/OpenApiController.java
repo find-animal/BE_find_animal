@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "공공데이터 api", description = "공공데이터를 활용한 데이터 저장용 API")
+@Tag(name = "공공데이터 api test", description = "공공데이터를 활용한 데이터 저장용 API")
 @RequiredArgsConstructor
 @RestController
 public class OpenApiController {
