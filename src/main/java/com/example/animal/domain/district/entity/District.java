@@ -1,5 +1,6 @@
 package com.example.animal.domain.district.entity;
 
+import com.example.animal.domain.BaseEntity;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.cityprovince.entity.CityProvince;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class District {
+public class District extends BaseEntity {
     //member
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,8 @@
 package com.example.animal.domain.cityprovince.entity;
 
+import com.example.animal.domain.BaseEntity;
 import com.example.animal.domain.district.entity.District;
+import com.example.animal.domain.shelter.entity.Shelter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,8 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class CityProvince {
-//team
+public class CityProvince extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CITYPROVINCE_ID")
@@ -26,6 +27,9 @@ public class CityProvince {
 
     @OneToMany(mappedBy = "cityProvince")
     private List<District> districts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cityProvince")
+    private List<Shelter> shelters = new ArrayList<>();
 
     @Builder
     public CityProvince(String orgCd, String orgdownNm) {
