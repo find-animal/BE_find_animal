@@ -34,6 +34,8 @@ public class User extends BaseEntity implements UserDetails {
 
   private String favoriteAnimal = "";
 
+  private String favoriteShelter = "";
+
   private String email;
 
   @Builder
@@ -62,6 +64,14 @@ public class User extends BaseEntity implements UserDetails {
 
   public void setFavoriteAnimal(String list) {
     this.favoriteAnimal = list;
+  }
+
+  public void setFavoriteShelter(Long id) {
+    this.favoriteShelter += id + ",";
+  }
+
+  public void setFavoriteShelter(String list) {
+    this.favoriteShelter = list;
   }
 
   @Override

@@ -25,6 +25,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath favoriteAnimal = createString("favoriteAnimal");
 
+    public final StringPath favoriteShelter = createString("favoriteShelter");
+
     public final StringPath id = createString("id");
 
     public final StringPath password = createString("password");
