@@ -2,8 +2,6 @@ package com.example.animal.domain.animal.dto.response;
 
 import com.example.animal.domain.animal.entity.Animal;
 import com.example.animal.domain.shelter.dto.response.ShelterResponse;
-import jakarta.validation.constraints.NotNull;
-import java.util.Objects;
 import lombok.Builder;
 
 @Builder

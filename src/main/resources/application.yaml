@@ -1,0 +1,7 @@
+server:
+  port: 9098
+  shutdown: graceful # k8s
+  api:
+    prefix: /api/v1
+  site:
+    type: api-house-call

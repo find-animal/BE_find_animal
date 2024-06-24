@@ -4,6 +4,7 @@ import com.example.animal.domain.shelter.entity.Shelter;
 import lombok.Builder;
 import lombok.Getter;
 
+//상세정보용
 @Getter
 @Builder
 public class ShelterResponse {

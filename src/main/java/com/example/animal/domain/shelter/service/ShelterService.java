@@ -8,6 +8,13 @@ import com.example.animal.domain.shelter.dto.response.ShelterPageResponse;
 import com.example.animal.domain.shelter.dto.response.SheltersResponse;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
+import com.example.animal.domain.user.entity.User;
+import com.example.animal.domain.user.repository.UserRepository;
+import com.example.animal.exception.RestApiException;
+import com.example.animal.exception.common.CommonErrorCode;
+import com.example.animal.exception.user.UserErrorCode;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +31,28 @@ public class ShelterService {
 
   private final ShelterRepository shelterRepository;
   private final DistrictRepository districtRepository;
+  private final UserRepository userRepository;
+
+  //관심보호소 조회
+  @Transactional
+  public List<SheltersResponse> findFavoriteShelters(Long userId) {
+    //user 조회
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    //관심보호소 아이디 리스트 조회
+    List<Long> favoriteIds = parseFavoriteShelter(user.getFavoriteShelter());
+
+    List<Shelter> shelters = new ArrayList<>();
+
+    for (Long id : favoriteIds) {
+      shelters.add(shelterRepository.findById(id)
+          .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE)));
+    }
+
+    return shelters.stream().map(SheltersResponse::fromEntity).toList();
+
+  }
 
   //보호소 전체 정보 저장
   public List<Shelter> saveAll(ShelterListOpenApiResponse response, String orgCd) {
@@ -55,5 +85,12 @@ public class ShelterService {
         .toList();
 
     return ShelterPageResponse.of(shelters, shelterPage);
+  }
+
+  private List<Long> parseFavoriteShelter(String favoriteShelter) {
+    return Arrays.stream(favoriteShelter.split(","))
+        .filter(s -> !s.isEmpty())
+        .map(Long::valueOf)
+        .toList();
   }
 }
