@@ -5,6 +5,7 @@ import com.example.animal.domain.district.repository.DistrictRepository;
 import com.example.animal.domain.shelter.dto.request.ShelterSearchCondition;
 import com.example.animal.domain.shelter.dto.response.ShelterListOpenApiResponse;
 import com.example.animal.domain.shelter.dto.response.ShelterPageResponse;
+import com.example.animal.domain.shelter.dto.response.ShelterResponse;
 import com.example.animal.domain.shelter.dto.response.SheltersResponse;
 import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.domain.shelter.repository.ShelterRepository;
@@ -32,6 +33,14 @@ public class ShelterService {
   private final ShelterRepository shelterRepository;
   private final DistrictRepository districtRepository;
   private final UserRepository userRepository;
+
+  //보호소 상세 정보 조회
+  public ShelterResponse getShelterDetail(Long id) {
+    Shelter shelter = shelterRepository.findById(id)
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+
+    return ShelterResponse.fromEntity(shelter);
+  }
 
   //관심보호소 조회
   @Transactional
@@ -66,10 +75,6 @@ public class ShelterService {
 
   public List<Shelter> findByDistrictId(Long id) {
     return shelterRepository.findByDistrictId(id).orElse(Collections.emptyList());
-  }
-
-  public List<Shelter> findByCityProvinceId(Long id) {
-    return shelterRepository.findByCityProvinceId(id).orElse(Collections.emptyList());
   }
 
   public ShelterPageResponse getFilteredShelterList(ShelterSearchCondition shelterSearchCondition) {
