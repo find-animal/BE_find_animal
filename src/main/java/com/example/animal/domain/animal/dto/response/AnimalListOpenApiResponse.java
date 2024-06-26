@@ -33,10 +33,11 @@ public class AnimalListOpenApiResponse {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode itemNode = node.findValue("item");
-        if(itemNode == null) return;
-        this.animals = Arrays.stream(
-            Optional.ofNullable(objectMapper.treeToValue(itemNode, AnimalOpenApiResponse[].class)
-            ).orElse(new AnimalOpenApiResponse[0])).toList();
+        if (itemNode != null && itemNode.isArray()) {
+            this.animals = Arrays.stream(
+                Optional.ofNullable(objectMapper.treeToValue(itemNode, AnimalOpenApiResponse[].class)
+                ).orElse(new AnimalOpenApiResponse[0])).toList();
+        }
 
         JsonNode pageNoNode = node.findValue("pageNo");
         this.pageNo = objectMapper.treeToValue(pageNoNode, Integer.class);
