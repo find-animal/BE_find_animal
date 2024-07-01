@@ -87,7 +87,7 @@ public class TokenProvider {
   //claims payload에 들어갈 내용 추가
   private Map<String, ?> getClaimsMap(User user) {
     Map<String, String> map = new HashMap<>();
-    map.put("nickname", user.getId());
+    map.put("id", user.getId());
     return map;
   }
 
