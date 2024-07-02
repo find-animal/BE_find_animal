@@ -1,6 +1,7 @@
 package com.example.animal.domain.user.service;
 
 import com.example.animal.domain.user.dto.request.AddUserRequest;
+import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
@@ -24,6 +25,14 @@ public class UserSettingService {
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
     user.setPassword(passwordEncoder.encode(request.password()));
+  }
+
+  //이메일을 통한 아이디 찾기
+  public UserResponse findByEmail(String email){
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    return UserResponse.fromEntity(user);
   }
 
 }
