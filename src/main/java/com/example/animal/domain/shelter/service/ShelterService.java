@@ -80,8 +80,7 @@ public class ShelterService {
   public ShelterPageResponse getFilteredShelterList(ShelterSearchCondition shelterSearchCondition) {
     int page = shelterSearchCondition.pageNo(); // PatientSearchCondition에 페이지 번호가 있다고 가정
     int size = 20; // 한 페이지에 보여줄 개수
-    Pageable pageable = PageRequest.of(page, size,
-        Sort.by("seq").ascending()); // 페이지 요청 생성, 이름 기준으로 정렬 예시
+    Pageable pageable = PageRequest.of(page, size);
     Page<Shelter> shelterPage = shelterRepository.findShelterByFilter(shelterSearchCondition,
         pageable);
 
