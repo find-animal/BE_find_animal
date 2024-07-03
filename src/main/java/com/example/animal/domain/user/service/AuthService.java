@@ -7,6 +7,7 @@ import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
+import com.example.animal.domain.user.dto.response.EmailResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
@@ -27,6 +28,17 @@ public class AuthService {
   private final TokenProvider tokenProvider;
   private final BCryptPasswordEncoder passwordEncoder;
   private final EmailRepository emailRepository;
+
+
+  //이메일 조회
+  public EmailResponse findEmail(String id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    return EmailResponse.builder()
+        .email(user.getEmail())
+        .build();
+  }
 
   //아이디 체크
   public CheckIdResponse checkId(CheckIdRequest checkIdRequest) {

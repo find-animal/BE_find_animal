@@ -4,6 +4,7 @@ import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
+import com.example.animal.domain.user.dto.response.EmailResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.service.AuthService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth API", description = "Auth 관련 API")
@@ -46,10 +48,20 @@ public class AuthController {
 
   @Operation(summary = "아이디 중복 체크")
   @GetMapping("/checkId")
-  public ResponseEntity<CheckIdResponse> checkId(@ParameterObject @Valid CheckIdRequest checkIdRequest) {
+  public ResponseEntity<CheckIdResponse> checkId(
+      @ParameterObject @Valid CheckIdRequest checkIdRequest) {
     CheckIdResponse response = authService.checkId(checkIdRequest);
 
     return ResponseEntity.ok()
         .body(response);
+  }
+
+  @Operation(summary = "이메일 조회")
+  @GetMapping("/email")
+  public ResponseEntity<EmailResponse> getEmail(@RequestParam("id") String id) {
+    EmailResponse emailResponse = authService.findEmail(id);
+
+    return ResponseEntity.ok()
+        .body(emailResponse);
   }
 }
