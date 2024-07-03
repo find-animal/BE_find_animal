@@ -5,8 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import lombok.Getter;
 import lombok.Setter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 @Getter
 @Setter
@@ -34,5 +41,34 @@ public class ContentResponse {
   @JsonDeserialize(using = CustomDateDeserializer.class)
   @JsonFormat(pattern = "E, dd MMM yyyy HH:mm:ss Z")
   private String pubDate;
+
+  private String image;
+
+  public void setImage(String link) {
+    try {
+      // HTTP GET 요청 보내기
+      HttpClient client = HttpClient.newHttpClient();
+      HttpRequest request = HttpRequest.newBuilder()
+          .uri(new URI(link))
+          .header("Content-Type", "text/html")
+          .build();
+
+      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+      // HTML 파싱하기
+      Document doc = Jsoup.parse(response.body());
+
+      // Open Graph 이미지 메타 태그 추출하기
+      Elements ogImageElement = doc.select("meta[property=og:image]");
+      String ogImage =
+          ogImageElement != null ? ogImageElement.attr("content") : "default_image_url";
+
+      // 이미지 설정
+      this.image = ogImage;
+
+    } catch (Exception e) {
+      this.image = "default_image_url";
+    }
+  }
 
 }
