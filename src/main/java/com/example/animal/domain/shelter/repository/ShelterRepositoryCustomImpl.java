@@ -7,6 +7,7 @@ import com.example.animal.domain.shelter.entity.Shelter;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.common.CommonErrorCode;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -43,6 +44,11 @@ public class ShelterRepositoryCustomImpl implements ShelterRepositoryCustom {
     List<Shelter> content = queryFactory
         .selectFrom(shelter)
         .where(whereClause)
+        .orderBy(
+            Expressions.stringTemplate(
+                "case when {0} is null then 1 else 0 end", shelter.careAddr
+            ).asc()
+        )
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
