@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
@@ -26,5 +27,6 @@ public class NewsResponse {
   private Integer display;
 
   @JsonProperty("items")
+  @Setter
   private List<ContentResponse> items;
 }
