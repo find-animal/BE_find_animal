@@ -29,8 +29,8 @@ public class ShelterRepositoryCustomImpl implements ShelterRepositoryCustom {
 
     BooleanBuilder whereClause = new BooleanBuilder();
 
-    if (shelterSearchCondition.cityProvinceId() != null) {
-      whereClause.and(shelter.cityProvince.id.in(shelterSearchCondition.cityProvinceId()));
+    if (shelterSearchCondition.cityProvinceIds() != null) {
+      whereClause.and(shelter.cityProvince.id.in(shelterSearchCondition.cityProvinceIds()));
     }
 
     List<Shelter> content = getContent(pageable, whereClause);
