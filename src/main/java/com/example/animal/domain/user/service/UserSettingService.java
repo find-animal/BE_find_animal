@@ -31,6 +31,14 @@ public class UserSettingService {
     User user = userRepository.findById(request.id())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
+    Email email = emailRepository.findByEmail(user.getEmail())
+        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+
+    //코드가 일치한지 확인
+    if (!email.getCode().equals(request.code())) {
+      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
+    }
+
     user.setPassword(passwordEncoder.encode(request.password()));
   }
 

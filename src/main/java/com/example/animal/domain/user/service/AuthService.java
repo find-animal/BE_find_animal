@@ -14,6 +14,7 @@ import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
 import com.example.animal.exception.RestApiException;
 import com.example.animal.exception.common.CommonErrorCode;
+import com.example.animal.exception.email.EmailErrorCode;
 import com.example.animal.exception.user.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,6 +64,11 @@ public class AuthService {
 
     Email email = emailRepository.findByEmail(dto.email())
         .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
+
+    //코드가 일치한지 확인
+    if(!email.getCode().equals(dto.code())) {
+      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
+    }
 
     User savedUser = userRepository.save(AddUserRequest.toEntity(dto, passwordEncoder));
 

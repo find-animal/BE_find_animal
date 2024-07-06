@@ -23,7 +23,11 @@ public record AddUserRequest(
     @Schema(description = "이메일")
     @NotBlank(message = "이메일을 입력해주세요.")
     @Email(message = "이메일 형식을 맞춰주세요.")
-    String email
+    String email,
+
+    @Schema(description = "인증번호")
+    @NotBlank(message = "인증번호를 입력해주세요")
+    String code
 ) {
 
   public static User toEntity(AddUserRequest request, BCryptPasswordEncoder passwordEncoder) {
