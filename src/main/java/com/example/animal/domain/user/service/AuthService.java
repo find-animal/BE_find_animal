@@ -56,17 +56,23 @@ public class AuthService {
   //회원가입
   @Transactional
   public UserResponse save(AddUserRequest dto) {
-    //db에 해당 아이디가 존재하는 지 확인
+    //db에 해당 사용자가 존재하는 지 확인
     userRepository.findById(dto.id())
         .ifPresent(user -> {
           throw new RestApiException(UserErrorCode.ID_ALREADY_EXISTS);
+        });
+
+    //db에 해당 이메일을 가진 사용자가 존재하는 지 확인
+    userRepository.findByEmail(dto.email())
+        .ifPresent(user -> {
+          throw new RestApiException(UserErrorCode.EMAIL_ALREADY_EXISTS);
         });
 
     Email email = emailRepository.findByEmail(dto.email())
         .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
 
     //코드가 일치한지 확인
-    if(!email.getCode().equals(dto.code())) {
+    if (!email.getCode().equals(dto.code())) {
       throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
     }
 
