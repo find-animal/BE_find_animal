@@ -3,9 +3,11 @@ package com.example.animal.domain.user.controller;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
+import com.example.animal.domain.user.dto.request.SignOutRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
 import com.example.animal.domain.user.dto.response.EmailResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
+import com.example.animal.domain.user.dto.response.SignOutResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+
+  @Operation(summary = "회원탈퇴")
+  @DeleteMapping("/signout")
+  public ResponseEntity<SignOutResponse> signout(@Valid @RequestBody SignOutRequest request) {
+    SignOutResponse response = authService.signout(request);
+
+    return ResponseEntity.ok()
+        .body(response);
+  }
 
   @Operation(summary = "회원가입")
   @PostMapping("/signup")

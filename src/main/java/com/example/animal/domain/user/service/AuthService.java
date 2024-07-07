@@ -6,9 +6,11 @@ import com.example.animal.domain.email.repository.EmailRepository;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.CheckIdRequest;
 import com.example.animal.domain.user.dto.request.LoginRequest;
+import com.example.animal.domain.user.dto.request.SignOutRequest;
 import com.example.animal.domain.user.dto.response.CheckIdResponse;
 import com.example.animal.domain.user.dto.response.EmailResponse;
 import com.example.animal.domain.user.dto.response.LoginResponse;
+import com.example.animal.domain.user.dto.response.SignOutResponse;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
@@ -29,6 +31,33 @@ public class AuthService {
   private final TokenProvider tokenProvider;
   private final BCryptPasswordEncoder passwordEncoder;
   private final EmailRepository emailRepository;
+
+  //회원탈퇴
+  public SignOutResponse signout(SignOutRequest request) {
+    //아이디값을 통해 회원조회
+    User user = userRepository.findById(request.id())
+        .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
+
+    //이메일 인증코드 체크
+    Email email = emailRepository.findByEmail(user.getEmail())
+        .orElseThrow(() -> new RestApiException(EmailErrorCode.CODE_IS_INVALID));
+
+    if (!email.getCode().equals(request.code())) {
+      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
+    }
+
+    //비밀번호 체크
+    if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+      throw new RestApiException(UserErrorCode.INVALID_PASSWORD);
+    }
+
+    userRepository.delete(user);
+
+    return SignOutResponse.builder()
+        .isSuccess(true)
+        .build();
+
+  }
 
 
   //이메일 조회
