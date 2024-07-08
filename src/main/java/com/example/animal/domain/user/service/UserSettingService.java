@@ -4,6 +4,7 @@ import com.example.animal.domain.email.dto.request.CodeRequest;
 import com.example.animal.domain.email.entity.Email;
 import com.example.animal.domain.email.repository.EmailRepository;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
+import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.entity.User;
 import com.example.animal.domain.user.repository.UserRepository;
@@ -27,17 +28,9 @@ public class UserSettingService {
 
   //비밀번호 변경
   @Transactional
-  public void updatePassword(AddUserRequest request) {
+  public void updatePassword(UpdatePasswordRequest request) {
     User user = userRepository.findById(request.id())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
-
-    Email email = emailRepository.findByEmail(user.getEmail())
-        .orElseThrow(() -> new RestApiException(CommonErrorCode.NO_MATCHING_RESOURCE));
-
-    //코드가 일치한지 확인
-    if (!email.getCode().equals(request.code())) {
-      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
-    }
 
     user.setPassword(passwordEncoder.encode(request.password()));
   }

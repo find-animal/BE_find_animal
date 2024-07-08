@@ -4,6 +4,7 @@ package com.example.animal.domain.user.controller;
 import com.example.animal.domain.email.dto.request.CodeRequest;
 import com.example.animal.domain.email.service.EmailService;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
+import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
 import com.example.animal.domain.user.service.UserSettingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +31,7 @@ public class UserSettingController {
 
   @Operation(summary = "유저 비밀번호 변경")
   @PatchMapping("/password")
-  public ResponseEntity<Void> updatePassword(@Valid @RequestBody AddUserRequest request) {
+  public ResponseEntity<Void> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
     userSettingService.updatePassword(request);
 
     return ResponseEntity.ok().build();
