@@ -2,7 +2,6 @@ package com.example.animal.domain.user.controller;
 
 
 import com.example.animal.domain.email.dto.request.CodeRequest;
-import com.example.animal.domain.email.service.EmailService;
 import com.example.animal.domain.user.dto.request.AddUserRequest;
 import com.example.animal.domain.user.dto.request.UpdatePasswordRequest;
 import com.example.animal.domain.user.dto.response.UserResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "User설정 API")
@@ -37,9 +35,18 @@ public class UserSettingController {
     return ResponseEntity.ok().build();
   }
 
+  @Operation(summary = "유저 비밀번호 재발급")
+  @PatchMapping("/anonymous/password")
+  public ResponseEntity<Void> resetPassword(@Valid @RequestBody AddUserRequest request) {
+    userSettingService.resetPassword(request);
+
+    return ResponseEntity.ok().build();
+  }
+
   @Operation(summary = "아이디 찾기")
   @GetMapping("/id")
-  public ResponseEntity<UserResponse> findId(@ParameterObject @ModelAttribute CodeRequest codeRequest) {
+  public ResponseEntity<UserResponse> findId(
+      @ParameterObject @ModelAttribute CodeRequest codeRequest) {
     UserResponse userResponse = userSettingService.findByEmail(codeRequest);
 
     return ResponseEntity.ok()
