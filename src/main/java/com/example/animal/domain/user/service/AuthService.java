@@ -38,14 +38,6 @@ public class AuthService {
     User user = userRepository.findById(request.id())
         .orElseThrow(() -> new RestApiException(UserErrorCode.NOT_FOUND_USER));
 
-    //이메일 인증코드 체크
-    Email email = emailRepository.findByEmail(user.getEmail())
-        .orElseThrow(() -> new RestApiException(EmailErrorCode.CODE_IS_INVALID));
-
-    if (!email.getCode().equals(request.code())) {
-      throw new RestApiException(EmailErrorCode.CODE_IS_INVALID);
-    }
-
     //비밀번호 체크
     if (!passwordEncoder.matches(request.password(), user.getPassword())) {
       throw new RestApiException(UserErrorCode.INVALID_PASSWORD);
