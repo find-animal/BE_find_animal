@@ -9,10 +9,7 @@ public record SignOutRequest(
     String id,
     @Schema(description = "비밀번호")
     @NotNull(message = "비밀번호를 입력해주세요.")
-    String password,
-    @Schema(description = "인증번호")
-    @NotNull(message = "인증번호를 입력해주세요.")
-    String code
+    String password
 ) {
 
 }
